@@ -19,7 +19,7 @@ const tiles = [
   description="Websites designed and built by Joshua Freeman, including Pall Mall Liverpool and SmartQR, plus small web experiments."
   current={2}
 >
-  <CardStack label="Web projects">
+  <CardStack label="Web projects" endHref="/secrets.html" endLabel="Secrets">
     {
       webProjects.map((project, i) => (
         <StackCard title={project.title} group="web" index={i}>
@@ -27,7 +27,7 @@ const tiles = [
         </StackCard>
       ))
     }
-    <StackCard title="Experiments" index={webProjects.length} fixed>
+    <StackCard title="Experiments" group="web" index={webProjects.length}>
       <ul class="experiments">
         {
           experiments.map((experiment, i) => (

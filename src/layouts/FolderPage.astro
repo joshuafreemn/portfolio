@@ -3,9 +3,9 @@
 // the four tabs sit along the top with the current one in front, joined to a
 // lilac folder body that holds the page. On mobile ("iPhone 13 & 14 - 2/3")
 // the folder slides left and only the current tab shows, on its right edge.
+// The folder never shows its bottom edge: it runs to the end of the page.
 import Base from './Base.astro';
 import CloseButton from '../components/CloseButton.astro';
-import Contact from '../components/Contact.astro';
 import { nav } from '../data/site';
 
 interface Props {
@@ -13,9 +13,11 @@ interface Props {
   description: string;
   /** Index of the current section in `nav`. */
   current: number;
+  /** Fit the folder to the screen and clip what runs past it (Motion page). */
+  fit?: boolean;
 }
 
-const { title, description, current } = Astro.props;
+const { title, description, current, fit = false } = Astro.props;
 
 // Same tab geometry as the home page's FolderTabs: the front tab's fill runs
 // past the folder's top edge to hide the stroke there.
@@ -23,7 +25,7 @@ const fillH = (isFront: boolean) => (isFront ? '0,49 40,1 302,1 342,49' : '0,44 
 const fillV = '-3,0 28,26 28,195 -3,221';
 ---
 
-<Base title={`${title} · Joshua Freeman`} description={description} bodyClass="folder-page">
+<Base title={`${title} · Joshua Freeman`} description={description} bodyClass={fit ? 'folder-page fit' : 'folder-page'}>
   <header class="top">
     <CloseButton />
   </header>
@@ -54,7 +56,6 @@ const fillV = '-3,0 28,26 28,195 -3,221';
         <h1 class="sr-only">{title}</h1>
         <slot />
       </main>
-      <Contact />
     </div>
   </div>
 </Base>
@@ -67,7 +68,26 @@ const fillV = '-3,0 28,26 28,195 -3,221';
     --line: max(1.5px, calc(2 * var(--px)));
     min-height: 100%;
     height: auto;
+    /* Padding rather than a margin on .folder, which would collapse through
+       body and leave a strip below the folder. */
+    padding-top: calc(100 * var(--px));
     overflow-x: hidden;
+  }
+
+  :global(body.folder-page.fit) {
+    /* Scale down on short screens too, so the whole frame fits. */
+    --px: min(100vw / 1440, 100dvh / 960, 1.25px);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  :global(body.fit) .folder {
+    height: 100%;
+  }
+
+  :global(body.fit) .body {
+    height: 100%;
+    overflow: hidden;
   }
 
   .top {
@@ -79,18 +99,31 @@ const fillV = '-3,0 28,26 28,195 -3,221';
 
   .folder {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: calc(1240 * var(--px));
-    margin: calc(100 * var(--px)) auto 0;
+    min-height: calc(100dvh - 100 * var(--px));
+    margin: 0 auto;
     padding-top: calc(45 * var(--px));
   }
 
   .body {
     position: relative;
-    min-height: calc(100dvh - 145 * var(--px));
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 0 calc(43 * var(--px));
+    /* Tilted cards and sheets run off the bottom rather than past it. */
+    overflow-y: clip;
     background: var(--baby-pink);
     border: var(--line) solid var(--pink);
     border-bottom: 0;
+  }
+
+  main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
 
   ul {
@@ -177,8 +210,10 @@ const fillV = '-3,0 28,26 28,195 -3,221';
   }
 
   @media (max-width: 700px) {
-    :global(body.folder-page) {
+    :global(body.folder-page),
+    :global(body.folder-page.fit) {
       --px: calc(100vw / 390);
+      padding-top: calc(43 * var(--px));
     }
 
     .top {
@@ -188,12 +223,12 @@ const fillV = '-3,0 28,26 28,195 -3,221';
 
     .folder {
       width: calc(350 * var(--px));
-      margin: calc(43 * var(--px)) 0 0;
+      min-height: calc(100dvh - 43 * var(--px));
+      margin: 0;
       padding-top: 0;
     }
 
     .body {
-      min-height: calc(100dvh - 43 * var(--px));
       padding: calc(24 * var(--px)) calc(16 * var(--px)) 0;
       border-left: 0;
       border-top-right-radius: calc(10 * var(--px));

@@ -1,6 +1,7 @@
 ---
 // Motion folder (Figma "V2a - Showreel"): the reel, clipped into the folder,
 // with the "Behind the scenes" card peeking up from the bottom of the screen.
+// The page doesn't scroll; hovering the card lifts it into view.
 import FolderPage from '../layouts/FolderPage.astro';
 import { showreel } from '../data/site';
 
@@ -13,6 +14,7 @@ const btsHref: string | null = null;
   title="Motion"
   description="Joshua Freeman's motion design showreel: animation and motion graphics across brand, campaign and web."
   current={0}
+  fit
 >
   <div class="reel">
     <div class="frame">
@@ -72,12 +74,13 @@ const btsHref: string | null = null;
     pointer-events: none;
   }
 
-  /* Peeks in at the bottom of a 1024-tall frame: top edge at y = 884. */
+  /* Sits just under the reel and runs off the bottom of the screen. */
   .bts {
     display: block;
+    flex: none;
     width: calc(983 * var(--px));
     min-height: calc(420 * var(--px));
-    margin: calc(48 * var(--px)) auto 0;
+    margin: calc(30 * var(--px)) auto 0;
     padding: calc(4 * var(--px)) calc(40 * var(--px)) calc(40 * var(--px));
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
@@ -88,9 +91,9 @@ const btsHref: string | null = null;
     transition: transform 200ms ease;
   }
 
-  a.bts:hover,
-  a.bts:focus-visible {
-    transform: rotate(1deg) translateY(calc(-10 * var(--px)));
+  .bts:hover,
+  .bts:focus-visible {
+    transform: rotate(1.5deg) translateY(calc(-90 * var(--px)));
   }
 
   h2 {

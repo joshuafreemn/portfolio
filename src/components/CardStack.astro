@@ -1,7 +1,7 @@
 ---
 // The stack of index cards on the Design and Web pages. The last, empty card
-// closes off the pile (Figma shows a blank card at the bottom); pass `endHref`
-// to make it a link.
+// covers the bottom of the pile and runs off the bottom of the page (Figma
+// shows a blank card there); pass `endHref` to make it a link.
 interface Props {
   label: string;
   endHref?: string;
@@ -27,6 +27,7 @@ const { label, endHref, endLabel } = Astro.props;
 <style>
   .stack {
     display: flex;
+    flex: 1;
     flex-direction: column;
     width: min(100%, calc(983 * var(--px)));
     margin: 0 auto;
@@ -39,11 +40,13 @@ const { label, endHref, endLabel } = Astro.props;
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
+    flex: 1;
     min-height: calc(240 * var(--px));
     padding: calc(20 * var(--px)) calc(32 * var(--px));
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
-    border-radius: calc(20 * var(--px));
+    border-bottom: 0;
+    border-radius: calc(20 * var(--px)) calc(20 * var(--px)) 0 0;
     color: var(--pink);
     font-size: max(18px, calc(32 * var(--px)));
     text-decoration: none;
@@ -72,7 +75,8 @@ const { label, endHref, endLabel } = Astro.props;
       min-height: calc(160 * var(--px));
       padding: calc(10 * var(--px)) calc(14 * var(--px));
       border-width: max(1.5px, calc(2 * var(--px)));
-      border-radius: calc(10 * var(--px));
+      border-bottom: 0;
+      border-radius: calc(10 * var(--px)) calc(10 * var(--px)) 0 0;
     }
   }
 

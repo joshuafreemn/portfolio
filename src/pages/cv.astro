@@ -1,9 +1,11 @@
 ---
-// About folder (Figma "V2a - About"): a postcard with the intro, and a ruled
-// CV sheet listing roles and education, with contact details and the CV
-// download at the foot of the sheet.
+// About folder (Figma "V2a - About"): a postcard with the intro, and the ruled
+// "punch card" listing roles and education. The punch card's rules and columns
+// are placed at the Figma coordinates (in --s units, one Figma px on desktop).
+import { Image } from 'astro:assets';
 import FolderPage from '../layouts/FolderPage.astro';
-import { contact, cvPdf, froshting } from '../data/site';
+import { cvPdf } from '../data/site';
+import stamp from '../assets/about/stamp.png';
 
 const experience = [
   { role: 'Mid-weight Designer', place: 'Smart Soho', current: true },
@@ -43,50 +45,53 @@ const education = [
         <p class="sign-off">Talk Soon,<br />Josh</p>
       </div>
       <div class="address" aria-hidden="true">
-        <div class="stamp"></div>
         <div class="lines"><span></span><span></span><span></span><span></span><span></span></div>
       </div>
+      <div class="stamp-box" aria-hidden="true"></div>
+      <Image class="stamp" src={stamp} alt="" width={178} />
       <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" />
     </article>
 
     <section class="cv" aria-labelledby="cv-title">
-      <h2 id="cv-title">CV.</h2>
-      <h3>Experience</h3>
-      <ul class="rows">
+      <span class="rule header" aria-hidden="true"></span>
+      <span class="rule margin-left" aria-hidden="true"></span>
+      <span class="rule margin-right" aria-hidden="true"></span>
+
+      <h2 id="cv-title">Punch card</h2>
+
+      <h3 class="experience-title">Experience</h3>
+      <ul class="rows experience">
         {
           experience.map((job) => (
             <li class:list={{ current: job.current }}>
-              {job.role} / {job.place}
-              {job.current && <span class="sr-only">(current role)</span>}
+              <span class="cell">
+                {job.role} / {job.place}
+                {job.current && <span class="sr-only">(current role)</span>}
+              </span>
             </li>
           ))
         }
       </ul>
-      <h3>Education</h3>
-      <table class="rows">
-        <tbody>
-          {
-            education.map((item) => (
-              <tr>
-                <td>{item.course}</td>
-                <td>{item.place}</td>
-                <td>
-                  <span aria-hidden="true">‘{item.year}</span>
-                  <span class="sr-only">20{item.year}</span>
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-      <h3>Contact</h3>
-      <ul class="rows contact">
-        <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
-        <li><a href={contact.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+
+      <h3 class="education-title">Education</h3>
+      <ul class="rows education">
+        {
+          education.map((item) => (
+            <li>
+              <span class="cell">{item.course}</span>
+              <span class="cell">
+                <span class="sr-only">, </span>
+                {item.place}
+              </span>
+              <span class="cell">
+                <span aria-hidden="true">‘{item.year}</span>
+                <span class="sr-only">, 20{item.year}</span>
+              </span>
+            </li>
+          ))
+        }
       </ul>
-      <p class="froshting">
-        Personal animation and illustration live at <a href={froshting} target="_blank" rel="noopener">froshting.com</a>
-      </p>
+
       {
         cvPdf && (
           <a class="download" href={cvPdf} download>
@@ -101,11 +106,13 @@ const education = [
 
 <style>
   .about {
+    /* One Figma px for the punch card. */
+    --s: var(--px);
     display: grid;
-    /* Postcard spans the first two columns, the CV sheet the last two, so they
-       overlap like the Figma frame. */
+    /* Postcard spans the first two columns, the punch card the last two, so
+       they overlap like the Figma frame. */
     grid-template-columns: calc(470 * var(--px)) calc(353 * var(--px)) 1fr;
-    padding: calc(48 * var(--px)) 0 calc(40 * var(--px));
+    padding: calc(48 * var(--px)) 0 0;
     color: var(--black);
   }
 
@@ -151,13 +158,6 @@ const education = [
     border-left: 1px solid var(--black);
   }
 
-  .stamp {
-    align-self: flex-end;
-    width: calc(119 * var(--px));
-    height: calc(119 * var(--px));
-    border: 1px solid var(--black);
-  }
-
   .lines {
     margin: auto 0 calc(36 * var(--px));
   }
@@ -168,6 +168,23 @@ const education = [
     border-bottom: 1px solid var(--black);
   }
 
+  .stamp-box {
+    position: absolute;
+    top: calc(18 * var(--px));
+    left: calc(631 * var(--px));
+    width: calc(119 * var(--px));
+    height: calc(119 * var(--px));
+    border: 1px solid var(--black);
+  }
+
+  .stamp {
+    position: absolute;
+    top: calc(9 * var(--px));
+    left: calc(596 * var(--px));
+    width: calc(178 * var(--px));
+    height: auto;
+  }
+
   .postcard .clip {
     position: absolute;
     left: calc(-60 * var(--px));
@@ -176,117 +193,160 @@ const education = [
     transform: rotate(-15deg);
   }
 
-  /* CV sheet */
+  /* Punch card: a 711 × 798 sheet, ruled as in the Figma. */
   .cv {
     position: relative;
     z-index: 1;
     grid-area: 1 / 2 / 2 / 4;
     align-self: start;
-    margin: calc(124 * var(--px)) calc(-31 * var(--px)) 0 0;
-    padding: 0 calc(36 * var(--px)) calc(56 * var(--px)) calc(48 * var(--px));
-    background:
-      linear-gradient(var(--black), var(--black)) calc(26 * var(--px)) 0 / 1px 100% no-repeat,
-      var(--white);
-    border-radius: calc(17 * var(--px));
-    transform: rotate(1.2deg);
+    width: calc(711 * var(--s));
+    height: calc(798 * var(--s));
+    margin-top: calc(124 * var(--px));
+    background: var(--white);
+    border-radius: calc(17 * var(--s));
+    transform: rotate(1.17deg);
     font-family: var(--font-display);
     text-transform: uppercase;
   }
 
-  .cv h2 {
-    margin: 0 calc(-36 * var(--px)) 0 calc(-48 * var(--px));
-    padding: calc(4 * var(--px)) 0 0;
-    border-bottom: 1px solid var(--black);
-    font-size: calc(55 * var(--px));
+  .rule {
+    position: absolute;
+    background: var(--black);
+  }
+
+  .header {
+    top: calc(34 * var(--s));
+    left: calc(-6 * var(--s));
+    right: 0;
+    height: 1px;
+  }
+
+  .margin-left {
+    top: calc(34 * var(--s));
+    bottom: 0;
+    left: calc(31 * var(--s));
+    width: 1px;
+  }
+
+  .margin-right {
+    top: calc(48 * var(--s));
+    bottom: 0;
+    left: calc(674 * var(--s));
+    width: 1px;
+  }
+
+  h2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-size: calc(55 * var(--s));
     font-weight: 400;
-    line-height: calc(40 / 55);
-    letter-spacing: calc(-2.2 * var(--px));
+    line-height: calc(36 * var(--s));
+    letter-spacing: calc(-2.2 * var(--s));
     text-align: center;
   }
 
-  .cv h3 {
-    margin: calc(48 * var(--px)) 0 calc(6 * var(--px));
-    font-size: calc(55 * var(--px));
+  h3 {
+    position: absolute;
+    left: calc(78 * var(--s));
+    margin: 0;
+    font-size: calc(55 * var(--s));
     font-weight: 400;
-    line-height: 1;
-    letter-spacing: calc(-2.2 * var(--px));
+    line-height: calc(40 * var(--s));
+    letter-spacing: calc(-2.2 * var(--s));
+  }
+
+  .experience-title {
+    top: calc(100 * var(--s));
+  }
+
+  .education-title {
+    top: calc(382 * var(--s));
   }
 
   .rows {
-    width: 100%;
+    position: absolute;
+    left: calc(-6 * var(--s));
+    right: 0;
     margin: 0;
     padding: 0;
-    border-collapse: collapse;
     border-top: 1px solid var(--black);
     list-style: none;
-    font-size: calc(40 * var(--px));
-    line-height: calc(35 / 40);
-    letter-spacing: calc(-1.6 * var(--px));
+    font-size: calc(40 * var(--s));
+    letter-spacing: calc(-1.6 * var(--s));
   }
 
-  ul.rows li,
-  .rows td {
-    padding: calc(4 * var(--px)) 0 calc(2 * var(--px));
+  .rows li {
+    position: relative;
+    display: grid;
     border-bottom: 1px solid var(--black);
   }
 
-  ul.rows li.current {
-    position: relative;
+  .cell {
+    display: flex;
+    align-items: center;
+    padding: calc(3 * var(--s)) 0 0 calc(7 * var(--s));
+    white-space: nowrap;
   }
 
-  ul.rows li.current::before {
+  /* The inner rule at x = 70, then the text columns. */
+  .experience {
+    top: calc(145 * var(--s));
+  }
+
+  .experience li {
+    grid-template-columns: calc(76 * var(--s)) 1fr;
+    height: calc(35.6 * var(--s));
+  }
+
+  .experience .cell {
+    grid-column: 2;
+    border-left: 1px solid var(--black);
+  }
+
+  .experience li.current::before {
     content: '';
     position: absolute;
     top: 50%;
-    left: calc(-29 * var(--px));
-    width: calc(15 * var(--px));
-    height: calc(15 * var(--px));
+    left: calc(53 * var(--s));
+    width: calc(15 * var(--s));
+    height: calc(15 * var(--s));
     border-radius: 50%;
     background: var(--black);
     transform: translateY(-50%);
   }
 
-  .rows td + td {
-    padding-left: calc(6 * var(--px));
+  .education {
+    top: calc(427 * var(--s));
+  }
+
+  .education li {
+    grid-template-columns: calc(76 * var(--s)) calc(374 * var(--s)) calc(177 * var(--s)) calc(53 * var(--s)) 1fr;
+    height: calc(36.8 * var(--s));
+  }
+
+  .education .cell {
     border-left: 1px solid var(--black);
   }
 
-  .rows td:nth-child(2) {
-    width: calc(205 * var(--px));
-  }
-
-  .rows td:nth-child(3) {
-    width: calc(52 * var(--px));
-  }
-
-  .contact {
-    text-transform: none;
-  }
-
-  .contact a,
-  .froshting a {
-    color: var(--ink);
-    text-underline-offset: 0.15em;
-  }
-
-  .froshting {
-    margin: calc(24 * var(--px)) 0 0;
-    font-family: var(--font-body);
-    font-size: max(14px, calc(20 * var(--px)));
-    font-weight: 300;
-    text-transform: none;
+  .education .cell:first-child {
+    grid-column: 2;
   }
 
   .download {
+    position: absolute;
+    top: calc(660 * var(--s));
+    left: calc(78 * var(--s));
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    margin-top: calc(40 * var(--px));
-    padding: calc(6 * var(--px)) calc(18 * var(--px)) calc(2 * var(--px));
+    padding: calc(6 * var(--s)) calc(18 * var(--s)) calc(2 * var(--s));
     background: var(--ink);
-    border-radius: calc(5 * var(--px));
+    border-radius: calc(5 * var(--s));
     color: var(--white);
-    font-size: max(22px, calc(40 * var(--px)));
+    font-size: max(20px, calc(40 * var(--s)));
     text-decoration: none;
   }
 
@@ -297,14 +357,16 @@ const education = [
 
   .cv .clip {
     position: absolute;
-    top: calc(14 * var(--px));
-    right: calc(-30 * var(--px));
-    width: calc(185 * var(--px));
+    top: calc(14 * var(--s));
+    right: calc(-30 * var(--s));
+    width: calc(185 * var(--s));
     transform: rotate(-13.7deg);
   }
 
   @media (max-width: 700px) {
     .about {
+      /* The punch card scales to the width of the folder. */
+      --s: calc(var(--px) * 318 / 711);
       display: flex;
       flex-direction: column;
       gap: calc(28 * var(--px));
@@ -327,7 +389,9 @@ const education = [
       transform: none;
     }
 
-    .address {
+    .address,
+    .stamp-box,
+    .stamp {
       display: none;
     }
 
@@ -341,39 +405,7 @@ const education = [
 
     .cv {
       margin: 0;
-      padding: 0 calc(14 * var(--px)) calc(24 * var(--px)) calc(26 * var(--px));
-      background:
-        linear-gradient(var(--black), var(--black)) calc(14 * var(--px)) 0 / 1px 100% no-repeat,
-        var(--white);
-      border-radius: calc(10 * var(--px));
       transform: rotate(0.8deg);
-    }
-
-    .cv h2 {
-      margin: 0 calc(-14 * var(--px)) 0 calc(-26 * var(--px));
-      font-size: calc(36 * var(--px));
-      line-height: 1;
-    }
-
-    .cv h3 {
-      margin-top: calc(22 * var(--px));
-      font-size: calc(30 * var(--px));
-    }
-
-    .rows {
-      font-size: calc(21 * var(--px));
-      letter-spacing: 0;
-    }
-
-    ul.rows li.current::before {
-      left: calc(-17 * var(--px));
-      width: calc(8 * var(--px));
-      height: calc(8 * var(--px));
-    }
-
-    .cv .clip {
-      width: calc(96 * var(--px));
-      right: calc(-16 * var(--px));
     }
   }
 </style>
