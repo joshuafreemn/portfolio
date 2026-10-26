@@ -1,0 +1,152 @@
+---
+// Motion folder (Figma "V2a - Showreel"): the reel, clipped into the folder,
+// with the "Behind the scenes" card peeking up from the bottom of the screen.
+import FolderPage from '../layouts/FolderPage.astro';
+import { showreel } from '../data/site';
+
+// wrk/bts.html only gets linked once it has real copy; until then the card
+// reads "Coming soon".
+const btsHref: string | null = null;
+---
+
+<FolderPage
+  title="Motion"
+  description="Joshua Freeman's motion design showreel: animation and motion graphics across brand, campaign and web."
+  current={0}
+>
+  <div class="reel">
+    <div class="frame">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${showreel.youtubeId}`}
+        title={showreel.title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+    <img class="clip" src="/Assets/paperClip.svg" alt="" width="190" height="48" />
+  </div>
+
+  {
+    btsHref ? (
+      <a class="bts" href={btsHref}>
+        <h2>Behind the Scenes</h2>
+        <p>Showreel: behind the scenes →</p>
+      </a>
+    ) : (
+      <section class="bts" aria-label="Showreel: behind the scenes">
+        <h2>Behind the Scenes</h2>
+        <p>Coming soon</p>
+      </section>
+    )
+  }
+</FolderPage>
+
+<style>
+  .reel {
+    position: relative;
+    padding-top: calc(48 * var(--px));
+  }
+
+  .frame {
+    aspect-ratio: 1157.6 / 651.2;
+    overflow: hidden;
+    border-radius: calc(10 * var(--px));
+    box-shadow: 0 4px 4px rgb(0 0 0 / 0.25);
+    background: var(--black);
+    transform: rotate(-0.14deg);
+  }
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .clip {
+    position: absolute;
+    top: calc(253 * var(--px));
+    left: calc(-62 * var(--px));
+    width: calc(184.5 * var(--px));
+    height: auto;
+    pointer-events: none;
+  }
+
+  /* Peeks in at the bottom of a 1024-tall frame: top edge at y = 884. */
+  .bts {
+    display: block;
+    width: calc(983 * var(--px));
+    min-height: calc(420 * var(--px));
+    margin: calc(48 * var(--px)) auto 0;
+    padding: calc(4 * var(--px)) calc(40 * var(--px)) calc(40 * var(--px));
+    background: var(--white);
+    border: calc(4 * var(--px)) solid var(--pink);
+    border-radius: calc(20 * var(--px));
+    color: var(--pink);
+    text-decoration: none;
+    transform: rotate(2.7deg);
+    transition: transform 200ms ease;
+  }
+
+  a.bts:hover,
+  a.bts:focus-visible {
+    transform: rotate(1deg) translateY(calc(-10 * var(--px)));
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: calc(100 * var(--px));
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: calc(-4 * var(--px));
+    text-transform: uppercase;
+  }
+
+  .bts p {
+    margin: 0;
+    color: var(--purple);
+    font-family: var(--font-display);
+    font-size: max(22px, calc(40 * var(--px)));
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .reel {
+      padding-top: calc(80 * var(--px));
+    }
+
+    .frame {
+      border-radius: calc(6 * var(--px));
+    }
+
+    .clip {
+      top: auto;
+      bottom: calc(-22 * var(--px));
+      left: auto;
+      right: calc(-30 * var(--px));
+      width: calc(98 * var(--px));
+      transform: rotate(-38deg);
+    }
+
+    .bts {
+      width: 100%;
+      min-height: calc(200 * var(--px));
+      margin-top: calc(90 * var(--px));
+      padding: calc(4 * var(--px)) calc(14 * var(--px)) calc(16 * var(--px));
+      border-width: max(1.5px, calc(2 * var(--px)));
+      border-radius: calc(10 * var(--px));
+    }
+
+    h2 {
+      font-size: calc(40 * var(--px));
+      letter-spacing: calc(-1.5 * var(--px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bts {
+      transition: none;
+    }
+  }
+</style>

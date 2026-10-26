@@ -1,0 +1,237 @@
+---
+// An open folder (Figma frames "V2a - Showreel", "- Work", "- Web", "- About"):
+// the four tabs sit along the top with the current one in front, joined to a
+// lilac folder body that holds the page. On mobile ("iPhone 13 & 14 - 2/3")
+// the folder slides left and only the current tab shows, on its right edge.
+import Base from './Base.astro';
+import CloseButton from '../components/CloseButton.astro';
+import Contact from '../components/Contact.astro';
+import { nav } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Index of the current section in `nav`. */
+  current: number;
+}
+
+const { title, description, current } = Astro.props;
+
+// Same tab geometry as the home page's FolderTabs: the front tab's fill runs
+// past the folder's top edge to hide the stroke there.
+const fillH = (isFront: boolean) => (isFront ? '0,49 40,1 302,1 342,49' : '0,44 40,1 302,1 342,44');
+const fillV = '-3,0 28,26 28,195 -3,221';
+---
+
+<Base title={`${title} · Joshua Freeman`} description={description} bodyClass="folder-page">
+  <header class="top">
+    <CloseButton />
+  </header>
+  <div class="folder" style={`--current: ${current}`}>
+    <nav class="tabs" aria-label="Main">
+      <ul>
+        {
+          nav.map((tab, i) => (
+            <li class:list={['tab', { front: i === current }]} style={`--i: ${i}; --z: ${nav.length - i}`}>
+              <a href={tab.href} aria-current={i === current ? 'page' : undefined}>
+                <svg class="shape shape-h" viewBox="0 0 342 46" preserveAspectRatio="none" aria-hidden="true">
+                  <polygon points={fillH(i === current)} />
+                  <polyline points="0,46 40,1 302,1 342,46" />
+                </svg>
+                <svg class="shape shape-v" viewBox="0 0 29 221" preserveAspectRatio="none" aria-hidden="true">
+                  <polygon points={fillV} />
+                  <polyline points="0,0 28,26 28,195 0,221" />
+                </svg>
+                <span>{tab.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="body">
+      <main>
+        <h1 class="sr-only">{title}</h1>
+        <slot />
+      </main>
+      <Contact />
+    </div>
+  </div>
+</Base>
+
+<style>
+  :global(body.folder-page) {
+    /* One Figma pixel: scale with the 1440 frame, but don't blow up on very
+       wide screens. */
+    --px: min(100vw / 1440, 1.25px);
+    --line: max(1.5px, calc(2 * var(--px)));
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+  }
+
+  .top {
+    position: absolute;
+    top: calc(33 * var(--px));
+    right: calc(60 * var(--px));
+    z-index: 20;
+  }
+
+  .folder {
+    position: relative;
+    width: calc(1240 * var(--px));
+    margin: calc(100 * var(--px)) auto 0;
+    padding-top: calc(45 * var(--px));
+  }
+
+  .body {
+    position: relative;
+    min-height: calc(100dvh - 145 * var(--px));
+    padding: 0 calc(43 * var(--px));
+    background: var(--baby-pink);
+    border: var(--line) solid var(--pink);
+    border-bottom: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tab {
+    position: absolute;
+    top: 0;
+    left: calc(var(--i) * 299.33 * var(--px));
+    width: calc(342 * var(--px));
+    height: calc(46 * var(--px));
+    z-index: var(--z);
+    transition: transform 180ms ease;
+  }
+
+  .tab.front {
+    z-index: 10;
+  }
+
+  .tab:not(.front):hover,
+  .tab:not(.front):focus-within {
+    transform: translateY(calc(-6 * var(--px)));
+  }
+
+  .tab a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--pink);
+    text-decoration: none;
+  }
+
+  .tab a:focus-visible {
+    outline: none;
+  }
+
+  .tab a:focus-visible span {
+    outline: var(--line) solid var(--purple);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  .shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .shape polygon {
+    fill: var(--baby-pink);
+  }
+
+  .shape polyline {
+    fill: none;
+    stroke: var(--pink);
+    stroke-width: var(--line);
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .shape-v {
+    display: none;
+  }
+
+  .tab span {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: calc(40 * var(--px));
+    line-height: 1;
+    letter-spacing: calc(2 * var(--px));
+    text-transform: uppercase;
+    padding-top: calc(4 * var(--px));
+  }
+
+  .tab.front span {
+    padding-top: calc(14 * var(--px));
+  }
+
+  @media (max-width: 700px) {
+    :global(body.folder-page) {
+      --px: calc(100vw / 390);
+    }
+
+    .top {
+      top: 0;
+      right: calc(4 * var(--px));
+    }
+
+    .folder {
+      width: calc(350 * var(--px));
+      margin: calc(43 * var(--px)) 0 0;
+      padding-top: 0;
+    }
+
+    .body {
+      min-height: calc(100dvh - 43 * var(--px));
+      padding: calc(24 * var(--px)) calc(16 * var(--px)) 0;
+      border-left: 0;
+      border-top-right-radius: calc(10 * var(--px));
+    }
+
+    /* Only the current tab shows, sticking out of the folder's right edge. */
+    .tab {
+      display: none;
+      top: calc(var(--i) * 194 * var(--px));
+      left: calc(100% - var(--line));
+      width: calc(29 * var(--px));
+      height: calc(221 * var(--px));
+    }
+
+    .tab.front {
+      display: block;
+    }
+
+    .shape-h {
+      display: none;
+    }
+
+    .shape-v {
+      display: block;
+    }
+
+    .tab span,
+    .tab.front span {
+      writing-mode: vertical-rl;
+      font-size: calc(22 * var(--px));
+      letter-spacing: calc(1.4 * var(--px));
+      padding: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tab {
+      transition: none;
+    }
+  }
+</style>
