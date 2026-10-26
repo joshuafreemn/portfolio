@@ -4,7 +4,7 @@ import FolderPage from '../layouts/FolderPage.astro';
 import CardStack from '../components/CardStack.astro';
 import StackCard from '../components/StackCard.astro';
 import ProjectDetails from '../components/ProjectDetails.astro';
-import { webProjects, experiments } from '../data/projects';
+import { webProjects, experiments, projectLink } from '../data/projects';
 
 // Tilts and colours for the three experiment snapshots, left to right.
 const tiles = [
@@ -21,13 +21,16 @@ const tiles = [
 >
   <CardStack label="Web projects" endHref="/secrets.html" endLabel="Secrets">
     {
-      webProjects.map((project, i) => (
-        <StackCard title={project.title} group="web" index={i}>
-          <ProjectDetails project={project} />
-        </StackCard>
-      ))
+      webProjects.map((project, i) => {
+        const link = projectLink(project);
+        return (
+          <StackCard title={project.title} index={i} href={link?.href} external={link?.external}>
+            <ProjectDetails project={project} />
+          </StackCard>
+        );
+      })
     }
-    <StackCard title="Experiments" group="web" index={webProjects.length}>
+    <StackCard title="Experiments" index={webProjects.length}>
       <ul class="experiments">
         {
           experiments.map((experiment, i) => (

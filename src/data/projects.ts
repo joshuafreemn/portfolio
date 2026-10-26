@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import rlamHero from '../assets/wrk/rlamls/hero.png';
 import spManaged from '../assets/cards/spmanaged.png';
+import { findCaseStudy } from './caseStudies';
 
 export interface ProjectImage {
   src: ImageMetadata;
@@ -21,6 +22,23 @@ export interface Project {
   caseStudy?: string;
   /** External site, opened in a new tab. */
   url?: string;
+}
+
+export interface ProjectLink {
+  href: string;
+  label: string;
+  external: boolean;
+}
+
+// Where a card goes when clicked: its case study once that's ready, otherwise
+// its live site, otherwise nowhere yet.
+export function projectLink(project: Project): ProjectLink | null {
+  const caseStudy = findCaseStudy(project.caseStudy);
+  if (caseStudy) return { href: `/wrk/${caseStudy.slug}.html`, label: 'View case study', external: false };
+  if (project.url) {
+    return { href: project.url, label: `Visit ${new URL(project.url).hostname.replace(/^www\./, '')}`, external: true };
+  }
+  return null;
 }
 
 // Design folder, in the order from the site brief.
