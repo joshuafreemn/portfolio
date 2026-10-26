@@ -1,5 +1,6 @@
 // Site-wide details: contact links, the folder-tab navigation and the CV.
 
+// Not shown on the site for now: a designed contact treatment is coming.
 export const contact = {
   email: 'joshuafreemn@gmail.com',
   linkedin: 'https://www.linkedin.com/in/joshuafreemn/',

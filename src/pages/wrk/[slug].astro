@@ -1,11 +1,10 @@
 ---
 // Case study template: The brief · The idea · What I did · The work · Where it
-// ran, then Prev / Next and contact. Sections without copy are left out.
+// ran, then Prev / Next. Sections without copy are left out.
 import type { GetStaticPaths } from 'astro';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CloseButton from '../../components/CloseButton.astro';
-import Contact from '../../components/Contact.astro';
 import { caseStudies, type CaseStudy } from '../../data/caseStudies';
 import { designProjects } from '../../data/projects';
 
@@ -119,7 +118,6 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       <a href="/work.html">All projects</a>
       {next ? <a href={`/wrk/${next.slug}.html`}>Next →</a> : <span />}
     </nav>
-    <Contact />
   </div>
 </Base>
 

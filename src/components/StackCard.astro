@@ -2,40 +2,25 @@
 // One index card in the stacked file (Figma "V2a - Work" / "- Work Open").
 // Closed, only the title strip shows; the next card covers the rest. Opening a
 // card (click, Enter or Space) pushes the cards below it down. Cards that share
-// a `group` behave as an accordion: opening one closes the others. A `fixed`
-// card is always open (the Experiments card on the Web page).
+// a `group` behave as an accordion: opening one closes the others.
 interface Props {
   title: string;
-  group?: string;
+  group: string;
   index: number;
   open?: boolean;
-  fixed?: boolean;
 }
 
-const { title, group, index, open = false, fixed = false } = Astro.props;
+const { title, group, index, open = false } = Astro.props;
 ---
 
-{
-  fixed ? (
-    <section class="card" style={`--z: ${index + 1}`}>
-      <div class="summary">
-        <h2>{title}</h2>
-      </div>
-      <div class="content">
-        <slot />
-      </div>
-    </section>
-  ) : (
-    <details class="card" name={group} open={open} style={`--z: ${index + 1}`}>
-      <summary class="summary">
-        <h2>{title}</h2>
-      </summary>
-      <div class="content">
-        <slot />
-      </div>
-    </details>
-  )
-}
+<details class="card" name={group} open={open} style={`--z: ${index + 1}`}>
+  <summary class="summary">
+    <h2>{title}</h2>
+  </summary>
+  <div class="content">
+    <slot />
+  </div>
+</details>
 
 <style>
   .card {
