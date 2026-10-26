@@ -1,0 +1,24 @@
+---
+// Design folder (Figma "V2a - Work" / "V2a - Work Open").
+import FolderPage from '../layouts/FolderPage.astro';
+import CardStack from '../components/CardStack.astro';
+import StackCard from '../components/StackCard.astro';
+import ProjectDetails from '../components/ProjectDetails.astro';
+import { designProjects } from '../data/projects';
+---
+
+<FolderPage
+  title="Design"
+  description="Branding, print and campaign work by Joshua Freeman: Store House, RLAM Life Science, 123 Victoria, Lee Valley Lions and SP Managed."
+  current={1}
+>
+  <CardStack label="Design projects" endHref="/secrets.html" endLabel="Secrets">
+    {
+      designProjects.map((project, i) => (
+        <StackCard title={project.title} group="design" index={i}>
+          <ProjectDetails project={project} />
+        </StackCard>
+      ))
+    }
+  </CardStack>
+</FolderPage>

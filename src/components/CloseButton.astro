@@ -1,0 +1,37 @@
+---
+// The white "CLOSE" label from the Figma frames. The link is padded out to a
+// 44px tap target around the 77×22 artwork.
+interface Props {
+  href?: string;
+  label?: string;
+  class?: string;
+}
+
+const { href = '/', label = 'Close and return home', class: className } = Astro.props;
+---
+
+<a class:list={['close', className]} href={href} aria-label={label}>
+  <img src="/Assets/CloseButton.svg" alt="" width="77" height="22" />
+</a>
+
+<style>
+  .close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 11px;
+  }
+
+  img {
+    display: block;
+    width: max(56px, calc(77 * var(--px)));
+    height: auto;
+  }
+
+  .close:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+  }
+</style>

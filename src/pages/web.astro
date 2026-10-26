@@ -1,0 +1,141 @@
+---
+// Web folder (Figma "V2a - Web", "V2a -Web Open" and "V2a - Experiments").
+import FolderPage from '../layouts/FolderPage.astro';
+import CardStack from '../components/CardStack.astro';
+import StackCard from '../components/StackCard.astro';
+import ProjectDetails from '../components/ProjectDetails.astro';
+import { webProjects, experiments } from '../data/projects';
+
+// Tilts and colours for the three experiment snapshots, left to right.
+const tiles = [
+  { rotate: -3.5, color: 'var(--blue)' },
+  { rotate: 2, color: 'var(--purple)' },
+  { rotate: -1.2, color: 'var(--baby-pink)' },
+];
+---
+
+<FolderPage
+  title="Web"
+  description="Websites designed and built by Joshua Freeman, including Pall Mall Liverpool and SmartQR, plus small web experiments."
+  current={2}
+>
+  <CardStack label="Web projects">
+    {
+      webProjects.map((project, i) => (
+        <StackCard title={project.title} group="web" index={i}>
+          <ProjectDetails project={project} />
+        </StackCard>
+      ))
+    }
+    <StackCard title="Experiments" index={webProjects.length} fixed>
+      <ul class="experiments">
+        {
+          experiments.map((experiment, i) => (
+            <li style={`--rotate: ${tiles[i % tiles.length].rotate}deg; --tile: ${tiles[i % tiles.length].color}`}>
+              <a href={experiment.url} target="_blank" rel="noopener">
+                <h3>
+                  {experiment.title}
+                  <span aria-hidden="true">↗</span>
+                </h3>
+                {experiment.description && <p>{experiment.description}</p>}
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </StackCard>
+  </CardStack>
+</FolderPage>
+
+<style>
+  .experiments {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: calc(10 * var(--px)) 0 calc(40 * var(--px));
+    padding: 0 calc(10 * var(--px));
+    list-style: none;
+  }
+
+  li {
+    transform: rotate(var(--rotate));
+    transition: transform 200ms ease;
+  }
+
+  li + li {
+    margin-left: calc(-24 * var(--px));
+  }
+
+  li:hover,
+  li:focus-within {
+    z-index: 1;
+    transform: rotate(0deg) translateY(calc(-10 * var(--px)));
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: calc(10 * var(--px));
+    height: calc(400 * var(--px));
+    padding: calc(24 * var(--px));
+    background: var(--tile);
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  a:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: calc(55 * var(--px));
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: calc(-2.2 * var(--px));
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    font-size: max(14px, calc(20 * var(--px)));
+    font-weight: 300;
+    line-height: 1.3;
+  }
+
+  /* White text on the purple tile; black on the lighter ones. */
+  li:nth-child(3n + 2) a {
+    color: var(--white);
+  }
+
+  @media (max-width: 700px) {
+    .experiments {
+      grid-template-columns: 1fr;
+      gap: calc(14 * var(--px));
+      padding: 0 calc(6 * var(--px));
+    }
+
+    li + li {
+      margin-left: 0;
+    }
+
+    a {
+      height: auto;
+      min-height: calc(130 * var(--px));
+      padding: calc(14 * var(--px));
+    }
+
+    h3 {
+      font-size: calc(34 * var(--px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li {
+      transition: none;
+    }
+  }
+</style>

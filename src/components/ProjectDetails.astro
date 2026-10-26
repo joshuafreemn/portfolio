@@ -1,0 +1,170 @@
+---
+// The inside of an open project card: Type / Client / Agency / Role / Tools,
+// a tilted snapshot, and the link out (or "coming soon" when there's nothing
+// to link to yet).
+import { Image } from 'astro:assets';
+import type { Project } from '../data/projects';
+import { findCaseStudy } from '../data/caseStudies';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const fields = (
+  [
+    ['Type', project.type],
+    ['Client', project.client],
+    ['Agency', project.agency],
+    ['Role', project.role],
+    ['Tools', project.tools],
+  ] as const
+).filter(([, value]) => value);
+
+const caseStudy = findCaseStudy(project.caseStudy);
+const link = caseStudy
+  ? { href: `/wrk/${caseStudy.slug}.html`, label: 'View case study', external: false }
+  : project.url
+    ? { href: project.url, label: `Visit ${new URL(project.url).hostname.replace(/^www\./, '')}`, external: true }
+    : null;
+const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
+---
+
+<div class:list={['details', { 'has-image': project.image }]}>
+  {
+    fields.length > 0 && (
+      <dl>
+        {fields.map(([label, value]) => (
+          <div>
+            <dt>{label}:</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    )
+  }
+  {
+    link ? (
+      <a class="cta" href={link.href} {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}>
+        {link.label}
+        <span aria-hidden="true">{link.external ? '↗' : '→'}</span>
+        {link.external && <span class="sr-only">(opens in a new tab)</span>}
+      </a>
+    ) : (
+      <p class="pending">{pending}</p>
+    )
+  }
+  {
+    project.image && (
+      <figure class="snapshot">
+        <Image src={project.image.src} alt={project.image.alt} width={740} format="webp" loading="lazy" />
+      </figure>
+    )
+  }
+</div>
+
+<style>
+  .details {
+    position: relative;
+    padding-top: calc(4 * var(--px));
+    color: var(--purple);
+    font-size: max(15px, calc(25 * var(--px)));
+    font-weight: 300;
+    line-height: 1.64;
+    letter-spacing: calc(-1.25 * var(--px));
+  }
+
+  .has-image {
+    padding-right: calc(420 * var(--px));
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dt,
+  dd {
+    display: inline;
+    margin: 0;
+  }
+
+  dt {
+    margin-right: 0.3em;
+  }
+
+  .cta,
+  .pending {
+    display: inline-flex;
+    gap: 0.4em;
+    margin: calc(24 * var(--px)) 0 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: max(22px, calc(40 * var(--px)));
+    line-height: 1;
+    letter-spacing: calc(1 * var(--px));
+    text-transform: uppercase;
+  }
+
+  .cta {
+    min-height: 44px;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .cta:hover,
+  .cta:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .pending {
+    color: var(--purple);
+  }
+
+  .snapshot {
+    position: absolute;
+    top: calc(24 * var(--px));
+    right: calc(7 * var(--px));
+    width: calc(370 * var(--px));
+    height: calc(320 * var(--px));
+    margin: 0;
+    transform: rotate(1.5deg);
+    background: var(--baby-pink);
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
+  }
+
+  .snapshot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 700px) {
+    .has-image {
+      padding-right: 0;
+    }
+
+    .details {
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .cta,
+    .pending {
+      margin-top: calc(10 * var(--px));
+      font-size: 24px;
+    }
+
+    .snapshot {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 370 / 320;
+      margin-top: calc(14 * var(--px));
+    }
+  }
+</style>

@@ -1,13 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import FolderTabs from '../components/FolderTabs.astro';
-
-const tabs = [
-  { label: 'Motion', href: '/showreel.html' },
-  { label: 'Design', href: '/work.html' },
-  { label: 'Web', href: '/work.html' },
-  { label: 'About', href: '/cv.html' },
-];
+import { contact, nav } from '../data/site';
 ---
 
 <Base>
@@ -17,9 +11,10 @@ const tabs = [
         <img src="/Assets/Joshua Freeman Title.svg" alt="Joshua Freeman" width="685" height="230" />
       </h1>
       <p class="role">Multidisciplinary designer</p>
+      <a class="get-in-touch" href={`mailto:${contact.email}`}>Get in touch</a>
     </header>
   </main>
-  <FolderTabs tabs={tabs} />
+  <FolderTabs tabs={nav} />
 </Base>
 
 <style>
@@ -71,7 +66,37 @@ const tabs = [
     white-space: nowrap;
   }
 
+  .get-in-touch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin: calc(14 * var(--px)) calc(9 * var(--px)) 0 0;
+    padding: calc(3 * var(--px)) calc(12 * var(--px)) 0;
+    background: var(--white);
+    border-radius: calc(5 * var(--px));
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: max(22px, calc(40 * var(--px)));
+    letter-spacing: calc(1 * var(--px));
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .get-in-touch:hover,
+  .get-in-touch:focus-visible {
+    background: var(--ink);
+    color: var(--white);
+    outline: none;
+  }
+
   @media (max-width: 700px) {
+    .get-in-touch {
+      min-height: 32px;
+      margin: calc(8 * var(--px)) 0 0;
+      padding: 2px 8px 0;
+      font-size: 20px;
+    }
+
     .home {
       width: 100%;
     }
