@@ -4,7 +4,7 @@ import FolderPage from '../layouts/FolderPage.astro';
 import CardStack from '../components/CardStack.astro';
 import StackCard from '../components/StackCard.astro';
 import ProjectDetails from '../components/ProjectDetails.astro';
-import { designProjects } from '../data/projects';
+import { designProjects, projectLink } from '../data/projects';
 ---
 
 <FolderPage
@@ -14,11 +14,14 @@ import { designProjects } from '../data/projects';
 >
   <CardStack label="Design projects" endHref="/secrets.html" endLabel="Secrets">
     {
-      designProjects.map((project, i) => (
-        <StackCard title={project.title} group="design" index={i}>
-          <ProjectDetails project={project} />
-        </StackCard>
-      ))
+      designProjects.map((project, i) => {
+        const link = projectLink(project);
+        return (
+          <StackCard title={project.title} index={i} href={link?.href} external={link?.external}>
+            <ProjectDetails project={project} />
+          </StackCard>
+        );
+      })
     }
   </CardStack>
 </FolderPage>
