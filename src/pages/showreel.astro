@@ -1,7 +1,8 @@
 ---
 // Motion folder (Figma "V2a - Showreel"): the reel, clipped into the folder,
-// with the "Behind the scenes" card peeking up from the bottom of the screen.
-// The page doesn't scroll; hovering the card lifts it into view.
+// centred on the screen, with the "Behind the scenes" card peeking up from the
+// bottom showing just its title. The page doesn't scroll; hovering the card
+// lifts it into view.
 import FolderPage from '../layouts/FolderPage.astro';
 import { showreel } from '../data/site';
 
@@ -46,7 +47,10 @@ const btsHref: string | null = null;
 <style>
   .reel {
     position: relative;
-    padding-top: calc(48 * var(--px));
+    /* Centre the reel on the screen: it's about 649 Figma px tall, and the
+       folder body starts 145 below the top of the page. Never closer to the
+       tabs than the Figma's 48. */
+    padding-top: max(calc(48 * var(--px)), calc((100dvh - 649 * var(--px)) / 2 - 145 * var(--px)));
   }
 
   .frame {
@@ -75,13 +79,17 @@ const btsHref: string | null = null;
     animation: wiggle 900ms ease-out 500ms both;
   }
 
-  /* Sits just under the reel and runs off the bottom of the screen. */
+  /* Peeks up from the bottom of the screen, showing just its title. */
   .bts {
+    --peek: calc(118 * var(--px));
+    position: absolute;
+    top: calc(100% - var(--peek));
+    left: 0;
+    right: 0;
     display: block;
-    flex: none;
     width: calc(983 * var(--px));
     min-height: calc(420 * var(--px));
-    margin: calc(30 * var(--px)) auto 0;
+    margin: 0 auto;
     padding: calc(4 * var(--px)) calc(40 * var(--px)) calc(40 * var(--px));
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
@@ -94,7 +102,7 @@ const btsHref: string | null = null;
 
   .bts:hover,
   .bts:focus-visible {
-    transform: rotate(1.5deg) translateY(calc(-90 * var(--px)));
+    transform: rotate(1.5deg) translateY(calc(-110 * var(--px)));
   }
 
   h2 {
@@ -108,7 +116,7 @@ const btsHref: string | null = null;
   }
 
   .bts p {
-    margin: 0;
+    margin: calc(24 * var(--px)) 0 0;
     color: var(--purple);
     font-family: var(--font-display);
     font-size: max(22px, calc(40 * var(--px)));
@@ -117,7 +125,8 @@ const btsHref: string | null = null;
 
   @media (max-width: 700px) {
     .reel {
-      padding-top: calc(80 * var(--px));
+      /* The reel is about 179 px tall here, below 67 px of tab and padding. */
+      padding-top: max(calc(80 * var(--px)), calc((100dvh - 179 * var(--px)) / 2 - 67 * var(--px)));
     }
 
     .frame {
@@ -134,9 +143,9 @@ const btsHref: string | null = null;
     }
 
     .bts {
-      width: 100%;
+      --peek: calc(56 * var(--px));
+      width: calc(100% - 32 * var(--px));
       min-height: calc(200 * var(--px));
-      margin-top: calc(90 * var(--px));
       padding: calc(4 * var(--px)) calc(14 * var(--px)) calc(16 * var(--px));
       border-width: max(1.5px, calc(2 * var(--px)));
       border-radius: calc(10 * var(--px));

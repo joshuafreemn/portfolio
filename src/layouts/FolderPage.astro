@@ -75,8 +75,9 @@ const fillV = '-3,0 28,26 28,195 -3,221';
   }
 
   :global(body.folder-page.fit) {
-    /* Scale down on short screens too, so the whole frame fits. */
-    --px: min(100vw / 1440, 100dvh / 960, 1.25px);
+    /* Scale down on short screens too, so the reel and the title of the
+       card below it both fit. */
+    --px: min(100vw / 1440, 100dvh / 990, 1.25px);
     height: 100%;
     overflow: hidden;
   }
