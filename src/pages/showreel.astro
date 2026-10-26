@@ -72,6 +72,7 @@ const btsHref: string | null = null;
     width: calc(184.5 * var(--px));
     height: auto;
     pointer-events: none;
+    animation: wiggle 900ms ease-out 500ms both;
   }
 
   /* Sits just under the reel and runs off the bottom of the screen. */
@@ -88,7 +89,7 @@ const btsHref: string | null = null;
     color: var(--pink);
     text-decoration: none;
     transform: rotate(2.7deg);
-    transition: transform 200ms ease;
+    transition: transform 500ms var(--spring);
   }
 
   .bts:hover,
@@ -150,6 +151,10 @@ const btsHref: string | null = null;
   @media (prefers-reduced-motion: reduce) {
     .bts {
       transition: none;
+    }
+
+    .clip {
+      animation: none;
     }
   }
 </style>

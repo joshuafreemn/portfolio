@@ -47,6 +47,9 @@ const { title, index, href, external = false } = Astro.props;
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
     border-radius: calc(20 * var(--px));
+    transition:
+      transform 450ms var(--spring),
+      box-shadow 250ms ease;
   }
 
   .card:focus-visible {
@@ -138,6 +141,12 @@ const { title, index, href, external = false } = Astro.props;
       grid-template-rows: 1fr;
     }
 
+    /* Lifts off the pile like a picked-up card. */
+    .card:hover {
+      transform: translateY(calc(-6 * var(--px))) rotate(-0.4deg);
+      box-shadow: 0 calc(12 * var(--px)) calc(24 * var(--px)) rgb(138 74 116 / 0.18);
+    }
+
     .card:hover .title {
       transform: translateX(calc(8 * var(--px)));
     }
@@ -166,9 +175,14 @@ const { title, index, href, external = false } = Astro.props;
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .card,
     .title,
     .drawer {
       transition: none;
+    }
+
+    .card:hover {
+      transform: none;
     }
   }
 </style>
