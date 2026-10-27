@@ -44,6 +44,13 @@ import vsExploreVictorious from '../assets/wrk/123victoria/explore-victorious.jp
 import vsExploreStand from '../assets/wrk/123victoria/explore-take-your-stand.jpg';
 import vsExplore123Vic from '../assets/wrk/123victoria/explore-123vic.jpg';
 
+import spSitemap from '../assets/wrk/storeproperty/sitemap.jpg';
+import spUserFlow from '../assets/wrk/storeproperty/user-flow.jpg';
+import spWireframe from '../assets/wrk/storeproperty/wireframe-property.jpg';
+import spMap from '../assets/wrk/storeproperty/design-map.jpg';
+import spPortfolio from '../assets/wrk/storeproperty/design-portfolio.jpg';
+import spHome from '../assets/wrk/storeproperty/design-home.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -73,7 +80,7 @@ export interface CaseStudy {
   result?: string;
 }
 
-export const caseStudies: CaseStudy[] = [
+const allCaseStudies: CaseStudy[] = [
   {
     slug: 'rlamls',
     title: 'RLAM Life Sciences',
@@ -266,6 +273,97 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
   },
+  {
+    slug: 'storeproperty',
+    title: 'Store Property',
+    description:
+      'A friendlier website for a family-run property company, redesigned inside the brand they already had.',
+    background: '#eef0f6',
+    brief:
+      'After Store House, Store Property asked Smart Soho to redesign their company website, which felt rigid and formal. The brand was established and they had invested in merchandise they didn’t want to remake, so the new site had to work within it.',
+    idea:
+      'Start from how people use the site. I mapped the sitemap and the user flows for tenants, prospective tenants, agents and visitors. The client isn’t technical, so I drew the wireframes inside the brand to help them picture the finished site, then took it through to final designs and worked with an external developer to build it.',
+    whatIDid: [
+      'Sitemap and user flows',
+      'Wireframes styled in the brand',
+      'Final desktop and mobile designs',
+      'Design handover and build with an external developer',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: spMap,
+            alt: 'London Offices page hero: a dark street map of central London with Store Property buildings drawn as orange and pink icons.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Sitemap and user flows',
+        images: [
+          {
+            src: spSitemap,
+            alt: 'Sitemap for the Store Property website, branching from the home page into London Offices, About, Contact and Portfolio.',
+          },
+          {
+            src: spUserFlow,
+            alt: 'User flow diagram routing tenants, general visitors, prospective tenants and London office visitors to what they need.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        label: 'Wireframe',
+        images: [
+          {
+            src: spWireframe,
+            alt: 'Property page wireframe in the Store Property navy and pink: gallery, property details, enquiry card and description.',
+          },
+        ],
+        caption: 'Wireframes kept the brand’s colours and type so the client could picture the finished pages.',
+        columns: 1,
+      },
+      {
+        label: 'Final design',
+        images: [
+          {
+            src: spHome,
+            alt: 'Home page sections: the company introduction and a Recent Projects carousel of offices, industrial units and retail.',
+          },
+          {
+            src: spPortfolio,
+            alt: 'London Property grid of nine buildings, filterable by All London, Aparthotel and Offices.',
+          },
+        ],
+        columns: 2,
+      },
+    ],
+    result: 'Live at storeproperty.co.uk, built by an external developer from my designs. The client was very pleased with it.',
+  },
+  {
+    slug: 'storehouse',
+    title: 'Store House',
+    description: 'Branding, a brochure and a one-page website for Store House, a newly acquired building in Bermondsey.',
+    background: '#f3efe8',
+    brief:
+      'Store Property approached Smart Soho to create branding, a brochure and a website for Store House, a building they had just acquired.',
+    idea:
+      'For the pitch I created a branding route which, as often happens, was combined with a colleague’s route to make the final identity. That identity carried through the brochure and the website. With little time for the one-page site, I designed straight from the brochure and translated it into the live build, including the hero animation the client particularly liked.',
+    whatIDid: [
+      'Pitch branding route, combined with a colleague’s for the final identity',
+      'Brochure',
+      'One-page scrolling website, designed from the brochure',
+      'Hero animation',
+    ],
+    // Images to come: branding v1, the final branding, the brochure and the live site.
+    work: [],
+    result:
+      'Live at storehousese1.com. Store Property has since bought more buildings, and the branding has been extended to two of them, including 30 Newman Street (storehousew1.com). The client liked it so much that they are retiring their SP Managed brand and bringing everything under Store House.',
+  },
 ];
+
+// A case study only gets a page (and its card a link) once it has images.
+export const caseStudies = allCaseStudies.filter((study) => study.work.length > 0);
 
 export const findCaseStudy = (slug?: string) => caseStudies.find((c) => c.slug === slug);
