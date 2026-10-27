@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import rlamHero from '../assets/wrk/rlamls/hero.png';
 import spManaged from '../assets/cards/spmanaged.png';
+import storeHouseMark from '../assets/cards/storehouse.jpg';
 import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import { findCaseStudy } from './caseStudies';
@@ -51,6 +52,10 @@ export const designProjects: Project[] = [
     client: 'Store Property',
     agency: 'Smart Soho',
     url: 'https://storehousese1.com/',
+    image: {
+      src: storeHouseMark,
+      alt: 'The Store House logo: an orange building with arched windows under the stacked wordmark, on navy.',
+    },
     caseStudy: 'storehouse',
   },
   {

@@ -28,6 +28,16 @@ const at = order.findIndex((c) => c.slug === study.slug);
 const prev = at > 0 ? order[at - 1] : undefined;
 const next = at < order.length - 1 ? order[at + 1] : undefined;
 
+// Clips use their image as the poster frame.
+const posters = new Map(
+  await Promise.all(
+    study.work
+      .flatMap((group) => group.images)
+      .filter((image) => image.video)
+      .map(async (image) => [image.src, (await getImage({ src: image.src, format: 'webp' })).src] as const),
+  ),
+);
+
 const ogImage = study.work[0]?.images[0];
 const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format: 'jpg' })).src : undefined;
 ---
@@ -87,15 +97,30 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
               <div class="grid">
                 {group.images.map((image) => (
                   <div class:list={['tile', { fit: image.width }]}>
-                    <Image
-                      style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
-                      src={image.src}
-                      alt={image.alt}
-                      widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
-                      sizes={`(max-width: 700px) 100vw, ${Math.round(1113 / (group.columns ?? 2))}px`}
-                      format="webp"
-                      loading={g === 0 ? 'eager' : 'lazy'}
-                    />
+                    {image.video ? (
+                      <video
+                        src={image.video}
+                        poster={posters.get(image.src)}
+                        aria-label={image.alt}
+                        width={image.src.width}
+                        height={image.src.height}
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        preload="metadata"
+                      />
+                    ) : (
+                      <Image
+                        style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
+                        src={image.src}
+                        alt={image.alt}
+                        widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
+                        sizes={`(max-width: 700px) 100vw, ${Math.round(1113 / (group.columns ?? 2))}px`}
+                        format="webp"
+                        loading={g === 0 ? 'eager' : 'lazy'}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -122,6 +147,16 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     </nav>
   </div>
 </Base>
+
+<script>
+  // Clips loop on their own; with reduced motion they wait for a press of play.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('.work video').forEach((video) => {
+      video.pause();
+      video.controls = true;
+    });
+  }
+</script>
 
 <style>
   :global(body.case-study) {
@@ -248,7 +283,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     box-shadow: 0 2px 4px rgb(0 0 0 / 0.15);
   }
 
-  .tile img {
+  .tile img,
+  .tile video {
     display: block;
     width: 100%;
     height: auto;
