@@ -37,6 +37,12 @@ import vsRelay from '../assets/wrk/123victoria/poster-relay.jpg';
 import vsBasketball from '../assets/wrk/123victoria/campaign-basketball.jpg';
 import vsCoffee from '../assets/wrk/123victoria/campaign-coffee.jpg';
 import vsMerchandise from '../assets/wrk/123victoria/merchandise.jpg';
+import vsExploreBrochure from '../assets/wrk/123victoria/explore-brochure.jpg';
+import vsExploreSights from '../assets/wrk/123victoria/explore-set-your-sights.jpg';
+import vsExploreKnow from '../assets/wrk/123victoria/explore-know-your-place.jpg';
+import vsExploreVictorious from '../assets/wrk/123victoria/explore-victorious.jpg';
+import vsExploreStand from '../assets/wrk/123victoria/explore-take-your-stand.jpg';
+import vsExplore123Vic from '../assets/wrk/123victoria/explore-123vic.jpg';
 
 export interface WorkImage {
   src: ImageMetadata;
@@ -213,6 +219,33 @@ export const caseStudies: CaseStudy[] = [
           { src: vsCoffee, alt: 'A smiling office junior balancing a tower of coffee cups on a tray.' },
         ],
         columns: 2,
+      },
+      {
+        label: 'Exploration',
+        images: [
+          {
+            src: vsExploreBrochure,
+            alt: 'Brochure spread: the 123 mark in green track lanes beside a line-screened sprinter and the word Victoria.',
+          },
+          {
+            src: vsExploreSights,
+            alt: 'Set Your Sights: a line-screened figure in lime and black with the 123 Victoria wordmark.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          { src: vsExploreKnow, alt: 'Know Your Place poster: three line-screened figures in yellow on yellow.' },
+          { src: vsExploreVictorious, alt: 'For the Victorious poster: a line-screened figure in bright green.' },
+          {
+            src: vsExploreStand,
+            alt: 'Take Your Stand poster: two cyclists on a podium, with the first place figure in yellow line-screen.',
+          },
+          { src: vsExplore123Vic, alt: '123 VIC poster: yellow panel beside an orange line-screened crowd.' },
+        ],
+        caption: 'Early posters testing the line-screen treatment and the podium idea in brighter, single-colour palettes.',
+        columns: 4,
       },
       {
         label: 'Merchandise',
