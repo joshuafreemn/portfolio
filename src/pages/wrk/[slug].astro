@@ -6,7 +6,7 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CloseButton from '../../components/CloseButton.astro';
 import { caseStudies, type CaseStudy } from '../../data/caseStudies';
-import { designProjects } from '../../data/projects';
+import { designProjects, webProjects } from '../../data/projects';
 
 export const getStaticPaths = (() =>
   caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }))) satisfies GetStaticPaths;
@@ -17,9 +17,11 @@ interface Props {
 
 const { study } = Astro.props;
 
-// Prev / Next follow the card order on the Design page, skipping projects
-// whose case study isn't ready.
-const order = designProjects
+// Prev / Next follow the card order on the study's own folder (Design or
+// Web), skipping projects whose case study isn't ready.
+const isWeb = webProjects.some((p) => p.caseStudy === study.slug);
+const folder = isWeb ? { projects: webProjects, href: '/web.html' } : { projects: designProjects, href: '/work.html' };
+const order = folder.projects
   .map((p) => caseStudies.find((c) => c.slug === p.caseStudy))
   .filter((c): c is CaseStudy => Boolean(c));
 const at = order.findIndex((c) => c.slug === study.slug);
@@ -38,7 +40,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 >
   <div class="page" style={`--bg: ${study.background}`}>
     <div class="close">
-      <CloseButton href="/work.html" label="Close and return to work" />
+      <CloseButton href={folder.href} label="Close and return to the projects" />
     </div>
 
     <main>
@@ -115,7 +117,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
     <nav class="pager" aria-label="Projects">
       {prev ? <a href={`/wrk/${prev.slug}.html`}>← Prev</a> : <span />}
-      <a href="/work.html">All projects</a>
+      <a href={folder.href}>All projects</a>
       {next ? <a href={`/wrk/${next.slug}.html`}>Next →</a> : <span />}
     </nav>
   </div>

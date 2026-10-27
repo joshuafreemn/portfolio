@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import rlamHero from '../assets/wrk/rlamls/hero.png';
 import spManaged from '../assets/cards/spmanaged.png';
+import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import { findCaseStudy } from './caseStudies';
 
@@ -47,6 +48,9 @@ export const designProjects: Project[] = [
   {
     title: 'Store House',
     type: 'Branding · Web · Motion · Brochure · Print',
+    client: 'Store Property',
+    agency: 'Smart Soho',
+    url: 'https://storehousese1.com/',
     caseStudy: 'storehouse',
   },
   {
@@ -96,7 +100,19 @@ export const designProjects: Project[] = [
 
 // Web folder: client sites first, in the Figma order.
 export const webProjects: Project[] = [
-  { title: 'Store Property' },
+  {
+    title: 'Store Property',
+    type: 'Website Redesign',
+    client: 'Store Property',
+    agency: 'Smart Soho',
+    role: 'Designer',
+    image: {
+      src: storePropertyMap,
+      alt: 'London Offices page hero: a dark street map of central London with Store Property buildings drawn as icons.',
+    },
+    caseStudy: 'storeproperty',
+    url: 'https://www.storeproperty.co.uk/',
+  },
   { title: 'The Curve' },
   { title: 'Pall Mall Liverpool', url: 'https://pallmallliverpool.com/' },
   { title: 'Smart QR', url: 'https://smartqr.uk/' },
