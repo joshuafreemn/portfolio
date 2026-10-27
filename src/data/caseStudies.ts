@@ -176,9 +176,16 @@ export const caseStudies: CaseStudy[] = [
       'Find Your Place: a pitch route for the relaunch of 123 Victoria Street in London, built on the podium, the track and the race to the line.',
     background: '#f8f2cf',
     brief:
-      'Creative options for relaunching 123 Victoria Street, a London office building, after its third major refurbishment. This is route three of the pitch.',
+      'Creative options for relaunching 123 Victoria Street, a London office building, after its third major refurbishment. This is route three of the pitch, which I designed on my own.',
     idea:
       '123 Victoria Street is more than an address. Its number reflects the podium positions of first, second and third, while Victoria suggests victory and success. Following its third major refurbishment, the building is sharper, more agile and ready for its next chapter. Like lanes one, two and three on a track, it offers occupiers the inside line by design. “Find Your Place” captures this sense of position, progress and belonging.',
+    whatIDid: [
+      'Sole designer on this route',
+      'The idea, strategy and positioning',
+      'Identity: the 123 podium mark and track-lane system',
+      'Line-screen image treatment and campaign art direction',
+      'Campaign images, posters and merchandise',
+    ],
     work: [
       {
         images: [

@@ -67,6 +67,7 @@ export const designProjects: Project[] = [
     type: 'Branding & Campaign Pitch',
     client: '123 Victoria Street, London',
     agency: 'Smart Soho',
+    role: 'Sole designer (pitch route)',
     image: {
       src: victoriaHorses,
       alt: 'Office workers racing horses past a red-brick building, from the Find Your Place campaign.',
