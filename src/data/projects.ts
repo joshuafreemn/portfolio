@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import rlamHero from '../assets/wrk/rlamls/hero.png';
 import spManaged from '../assets/cards/spmanaged.png';
+import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import { findCaseStudy } from './caseStudies';
 
 export interface ProjectImage {
@@ -63,7 +64,13 @@ export const designProjects: Project[] = [
   },
   {
     title: '123 Victoria',
-    type: 'Branding',
+    type: 'Branding & Campaign Pitch',
+    client: '123 Victoria Street, London',
+    agency: 'Smart Soho',
+    image: {
+      src: victoriaHorses,
+      alt: 'Office workers racing horses past a red-brick building, from the Find Your Place campaign.',
+    },
     caseStudy: '123victoria',
   },
   {
