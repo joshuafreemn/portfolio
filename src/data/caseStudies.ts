@@ -26,6 +26,24 @@ import campaignCellCulture from '../assets/wrk/rlamls/campaign-cell-culture.jpg'
 import campaignCellularData from '../assets/wrk/rlamls/campaign-cellular-data.jpg';
 import campaignEvaluate from '../assets/wrk/rlamls/campaign-evaluate.jpg';
 
+import vsLogo from '../assets/wrk/123victoria/logo.jpg';
+import vsLanes from '../assets/wrk/123victoria/lanes.jpg';
+import vsHalftone from '../assets/wrk/123victoria/halftone.jpg';
+import vsHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
+import vsCommute from '../assets/wrk/123victoria/campaign-commute.jpg';
+import vsHandover from '../assets/wrk/123victoria/campaign-handover.jpg';
+import vsDesk from '../assets/wrk/123victoria/campaign-desk.jpg';
+import vsRelay from '../assets/wrk/123victoria/poster-relay.jpg';
+import vsBasketball from '../assets/wrk/123victoria/campaign-basketball.jpg';
+import vsCoffee from '../assets/wrk/123victoria/campaign-coffee.jpg';
+import vsMerchandise from '../assets/wrk/123victoria/merchandise.jpg';
+import vsExploreBrochure from '../assets/wrk/123victoria/explore-brochure.jpg';
+import vsExploreSights from '../assets/wrk/123victoria/explore-set-your-sights.jpg';
+import vsExploreKnow from '../assets/wrk/123victoria/explore-know-your-place.jpg';
+import vsExploreVictorious from '../assets/wrk/123victoria/explore-victorious.jpg';
+import vsExploreStand from '../assets/wrk/123victoria/explore-take-your-stand.jpg';
+import vsExplore123Vic from '../assets/wrk/123victoria/explore-123vic.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -148,6 +166,103 @@ export const caseStudies: CaseStudy[] = [
           { src: campaignEvaluate, alt: 'Evaluate Enhance card showing a blue-toned laptop scene.' },
         ],
         columns: 2,
+      },
+    ],
+  },
+  {
+    slug: '123victoria',
+    title: '123 Victoria Street',
+    description:
+      'Find Your Place: a pitch route for the relaunch of 123 Victoria Street in London, built on the podium, the track and the race to the line.',
+    background: '#f8f2cf',
+    brief:
+      'Creative options for relaunching 123 Victoria Street, a London office building, after its third major refurbishment. This is route three of the pitch, which I designed on my own.',
+    idea:
+      '123 Victoria Street is more than an address. Its number reflects the podium positions of first, second and third, while Victoria suggests victory and success. Following its third major refurbishment, the building is sharper, more agile and ready for its next chapter. Like lanes one, two and three on a track, it offers occupiers the inside line by design. “Find Your Place” captures this sense of position, progress and belonging.',
+    whatIDid: [
+      'Sole designer on this route',
+      'The idea, strategy and positioning',
+      'Identity: the 123 podium mark and track-lane system',
+      'Line-screen image treatment and campaign art direction',
+      'Campaign images, posters and merchandise',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: vsHorses,
+            alt: 'Office workers in shirts and ties racing horses past a red-brick building, with the yellow stepped Find Your Place podium lockup.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Identity',
+        images: [
+          { src: vsLogo, alt: 'The 123 mark: the numbers 1, 2 and 3 stepped down like a podium, each underlined.' },
+          { src: vsLanes, alt: 'The 123 mark in green running down three white track lanes on a lime background.' },
+        ],
+        caption:
+          'The mark steps 1, 2 and 3 down like a podium. Track lanes and a stepped yellow lockup carry the same idea across the campaign.',
+        columns: 2,
+      },
+      {
+        images: [
+          {
+            src: vsHalftone,
+            alt: 'Two black and white line-screen treatments: a man in a suit against a crowd, and a jockey at speed.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Campaign',
+        images: [
+          { src: vsCommute, alt: 'Commuters in suits sprinting along a blue running track laid through an Underground station.' },
+          { src: vsHandover, alt: 'A man in a suit takes a stack of papers like a relay baton, with the Find Your Place lockup.' },
+          { src: vsDesk, alt: 'A man in a suit launches from his office chair like a sprinter, with a race clock in the corner.' },
+          { src: vsRelay, alt: 'Poster of hands passing tablets, pens and papers down a line like relay batons.' },
+          { src: vsBasketball, alt: 'Duotone illustration of an office worker dunking a basketball against a cyan sky.' },
+          { src: vsCoffee, alt: 'A smiling office junior balancing a tower of coffee cups on a tray.' },
+        ],
+        columns: 2,
+      },
+      {
+        label: 'Exploration',
+        images: [
+          {
+            src: vsExploreBrochure,
+            alt: 'Brochure spread: the 123 mark in green track lanes beside a line-screened sprinter and the word Victoria.',
+          },
+          {
+            src: vsExploreSights,
+            alt: 'Set Your Sights: a line-screened figure in lime and black with the 123 Victoria wordmark.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          { src: vsExploreKnow, alt: 'Know Your Place poster: three line-screened figures in yellow on yellow.' },
+          { src: vsExploreVictorious, alt: 'For the Victorious poster: a line-screened figure in bright green.' },
+          {
+            src: vsExploreStand,
+            alt: 'Take Your Stand poster: two cyclists on a podium, with the first place figure in yellow line-screen.',
+          },
+          { src: vsExplore123Vic, alt: '123 VIC poster: yellow panel beside an orange line-screened crowd.' },
+        ],
+        caption: 'Early posters testing the line-screen treatment and the podium idea in brighter, single-colour palettes.',
+        columns: 4,
+      },
+      {
+        label: 'Merchandise',
+        images: [
+          {
+            src: vsMerchandise,
+            alt: 'Merchandise: a blue tracksuit with the 123 mark, a framed 10K finisher medal and route map, and padel bats numbered 1, 2 and 3.',
+          },
+        ],
+        columns: 1,
       },
     ],
   },
