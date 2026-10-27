@@ -51,11 +51,22 @@ import spMap from '../assets/wrk/storeproperty/design-map.jpg';
 import spPortfolio from '../assets/wrk/storeproperty/design-portfolio.jpg';
 import spHome from '../assets/wrk/storeproperty/design-home.jpg';
 
+import shAnimationPoster from '../assets/wrk/storehouse/hero-animation-poster.jpg';
+import shOverview from '../assets/wrk/storehouse/v1-overview.jpg';
+import shLogo from '../assets/wrk/storehouse/v1-logo.jpg';
+import shBigIdeas from '../assets/wrk/storehouse/v1-big-ideas.jpg';
+import shPosters from '../assets/wrk/storehouse/v1-posters.jpg';
+import shType from '../assets/wrk/storehouse/v1-type.jpg';
+import shPrint from '../assets/wrk/storehouse/v1-print.jpg';
+import shSocial from '../assets/wrk/storehouse/v1-social.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
   /** Cap the display width (Figma px) for small artwork that would blur if stretched to fill its tile. */
   width?: number;
+  /** A looping clip in /public to play in place of the image, which becomes its poster. */
+  video?: string;
 }
 
 export interface WorkGroup {
@@ -356,8 +367,64 @@ const allCaseStudies: CaseStudy[] = [
       'One-page scrolling website, designed from the brochure',
       'Hero animation',
     ],
-    // Images to come: branding v1, the final branding, the brochure and the live site.
-    work: [],
+    // Still to come: the final branding, the brochure and the live site.
+    work: [
+      {
+        images: [
+          {
+            src: shAnimationPoster,
+            video: '/wrk/storehouse/hero-animation.mp4',
+            alt: 'The website hero animation: a street of cream building silhouettes slides past on navy, stopping on the orange Store House building with the wordmark above it and 75 Bermondsey St SE1 below.',
+          },
+        ],
+        columns: 1,
+        caption: 'The hero animation from the live site, in the final identity.',
+      },
+      {
+        label: 'My pitch route',
+        images: [
+          {
+            src: shOverview,
+            alt: 'Overview of the pitch route: the line Storehouse of Big Ideas on plywood, a cutaway axonometric of the building on orange, Storehouse packing tape, an office interior, OSB board with the repeating wordmark, and the logo on dark brick.',
+          },
+        ],
+        columns: 1,
+        caption:
+          'A building mark cut from the materials of the site, its brick and plywood, with a wordmark that runs like packing tape.',
+      },
+      {
+        images: [
+          {
+            src: shLogo,
+            alt: 'The building mark in bare plywood on orange-stained plywood, beside the wordmark with Seventy Five above and Bermondsey St SE1 below.',
+          },
+          {
+            src: shBigIdeas,
+            alt: 'The line The Storehouse of Big Ideas in cream beside the building mark filled with stone, on dark brown brick.',
+          },
+          {
+            src: shPosters,
+            alt: 'Two square posters, one on brick and one on orange plywood, each with the building mark crossed by a diagonal band of the repeating wordmark.',
+          },
+          {
+            src: shType,
+            alt: 'Type specimen: PP Rader as the master font in orange on cream, and Satoshi as the secondary font on brown.',
+          },
+        ],
+      },
+      {
+        images: [
+          {
+            src: shPrint,
+            alt: 'A brochure in a pale blue slipcase, its cover splitting the wordmark across a brick page and a plywood page.',
+          },
+          {
+            src: shSocial,
+            alt: 'Four phone stories: Available now in SE1 on brick, 11,429 sq ft over an office render, Office space over a reception render, and the logo on plywood.',
+          },
+        ],
+      },
+    ],
     result:
       'Live at storehousese1.com. Store Property has since bought more buildings, and the branding has been extended to two of them, including 30 Newman Street (storehousew1.com). The client liked it so much that they are retiring their SP Managed brand and bringing everything under Store House.',
   },
