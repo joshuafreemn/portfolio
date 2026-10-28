@@ -927,9 +927,9 @@ const allCaseStudies: CaseStudy[] = [
       'A marketing website for Curve, a 200,000 sq ft headquarters office building on Centenary Square in Birmingham.',
     background: '#efeaf3',
     brief:
-      'Curve is a new headquarters building at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
+      'Curve is a new headquarters building by Kier at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
     idea:
-      'Make the building’s gradient tiles the system for the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and took the design through six rounds to the desktop and mobile files handed to the developers.',
+      'A colleague created the branding, built on gradient tiles. In the web design, which was all mine, I made those tiles the system for the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and took the design through six rounds to the desktop and mobile files handed to the developers.',
     whatIDid: [
       'Wireframes built from the brochure',
       'Six rounds of design, desktop and mobile',
@@ -1032,7 +1032,7 @@ const allCaseStudies: CaseStudy[] = [
         columns: 3,
       },
     ],
-    result: 'Designed for Kier through six rounds and handed to developers for build.',
+    result: 'Handed to developers after six rounds of design, and in development now.',
   },
 ];
 
