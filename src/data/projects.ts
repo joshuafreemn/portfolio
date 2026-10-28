@@ -6,6 +6,7 @@ import spManaged from '../assets/cards/spmanaged.png';
 import storeHouseMark from '../assets/cards/storehouse.jpg';
 import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
+import smartQrLanding from '../assets/wrk/smartqr/landing.jpg';
 import { findCaseStudy } from './caseStudies';
 
 export interface ProjectImage {
@@ -120,7 +121,17 @@ export const webProjects: Project[] = [
   },
   { title: 'The Curve' },
   { title: 'Pall Mall Liverpool', url: 'https://pallmallliverpool.com/' },
-  { title: 'Smart QR', url: 'https://smartqr.uk/' },
+  {
+    title: 'Smart QR',
+    type: 'Internal Tool · Design & Build',
+    client: 'Smart Soho',
+    image: {
+      src: smartQrLanding,
+      alt: 'The Smart QR landing page with the headline QR links that stay useful.',
+    },
+    caseStudy: 'smartqr',
+    url: 'https://smartqr.uk/',
+  },
 ];
 
 export interface Experiment {

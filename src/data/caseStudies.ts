@@ -60,6 +60,10 @@ import shType from '../assets/wrk/storehouse/v1-type.jpg';
 import shPrint from '../assets/wrk/storehouse/v1-print.jpg';
 import shSocial from '../assets/wrk/storehouse/v1-social.jpg';
 
+import qrLanding from '../assets/wrk/smartqr/landing.jpg';
+import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
+import qrSignIn from '../assets/wrk/smartqr/sign-in.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -427,6 +431,56 @@ const allCaseStudies: CaseStudy[] = [
     ],
     result:
       'Live at storehousese1.com. Store Property has since bought more buildings, and the branding has been extended to two of them, including 30 Newman Street (storehousew1.com). The client liked it so much that they are retiring their SP Managed brand and bringing everything under Store House.',
+  },
+  {
+    slug: 'smartqr',
+    title: 'Smart QR',
+    description: 'An in-house tool for Smart Soho that makes QR codes you can repoint after they have gone to print.',
+    background: '#fbeceb',
+    brief:
+      'Smart Soho puts QR codes on hoardings, brochures and event material for its clients. Once a code is printed its link is fixed, so a changed page or a new campaign meant new artwork.',
+    idea:
+      'Print a code that points to a link the studio controls, so the destination can change at any time without touching the artwork. Keep it simple enough for anyone in the studio: create a code, change where it goes, download a PNG.',
+    whatIDid: [
+      'Designed and built the tool',
+      'Landing page and dashboard in the Smart Soho brand',
+      'Create, edit, search and PNG download',
+      'Team-only sign-in through Cloudflare Access',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: qrLanding,
+            alt: 'The Smart QR landing page: the Smart Soho logo, the headline QR links that stay useful, and an Open QR dashboard button.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Dashboard',
+        images: [
+          {
+            src: qrDashboard,
+            alt: 'The Your QR codes dashboard: a search box, a Create QR code button and a table of seven codes with their names, blurred destinations, update dates, and Edit and download actions.',
+          },
+        ],
+        columns: 1,
+        caption: 'Every code in one list, with Edit to repoint it and a download for the PNG. Client links are blurred here.',
+      },
+      {
+        images: [
+          {
+            src: qrSignIn,
+            alt: 'The Cloudflare Access sign-in screen: Log in to smartqr.uk, an email field and a Send login code button.',
+            width: 720,
+          },
+        ],
+        columns: 1,
+        caption: 'Sign-in sits behind Cloudflare Access, so only the team can reach the dashboard.',
+      },
+    ],
+    result: 'In use at Smart Soho at smartqr.uk, with live codes on campaigns for several clients.',
   },
 ];
 
