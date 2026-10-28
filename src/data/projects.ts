@@ -8,6 +8,7 @@ import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import smartQrLanding from '../assets/wrk/smartqr/landing.jpg';
 import pallMallHero from '../assets/wrk/pallmall/home-hero.jpg';
+import curveHero from '../assets/wrk/thecurve/home-hero.jpg';
 import { findCaseStudy } from './caseStudies';
 
 export interface ProjectImage {
@@ -112,7 +113,18 @@ export const webProjects: Project[] = [
     caseStudy: 'storeproperty',
     url: 'https://www.storeproperty.co.uk/',
   },
-  { title: 'The Curve' },
+  {
+    title: 'The Curve',
+    type: 'Website',
+    client: 'Kier',
+    agency: 'Smart Soho',
+    role: 'Designer',
+    image: {
+      src: curveHero,
+      alt: 'Curve home page hero: the logo among blue, green, purple and orange gradient tiles.',
+    },
+    caseStudy: 'thecurve',
+  },
   {
     title: 'Pall Mall Liverpool',
     type: 'Website',
