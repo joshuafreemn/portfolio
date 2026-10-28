@@ -125,6 +125,7 @@ export const webProjects: Project[] = [
     title: 'Smart QR',
     type: 'Internal Tool · Design & Build',
     client: 'Smart Soho',
+    tools: 'Claude, Cloudflare Pages',
     image: {
       src: smartQrLanding,
       alt: 'The Smart QR landing page with the headline QR links that stay useful.',
