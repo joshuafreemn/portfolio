@@ -142,9 +142,9 @@ const fillV = '-3,0 28,26 28,195 -3,221';
     height: calc(46 * var(--px));
     z-index: var(--z);
     transition:
-      top 180ms ease,
-      height 180ms ease,
-      width 180ms ease;
+      top 380ms var(--spring),
+      height 380ms var(--spring),
+      width 380ms var(--spring);
   }
 
   .tab.front {
@@ -177,6 +177,26 @@ const fillV = '-3,0 28,26 28,195 -3,221';
   .tab a:focus-visible span {
     outline: var(--line) solid var(--purple);
     outline-offset: calc(4 * var(--px));
+  }
+
+  /* The label gives a little nod as the tab rises, and sinks when pressed. */
+  .tab span {
+    transition: translate 120ms ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tab:not(.front):hover .tab span {
+      animation: nod 420ms ease-out;
+    }
+  }
+
+  .tab .tab a:active .tab span {
+    translate: 0 calc(2 * var(--px));
+  }
+
+  @keyframes nod {
+    30% { rotate: -3deg; }
+    65% { rotate: 1.5deg; }
   }
 
   .shape {
@@ -273,7 +293,8 @@ const fillV = '-3,0 28,26 28,195 -3,221';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tab {
+    .tab,
+    .tab span {
       transition: none;
     }
   }

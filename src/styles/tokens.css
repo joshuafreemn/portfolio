@@ -96,6 +96,24 @@ body {
   from { opacity: 0; transform: translateY(calc(90 * var(--px))); }
 }
 
+/* Opening a case study pulls its page up out of the folder with a slight
+   tilt, and closing it drops it back in. */
+::view-transition-new(case-sheet) {
+  animation: case-in 640ms var(--spring) both;
+}
+
+::view-transition-old(case-sheet) {
+  animation: case-out 260ms ease-in both;
+}
+
+@keyframes case-in {
+  from { transform: translateY(70vh) rotate(1.5deg); }
+}
+
+@keyframes case-out {
+  to { opacity: 0; transform: translateY(40vh) rotate(1deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: none;

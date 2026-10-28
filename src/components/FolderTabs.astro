@@ -78,9 +78,9 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     height: calc(46 * var(--px));
     z-index: var(--z);
     transition:
-      top 180ms ease,
-      height 180ms ease,
-      width 180ms ease;
+      top 380ms var(--spring),
+      height 380ms var(--spring),
+      width 380ms var(--spring);
   }
 
   .tab.front {
@@ -113,6 +113,26 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   a:focus-visible span {
     outline: var(--line) solid var(--purple);
     outline-offset: calc(4 * var(--px));
+  }
+
+  /* The label gives a little nod as the tab rises, and sinks when pressed. */
+  span {
+    transition: translate 120ms ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tab:not(.front):hover span {
+      animation: nod 420ms ease-out;
+    }
+  }
+
+  .tab a:active span {
+    translate: 0 calc(2 * var(--px));
+  }
+
+  @keyframes nod {
+    30% { rotate: -3deg; }
+    65% { rotate: 1.5deg; }
   }
 
   .shape {
@@ -204,8 +224,35 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     }
   }
 
+  /* Arrival: once the name has landed, the folder slides up from the bottom
+     of the screen (in from the left edge on mobile). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html:not(.arrived)) .folders {
+      animation: slide-up 640ms var(--spring) 700ms both;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      translate: 0 100%;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      translate: -100% 0;
+    }
+  }
+
+  @media (max-width: 700px) {
+    :global(html:not(.arrived)) .folders {
+      animation-name: slide-in;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .tab {
+    .tab,
+    span {
       transition: none;
     }
   }

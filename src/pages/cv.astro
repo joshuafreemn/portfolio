@@ -30,7 +30,7 @@ const education = [
   current={3}
 >
   <div class="about">
-    <article class="postcard" aria-label="Postcard from Josh">
+    <article class="postcard" aria-label="Postcard from Josh" data-fidget-zone>
       <div class="message">
         <p>Hello from London,</p>
         <p>
@@ -48,11 +48,11 @@ const education = [
         <div class="lines"><span></span><span></span><span></span><span></span><span></span></div>
       </div>
       <div class="stamp-box" aria-hidden="true"></div>
-      <Image class="stamp" src={stamp} alt="" width={178} />
-      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" />
+      <Image class="stamp" src={stamp} alt="" width={178} data-fidget="thunk" data-fidget-zone />
+      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" data-fidget="wiggle" />
     </article>
 
-    <section class="cv" aria-labelledby="cv-title">
+    <section class="cv" aria-labelledby="cv-title" data-fidget-zone>
       <span class="rule header" aria-hidden="true"></span>
       <span class="rule margin-left" aria-hidden="true"></span>
       <span class="rule margin-right" aria-hidden="true"></span>
@@ -99,7 +99,7 @@ const education = [
           </a>
         )
       }
-      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" />
+      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" data-fidget="wiggle" />
     </section>
   </div>
 </FolderPage>
@@ -130,6 +130,9 @@ const education = [
     border: calc(18 * var(--px)) solid var(--blue);
     border-radius: calc(33 * var(--px));
     transform: rotate(-1.45deg);
+    transition:
+      transform 500ms var(--spring),
+      box-shadow 300ms ease;
   }
 
   .message {
@@ -212,6 +215,21 @@ const education = [
     transform: rotate(1.17deg);
     font-family: var(--font-display);
     text-transform: uppercase;
+    transition:
+      transform 500ms var(--spring),
+      box-shadow 300ms ease;
+  }
+
+  @media (hover: hover) and (min-width: 701px) {
+    .postcard:hover {
+      transform: rotate(-0.6deg) translateY(calc(-8 * var(--px)));
+      box-shadow: 0 calc(16 * var(--px)) calc(28 * var(--px)) rgb(138 74 116 / 0.2);
+    }
+
+    .cv:hover {
+      transform: rotate(0.4deg) translateY(calc(-8 * var(--px)));
+      box-shadow: 0 calc(16 * var(--px)) calc(28 * var(--px)) rgb(138 74 116 / 0.2);
+    }
   }
 
   .rule {
@@ -328,6 +346,29 @@ const education = [
     transform: translateY(-50%);
   }
 
+  /* Pointing at any other row punches a hole in its margin, showing the
+     folder through the card. */
+  @media (hover: hover) {
+    .rows li:not(.current)::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: calc(53 * var(--s));
+      width: calc(15 * var(--s));
+      height: calc(15 * var(--s));
+      border-radius: 50%;
+      background: var(--baby-pink);
+      box-shadow: inset 0 calc(2 * var(--s)) calc(3 * var(--s)) rgb(0 0 0 / 0.45);
+      transform: translateY(-50%) scale(0);
+      transition: transform 140ms ease-in;
+    }
+
+    .rows li:not(.current):hover::before {
+      transform: translateY(-50%) scale(1);
+      transition: transform 380ms var(--spring);
+    }
+  }
+
   .education {
     top: calc(427 * var(--s));
   }
@@ -423,6 +464,21 @@ const education = [
     .stamp,
     .clip {
       animation: none;
+    }
+
+    .postcard,
+    .cv,
+    .rows li::before {
+      transition: none !important;
+    }
+
+    .postcard:hover,
+    .cv:hover {
+      transform: rotate(-1.45deg);
+    }
+
+    .cv:hover {
+      transform: rotate(1.17deg);
     }
   }
 </style>

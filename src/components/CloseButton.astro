@@ -10,8 +10,8 @@ interface Props {
 const { href = '/', label = 'Close and return home', class: className } = Astro.props;
 ---
 
-<a class:list={['close', className]} href={href} aria-label={label}>
-  <img src="/Assets/CloseButton.svg" alt="" width="77" height="22" />
+<a class:list={['close', className]} href={href} aria-label={label} data-fidget-zone>
+  <img src="/Assets/CloseButton.svg" alt="" width="77" height="22" data-fidget="wiggle" />
 </a>
 
 <style>
@@ -28,6 +28,10 @@ const { href = '/', label = 'Close and return home', class: className } = Astro.
     display: block;
     width: max(56px, calc(77 * var(--px)));
     height: auto;
+  }
+
+  .close:active img {
+    scale: 0.92;
   }
 
   .close:focus-visible {
