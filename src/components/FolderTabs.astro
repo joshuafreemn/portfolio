@@ -65,6 +65,11 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   // moved with it, so the page's content rides up inside the folder; when it
   // lands the frame shows exactly what the real page will, and stays on
   // screen until the real page has painted.
+  //
+  // The sheet's body pours out of its tab like the macOS genie: each slice
+  // of it is pinched towards the tab, most at the stack end, and the pinch
+  // lets go as it's pulled open. The sheet and the frame are clipped to that
+  // shape, and an outline redraws the body's curved sides.
   const folders = document.querySelector<HTMLElement>('.folders');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const narrow = matchMedia('(max-width: 700px)');
@@ -91,6 +96,9 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     let last = 0;
     let onRest: (() => void) | null = null;
     let finalPx = 1;
+    let fromPx = 1;
+    let sheetTab: HTMLLIElement | null = null;
+    let outline: SVGPathElement | null = null;
 
     const peeks = new Map<string, HTMLIFrameElement>();
     let peek: HTMLIFrameElement | null = null;
@@ -138,6 +146,7 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
       const m = measure(a.hasAttribute('data-fit'));
       distance = m.distance;
       finalPx = m.to;
+      fromPx = m.from;
       peek = preload(a);
       sheet = folders.cloneNode(true) as HTMLElement;
       sheet.classList.add('sheet', 'live');
@@ -149,6 +158,14 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
       sheet.style.setProperty('--travel', `${m.travel}px`);
       const sheetTabs = [...sheet.querySelectorAll<HTMLLIElement>('.tab')];
       setFront(sheetTabs, sheetTabs[index]);
+      sheetTab = sheetTabs[index];
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none';
+      outline = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      outline.setAttribute('fill', 'none');
+      outline.style.stroke = 'var(--pink)';
+      svg.append(outline);
+      sheet.querySelector('.body')!.after(svg);
       folders.after(sheet);
       lifted = index;
       tabs[index].classList.add('lifted');
@@ -158,6 +175,8 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     const drop = () => {
       sheet?.remove();
       sheet = null;
+      sheetTab = null;
+      outline = null;
       peek?.classList.remove('showing');
       peek = null;
       tabs[lifted]?.classList.remove('lifted');
@@ -174,28 +193,96 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
       // The other tabs join the sheet as it lands, and the stack sinks away.
       sheet.style.setProperty('--ghost', String(clamp((pos - 0.8) / 0.2)));
       folders.style.setProperty('--sink', String(clamp((pos - 0.3) / 0.6)));
+      genie();
       showPeek();
     };
 
+    // How far a slice of the body is pinched towards the tab: 0 is full
+    // width, 1 the tab's width. s runs from the leading edge (0) back to the
+    // stack (1); the leading edge opens up first, the end by the stack last.
+    const pinch = (s: number) => {
+      const open = 1 - clamp(pos);
+      const lead = 0.75 * open ** 2;
+      const tail = open ** 0.6;
+      return lead + (tail - lead) * s * s * (3 - 2 * s);
+    };
+
+    // The genie outline in the sheet's own coordinates (before its squash
+    // and stretch): the body's two curved sides, each as points from the
+    // leading edge back to the stack, inset by `inset`.
+    const sides = (inset: number) => {
+      const W = sheet!.offsetWidth;
+      const H = sheet!.offsetHeight;
+      const tab = sheetTab!;
+      const n = 24;
+      const a: [number, number][] = [];
+      const b: [number, number][] = [];
+      if (narrow.matches) {
+        const lead = sheet!.querySelector<HTMLElement>('.body')!.offsetWidth;
+        const c0 = tab.offsetTop;
+        const c1 = c0 + tab.offsetHeight;
+        for (let i = 0; i <= n; i++) {
+          const s = i / n;
+          const x = lead * (1 - s);
+          const k = pinch(s);
+          a.push([x, c0 * k + inset]);
+          b.push([x, H + (c1 - H) * k - inset]);
+        }
+        return { W, H, lead, a, b };
+      }
+      const lead = sheet!.querySelector<HTMLElement>('.body')!.offsetTop;
+      const c0 = tab.offsetLeft;
+      const c1 = c0 + tab.offsetWidth;
+      for (let i = 0; i <= n; i++) {
+        const s = i / n;
+        const y = lead + (H - lead) * s;
+        const k = pinch(s);
+        a.push([c0 * k + inset, y]);
+        b.push([W + (c1 - W) * k - inset, y]);
+      }
+      return { W, H, lead, a, b };
+    };
+
+    const pts = (list: [number, number][]) => list.map(([x, y]) => `${x}px ${y}px`).join(',');
+
+    const genie = () => {
+      if (!sheet || !sheetTab || !outline) return;
+      const px = fromPx + (finalPx - fromPx) * pos;
+      const line = Math.max(1.5, 2 * px);
+      const { W, H, lead, a, b } = sides(0);
+      // Keep the tab row (the tab column on mobile) whole; clip the body.
+      // The row stops a pixel short so the body's top border can't show
+      // through outside the curve.
+      const row = lead - 1;
+      const keep: [number, number][] = narrow.matches
+        ? [[W, 0], [W, H], [row, H], ...b, ...[...a].reverse(), [row, 0]]
+        : [[0, 0], [W, 0], [W, row], ...b, ...[...a].reverse(), [0, row]];
+      sheet.style.clipPath = `polygon(${pts(keep)})`;
+      const edge = sides(line / 2);
+      const d = (list: [number, number][]) => 'M' + list.map(([x, y]) => `${x} ${y}`).join('L');
+      outline.setAttribute('d', d(edge.a) + d(edge.b));
+      outline.style.strokeWidth = `${line}px`;
+    };
+
     // Line the frame's folder body up with the sheet's and clip it to the
-    // inside of the sheet's border. Clip insets are in the frame's own
-    // coordinates, i.e. before it's moved.
+    // inside of the sheet's genie outline. Clip points are in the frame's
+    // own coordinates, i.e. before it's moved.
     const showPeek = () => {
       if (!sheet || !peek || !('ready' in peek.dataset)) return;
       const box = sheet.querySelector('.body')!.getBoundingClientRect();
-      const line = Math.max(1.5, 2 * finalPx);
-      const vw = document.documentElement.clientWidth;
-      if (narrow.matches) {
-        const right = 350 * finalPx;
-        const dx = box.right - right;
-        peek.style.translate = `${dx}px 0`;
-        peek.style.clipPath = `inset(${box.top + line}px ${vw - right + line}px 0 ${Math.max(0, -dx)}px)`;
-      } else {
-        const top = 145 * finalPx;
-        const dy = box.top - top;
-        peek.style.translate = `0 ${dy}px`;
-        peek.style.clipPath = `inset(${top + line}px ${vw - box.right + line}px 0 ${box.left + line}px)`;
-      }
+      const rect = sheet.getBoundingClientRect();
+      const px = fromPx + (finalPx - fromPx) * pos;
+      const { W, H, a, b } = sides(Math.max(1.5, 2 * px));
+      let dx = 0;
+      let dy = 0;
+      if (narrow.matches) dx = box.right - 350 * finalPx;
+      else dy = box.top - 145 * finalPx;
+      const toFrame = ([x, y]: [number, number]): [number, number] => [
+        rect.left + (x * rect.width) / W - dx,
+        rect.top + (y * rect.height) / H - dy,
+      ];
+      peek.style.translate = `${dx}px ${dy}px`;
+      peek.style.clipPath = `polygon(${pts([...a, ...[...b].reverse()].map(toFrame))})`;
       peek.classList.add('showing');
     };
 
@@ -255,8 +342,9 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     // Let go early: it drops back into the stack with a bounce.
     const shut = () => {
       target = 0;
-      stiffness = 420;
-      damping = 0.32;
+      // Slow enough to see it pour back into its tab.
+      stiffness = 200;
+      damping = 0.42;
       onRest = drop;
       run();
     };
