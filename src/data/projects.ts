@@ -2,8 +2,8 @@
 // it with placeholder copy: empty fields are not shown.
 import type { ImageMetadata } from 'astro';
 import rlamHero from '../assets/wrk/rlamls/hero.png';
-import spManaged from '../assets/cards/spmanaged.png';
 import storeHouseMark from '../assets/cards/storehouse.jpg';
+import lvlGameDay from '../assets/wrk/leevalleylions/game-day.jpg';
 import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import smartQrLanding from '../assets/wrk/smartqr/landing.jpg';
@@ -86,21 +86,13 @@ export const designProjects: Project[] = [
   },
   {
     title: 'Lee Valley Lions',
-    type: 'Social Media',
-    caseStudy: 'leevalleylions',
-  },
-  {
-    title: 'SP Managed',
-    type: 'Brand Identity & Motion Collateral',
-    client: 'SP. Property',
-    agency: 'Smart Soho',
-    role: 'Designer',
-    tools: 'Adobe CC Suite',
+    type: 'Social Media · Motion',
+    client: 'Lee Valley Lions Ice Hockey Club',
     image: {
-      src: spManaged,
-      alt: 'SP Managed brand collateral with bold colour coding.',
+      src: lvlGameDay,
+      alt: 'A Lee Valley Lions Game Day poster: a player skating in front of huge white GAME DAY type.',
     },
-    caseStudy: 'spmanaged',
+    caseStudy: 'leevalleylions',
   },
 ];
 

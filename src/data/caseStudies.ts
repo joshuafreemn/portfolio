@@ -64,6 +64,18 @@ import qrLanding from '../assets/wrk/smartqr/landing.jpg';
 import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
 import qrSignIn from '../assets/wrk/smartqr/sign-in.jpg';
 
+import lvlGameDay from '../assets/wrk/leevalleylions/game-day.jpg';
+import lvlFixtures from '../assets/wrk/leevalleylions/fixtures-october.jpg';
+import lvlLineUp from '../assets/wrk/leevalleylions/line-up.jpg';
+import lvlWrapUp from '../assets/wrk/leevalleylions/wrap-up.jpg';
+import lvlResult from '../assets/wrk/leevalleylions/result.jpg';
+import lvlSigning from '../assets/wrk/leevalleylions/signing.jpg';
+import lvlStaff from '../assets/wrk/leevalleylions/staff.jpg';
+import lvlLeadership from '../assets/wrk/leevalleylions/leadership.jpg';
+import lvlJersey from '../assets/wrk/leevalleylions/jersey-reveal.jpg';
+import lvlPride from '../assets/wrk/leevalleylions/pride.jpg';
+import lvlHuddle from '../assets/wrk/leevalleylions/join-the-huddle.jpg';
+
 import cineCapture from '../assets/wrk/cinesnap/capture.jpg';
 import cineStacked from '../assets/wrk/cinesnap/stacked.jpg';
 import cineShortcuts from '../assets/wrk/cinesnap/shortcuts.jpg';
@@ -673,6 +685,104 @@ const allCaseStudies: CaseStudy[] = [
     ],
     result: 'Played in the studio on early mornings and rainy days. Matches run directly between browsers, with no accounts.',
     url: 'https://soduku-race.vercel.app/',
+  },
+  {
+    slug: 'leevalleylions',
+    title: 'Lee Valley Lions',
+    description: 'Social media for Lee Valley Lions, an ice hockey club at Lee Valley Ice Centre: game days, results, signings and fixtures.',
+    background: '#e3edf8',
+    brief:
+      'The Lions needed a steady run of posts through the season: game day, line-ups, scores and results, monthly fixtures, and news of every signing.',
+    idea:
+      'One kit of parts for the whole season. The club’s blue, white and green stripes, jersey-mesh textures, heavy type and the lion crest, with a template for each kind of post so the feed looks like one club from week to week.',
+    whatIDid: [
+      'Templates for game day, line-ups, period scores, full time and the weekend wrap-up',
+      'Player and staff signing announcements',
+      'Monthly fixture posters and the season fixtures reveal',
+      'Motion for the jersey reveal and Pride month',
+      'Campaign posts, such as the call for game day volunteers',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: lvlGameDay,
+            alt: 'Game Day poster: a Lions player skating towards the camera in front of huge white GAME DAY type, the Mustangs crest, 5.30pm at Lee Valley Ice Centre.',
+          },
+          {
+            src: lvlFixtures,
+            alt: 'October Fixtures poster: a grid of opponent crests with dates above a photo of the team huddled around the net, with a key for home, away, league and cup games.',
+          },
+        ],
+        caption: 'Game day and the monthly fixtures, the two posts the feed is built around.',
+      },
+      {
+        label: 'Matchday',
+        images: [
+          {
+            src: lvlLineUp,
+            alt: 'Projected Line Up post listing forwards, defence and netminders on a white card over blue jersey mesh.',
+          },
+          {
+            src: lvlWrapUp,
+            alt: 'Weekend Wrap-Up cover for 17–18 October: the Lions crest and big white type on an ice texture, over blue, white and green stripes.',
+          },
+          {
+            src: lvlResult,
+            alt: 'Weekend Results slide: the full-time score between the Lions and their opponents, with the man of the match.',
+          },
+        ],
+        columns: 3,
+        caption: 'Line-up before the game, then the weekend wrap-up with every result.',
+      },
+      {
+        label: 'Squad news',
+        images: [
+          {
+            src: lvlSigning,
+            alt: 'New Signing post for number 51, Bayliffe: an action photo in a tilted frame of blue, white and green stripes.',
+          },
+          {
+            src: lvlStaff,
+            alt: 'Off-Ice Official post for D. Warner, using the same tilted frame.',
+          },
+          {
+            src: lvlLeadership,
+            alt: 'Leadership post: the captain in the centre of a striped frame, with the assistants and alternates around him.',
+          },
+        ],
+        columns: 3,
+        caption: 'One frame for every signing, on and off the ice, and the season’s leadership group.',
+      },
+      {
+        label: 'Motion',
+        images: [
+          {
+            src: lvlJersey,
+            video: '/wrk/leevalleylions/jersey-reveal.mp4',
+            alt: 'Jersey reveal: the new white Lee Valley number 25 jersey turns on a mannequin, then the green alternate.',
+          },
+          {
+            src: lvlPride,
+            video: '/wrk/leevalleylions/pride.mp4',
+            alt: 'Pride month post: Roary the lion mascot waves a Pride flag behind animated type reading Loud and Proud, Lions Pride.',
+          },
+        ],
+        caption: 'The new jersey reveal, and Roary the mascot for Pride month.',
+      },
+      {
+        images: [
+          {
+            src: lvlHuddle,
+            alt: 'Join the Huddle poster: the team in a huddle under a blue splash print of Roary, asking for game day volunteers such as goal judge, timekeeper, DJ and physio.',
+            width: 640,
+          },
+        ],
+        columns: 1,
+        caption: 'Join the Huddle, a call for game day volunteers.',
+      },
+    ],
+    result: 'Posted across the club’s social channels through the 2026–27 season.',
   },
 ];
 
