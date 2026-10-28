@@ -150,6 +150,13 @@ const { title, index, href, external = false } = Astro.props;
     .card:hover .title {
       transform: translateX(calc(8 * var(--px)));
     }
+
+    /* Pressed back into the pile as you click. */
+    .card.linked:active {
+      transform: translateY(calc(-2 * var(--px))) rotate(-0.2deg) scale(0.996);
+      box-shadow: 0 calc(4 * var(--px)) calc(10 * var(--px)) rgb(138 74 116 / 0.18);
+      transition-duration: 90ms;
+    }
   }
 
   @media (max-width: 700px) {

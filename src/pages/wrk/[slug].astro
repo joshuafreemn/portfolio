@@ -180,6 +180,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     padding: calc(80 * var(--px)) calc(40 * var(--px)) 0;
     background: var(--bg);
     color: var(--black);
+    view-transition-name: case-sheet;
   }
 
   .close {
@@ -364,6 +365,28 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
   .pager a:hover,
   .pager a:focus-visible {
     text-decoration: underline;
+  }
+
+  /* Notes and pictures are laid down on the page as they scroll into view.
+     Browsers without scroll-driven animations show them straight away. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .note,
+      .tile {
+        animation: lay-down ease-out both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 70%;
+      }
+    }
+  }
+
+  @keyframes lay-down {
+    from {
+      opacity: 0;
+      translate: 0 calc(48 * var(--px));
+      scale: 0.96;
+      rotate: 1.5deg;
+    }
   }
 
   @media (max-width: 700px) {

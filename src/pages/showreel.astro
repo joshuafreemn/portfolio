@@ -17,7 +17,7 @@ const btsHref: string | null = null;
   current={0}
   fit
 >
-  <div class="reel">
+  <div class="reel" data-fidget-zone>
     <div class="frame">
       <iframe
         src={`https://www.youtube-nocookie.com/embed/${showreel.youtubeId}`}
@@ -26,7 +26,7 @@ const btsHref: string | null = null;
         referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen></iframe>
     </div>
-    <img class="clip" src="/Assets/paperClip.svg" alt="" width="190" height="48" />
+    <img class="clip" src="/Assets/paperClip.svg" alt="" width="190" height="48" data-fidget="wiggle" />
   </div>
 
   {

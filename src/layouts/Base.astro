@@ -62,3 +62,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <slot />
   </body>
 </html>
+
+<script>
+  // Fidgets: things on the desk that react when you go near them. Mark an
+  // element with data-fidget="wiggle" (paperclips, the close label) or
+  // "thunk" (the stamp); it plays when the pointer enters the closest
+  // data-fidget-zone around it, or the element itself. One play at a time,
+  // and never with reduced motion.
+  const moves: Record<string, Keyframe[]> = {
+    wiggle: [
+      { rotate: '0deg' },
+      { rotate: '7deg', offset: 0.2 },
+      { rotate: '-5deg', offset: 0.45 },
+      { rotate: '2.5deg', offset: 0.7 },
+      { rotate: '0deg' },
+    ],
+    thunk: [
+      { scale: '1', rotate: '0deg' },
+      { scale: '1.12', rotate: '-4deg', offset: 0.3 },
+      { scale: '0.94', rotate: '1deg', offset: 0.55 },
+      { scale: '1', rotate: '0deg' },
+    ],
+  };
+
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLElement>('[data-fidget]').forEach((el) => {
+    const keyframes = moves[el.dataset.fidget ?? ''];
+    if (!keyframes) return;
+    let playing: Animation | null = null;
+    const zone = el.closest<HTMLElement>('[data-fidget-zone]') ?? el;
+    zone.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'mouse' || calm.matches || playing) return;
+      playing = el.animate(keyframes, { duration: 700, easing: 'ease-out' });
+      playing.onfinish = () => (playing = null);
+    });
+  });
+</script>
