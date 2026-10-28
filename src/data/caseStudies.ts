@@ -460,9 +460,10 @@ const allCaseStudies: CaseStudy[] = [
     idea:
       'Print a code that points to a link the studio controls, so the destination can change at any time without touching the artwork. Keep it simple enough for anyone in the studio: create a code, change where it goes, download a PNG.',
     whatIDid: [
-      'Designed and built the tool',
+      'Designed the tool and built it with Claude',
       'Landing page and dashboard in the Smart Soho brand',
       'Create, edit, search and PNG download',
+      'Domain, hosting on Cloudflare Pages and the back end',
       'Team-only sign-in through Cloudflare Access',
     ],
     work: [
