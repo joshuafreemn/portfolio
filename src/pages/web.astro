@@ -5,6 +5,7 @@ import CardStack from '../components/CardStack.astro';
 import StackCard from '../components/StackCard.astro';
 import ProjectDetails from '../components/ProjectDetails.astro';
 import { webProjects, experiments, projectLink } from '../data/projects';
+import { findCaseStudy } from '../data/caseStudies';
 
 // Tilts and colours for the three experiment snapshots, left to right.
 const tiles = [
@@ -33,18 +34,29 @@ const tiles = [
     <StackCard title="Experiments" index={webProjects.length}>
       <ul class="experiments">
         {
-          experiments.map((experiment, i) => (
-            <li style={`--rotate: ${tiles[i % tiles.length].rotate}deg; --tile: ${tiles[i % tiles.length].color}`}>
-              <a href={experiment.url} target="_blank" rel="noopener">
-                <h3>
-                  {experiment.title}
-                  <span aria-hidden="true">↗</span>
-                </h3>
-                {experiment.description && <p>{experiment.description}</p>}
-                <span class="sr-only">(opens in a new tab)</span>
-              </a>
-            </li>
-          ))
+          experiments.map((experiment, i) => {
+            // Open the case study once it's ready, otherwise the live site.
+            const caseStudy = findCaseStudy(experiment.caseStudy);
+            return (
+              <li style={`--rotate: ${tiles[i % tiles.length].rotate}deg; --tile: ${tiles[i % tiles.length].color}`}>
+                {caseStudy ? (
+                  <a href={`/wrk/${caseStudy.slug}.html`}>
+                    <h3>{experiment.title}</h3>
+                    {experiment.description && <p>{experiment.description}</p>}
+                  </a>
+                ) : (
+                  <a href={experiment.url} target="_blank" rel="noopener">
+                    <h3>
+                      {experiment.title}
+                      <span aria-hidden="true">↗</span>
+                    </h3>
+                    {experiment.description && <p>{experiment.description}</p>}
+                    <span class="sr-only">(opens in a new tab)</span>
+                  </a>
+                )}
+              </li>
+            );
+          })
         }
       </ul>
     </StackCard>

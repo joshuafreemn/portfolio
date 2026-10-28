@@ -138,6 +138,7 @@ export interface Experiment {
   title: string;
   url: string;
   description?: string;
+  caseStudy?: string;
 }
 
 export const experiments: Experiment[] = [
@@ -145,11 +146,18 @@ export const experiments: Experiment[] = [
     title: 'Cinesnap',
     url: 'https://cinesnap-eight.vercel.app/',
     description: 'Film frame grabber: finds the cuts in a video and saves stills.',
+    caseStudy: 'cinesnap',
   },
-  { title: 'Heatmapper', url: 'https://heatmapper-mu.vercel.app/' },
+  {
+    title: 'Heatmapper',
+    url: 'https://heatmapper-mu.vercel.app/',
+    description: 'Paint hot and cold zones onto a floorplan and export the heatmap.',
+    caseStudy: 'heatmapper',
+  },
   {
     title: 'Sudoku Race',
     url: 'https://soduku-race.vercel.app/',
     description: 'Timed Sudoku matches, solo or live against friends.',
+    caseStudy: 'sudokurace',
   },
 ];

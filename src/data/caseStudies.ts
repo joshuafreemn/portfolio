@@ -64,6 +64,22 @@ import qrLanding from '../assets/wrk/smartqr/landing.jpg';
 import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
 import qrSignIn from '../assets/wrk/smartqr/sign-in.jpg';
 
+import cineCapture from '../assets/wrk/cinesnap/capture.jpg';
+import cineStacked from '../assets/wrk/cinesnap/stacked.jpg';
+import cineShortcuts from '../assets/wrk/cinesnap/shortcuts.jpg';
+import cineReview from '../assets/wrk/cinesnap/review.jpg';
+
+import heatMasked from '../assets/wrk/heatmapper/masked.jpg';
+import heatTour from '../assets/wrk/heatmapper/tour.jpg';
+import heatPainted from '../assets/wrk/heatmapper/painted.jpg';
+import heatExport from '../assets/wrk/heatmapper/export.jpg';
+
+import sudokuMatch from '../assets/wrk/sudokurace/match.jpg';
+import sudokuSetup from '../assets/wrk/sudokurace/setup.jpg';
+import sudokuThemes from '../assets/wrk/sudokurace/themes.jpg';
+import sudokuNight from '../assets/wrk/sudokurace/night.jpg';
+import sudokuFinish from '../assets/wrk/sudokurace/finish.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -93,6 +109,8 @@ export interface CaseStudy {
   whatIDid?: string[];
   work: WorkGroup[];
   result?: string;
+  /** A live version to try, linked under the intro. */
+  url?: string;
 }
 
 const allCaseStudies: CaseStudy[] = [
@@ -481,6 +499,174 @@ const allCaseStudies: CaseStudy[] = [
       },
     ],
     result: 'In use at Smart Soho at smartqr.uk, with live codes on campaigns for several clients.',
+  },
+  {
+    slug: 'cinesnap',
+    title: 'Cinesnap',
+    description: 'A browser tool that scans a film for its cuts, so you can grab a clean still from any shot.',
+    background: '#efe6dc',
+    brief:
+      'Pulling stills from a film usually means scrubbing a timeline by hand, and it is easy to land a frame or two away from the shot you wanted.',
+    idea:
+      'Let the app find the cuts first. A quick scan splits the film into scenes and shots, so you jump straight to a shot and step frame by frame to the exact still.',
+    whatIDid: [
+      'A three-step flow: import and scan, capture, then review and export',
+      'Scene and cut detection with adjustable sensitivity and scan speed',
+      'Frame stepping, with a strip of the frames either side of the playhead',
+      'Split screen and stacked layouts, and shortcuts you can remap',
+      'Stills named by timecode, downloaded one at a time or as a zip',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: cineCapture,
+            alt: 'Cinesnap capturing frames: a list of detected shots down the left, an ocean shot in the player, playback controls, a Grab Frame button and a strip of the seven frames around the playhead.',
+          },
+        ],
+        columns: 1,
+        caption:
+          'Capture. The scan lists every shot down the left, and the strip below steps through the frames either side of the playhead. Shown with a test film made for this page.',
+      },
+      {
+        label: 'Layouts',
+        images: [
+          {
+            src: cineStacked,
+            alt: 'The stacked layout: the detected shots in a row along the top, with the player and the frame strip below.',
+          },
+          {
+            src: cineShortcuts,
+            alt: 'The keyboard shortcuts dialog, listing play, pause and frame stepping keys, each on a button you click to remap.',
+          },
+        ],
+        caption: 'A stacked layout puts the shots in a row above the player. Every shortcut can be remapped.',
+      },
+      {
+        images: [
+          {
+            src: cineReview,
+            alt: 'The Review and Export step: six captured stills, each with its timecode, file name and buttons to jump back, download or delete, and a Download All button.',
+          },
+        ],
+        columns: 1,
+        caption: 'Review. Each still is named by its timecode, ready to download on its own or all together as a zip.',
+      },
+    ],
+    result: 'Live on the web. It runs in the browser, so the film never leaves your computer.',
+    url: 'https://cinesnap-eight.vercel.app/',
+  },
+  {
+    slug: 'heatmapper',
+    title: 'Heatmapper',
+    description: 'A browser editor for painting hot and cold zones onto a floorplan and exporting a clean heatmap.',
+    background: '#e3efe9',
+    brief:
+      'A heatmap over a floorplan is a quick way to show where a space runs hot or cold, but making one by hand is slow and hard to keep tidy.',
+    idea:
+      'Paint it like a picture. Hot and cold brushes mark the extremes, the app blends everything in between into a smooth gradient, and the floor outline keeps it inside the walls.',
+    whatIDid: [
+      'Hot and cold brushes, an eraser, and exact hot or cold points',
+      'Floor boundaries, plus no-heat cutouts for cores and shafts',
+      'Palette, blend and opacity controls',
+      'Export as a combined PNG or a transparent overlay, at the plan’s own size',
+      'Project files you can reopen, and a guided tour on a first visit',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: heatMasked,
+            alt: 'Heatmap Studio with an office floorplan: red along the top rooms, blue strokes lower down, green in between, a floor boundary around the plan and a cutout over the central core.',
+          },
+        ],
+        columns: 1,
+        caption: 'A floor boundary keeps the heat inside the plan, and a cutout keeps the core clear.',
+      },
+      {
+        label: 'Process',
+        images: [
+          {
+            src: heatTour,
+            alt: 'The guided tour on a first visit, highlighting the brush controls over a dimmed floorplan.',
+          },
+          {
+            src: heatPainted,
+            alt: 'The floorplan after painting, with hot red areas along the top and cold blue strokes across the lower rooms.',
+          },
+        ],
+        caption: 'A short tour shows the tools on a first visit. Then paint the hottest and coldest areas and the app fills in the rest.',
+      },
+      {
+        images: [
+          {
+            src: heatExport,
+            alt: 'The exported heatmap: the office plan with a smooth red, yellow, green and blue gradient and no editing guides.',
+          },
+        ],
+        columns: 1,
+        caption: 'The exported PNG, at the plan’s own size with the editing guides left out. The plan is a sample made for this page.',
+      },
+    ],
+    result: 'Live on the web. Plans and projects stay on your computer, and nothing is uploaded.',
+    url: 'https://heatmapper-mu.vercel.app/',
+  },
+  {
+    slug: 'sudokurace',
+    title: 'Sudoku Race',
+    description: 'Head-to-head Sudoku in the browser. Share a room code and race a friend to fill the grid, or practise alone.',
+    background: '#f3ede0',
+    brief: 'Sudoku is a solo game. This turns it into one you can race a friend at, live, with nothing to install.',
+    idea:
+      'Treat it like a race. A track above the grid shows how far each player has got, and help such as a solve costs points, so speed and skill both count.',
+    whatIDid: [
+      'Match setup: invite friends with a room code, or practise alone',
+      'Four modes: Standardoku, Countdown, Domination and Sabotage',
+      'A live race track showing every player’s progress',
+      'Pencil notes, and match aids that cost points',
+      'Eight colour themes, from Daylight to Nighttime',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: sudokuMatch,
+            alt: 'A Sudoku Race match: a timer and score at the top, a race track with three players, the grid with pencil notes, a number pad and match aids.',
+          },
+        ],
+        columns: 1,
+        caption: 'Mid-match. The track shows each racer’s progress, and pencil notes sit in the empty squares.',
+      },
+      {
+        label: 'Setup',
+        images: [
+          {
+            src: sudokuSetup,
+            alt: 'The Configure your Speedoku Match screen: play with friends or practise alone, a room code, your name and pencil colour.',
+          },
+          {
+            src: sudokuThemes,
+            alt: 'The setup screen with the theme palette open, listing Nighttime, Stormy Sea, Matcha Cafe, Garden Walk, Daylight and more.',
+          },
+        ],
+        caption: 'Set up a match with a room code to share, then pick a mode, a difficulty and a theme.',
+      },
+      {
+        images: [
+          {
+            src: sudokuNight,
+            alt: 'The same match in the dark Nighttime theme.',
+          },
+          {
+            src: sudokuFinish,
+            alt: 'The victory screen: Flawless Standardoku, Perfect Score, with points, penalties and first place.',
+          },
+        ],
+        caption: 'The Nighttime theme, and the finish.',
+      },
+    ],
+    result: 'Live on the web. Matches run directly between browsers, with no accounts.',
+    url: 'https://soduku-race.vercel.app/',
   },
 ];
 
