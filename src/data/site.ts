@@ -11,11 +11,13 @@ export const froshting = 'https://froshting.com';
 export interface NavItem {
   label: string;
   href: string;
+  /** The page fits the folder to the screen (FolderPage's `fit`). */
+  fit?: boolean;
 }
 
 // Labels follow the Figma tabs (V3): Motion · Design · Web · About.
 export const nav: NavItem[] = [
-  { label: 'Motion', href: '/showreel.html' },
+  { label: 'Motion', href: '/showreel.html', fit: true },
   { label: 'Design', href: '/work.html' },
   { label: 'Web', href: '/web.html' },
   { label: 'About', href: '/cv.html' },

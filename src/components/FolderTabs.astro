@@ -2,9 +2,16 @@
 // The folder stack from the Figma "Folders" group: four tabs over a lilac
 // folder body. Desktop tabs run along the bottom edge; on mobile they turn
 // 90° and run down the left edge (frame "iPhone 13 & 14 - 1").
+//
+// A tab can be grabbed and the folder pulled up out of the bottom of the
+// screen (out of the left edge on mobile). Let go past halfway and it opens
+// into that page, which sits exactly where the pulled folder ends up; let go
+// before and it springs shut. A plain click plays the pull on its own.
 export interface Tab {
   label: string;
   href: string;
+  /** The page fits the folder to the screen, so its folder is sized by height too. */
+  fit?: boolean;
 }
 
 interface Props {
@@ -27,13 +34,13 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     {
       tabs.map((tab, i) => (
         <li class:list={['tab', { front: i === front }]} style={`--i: ${i}; --z: ${tabs.length - i}`}>
-          <a href={tab.href}>
+          <a href={tab.href} draggable="false" data-fit={tab.fit ? '' : undefined}>
             <svg class="shape shape-h" viewBox="0 0 342 46" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points={fillH(i === front)} />
+              <polygon points={fillH(i === front)} data-front={fillH(true)} data-back={fillH(false)} />
               <polyline points="0,46 40,1 302,1 342,46" />
             </svg>
             <svg class="shape shape-v" viewBox="0 0 29 221" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points={fillV(i === front)} />
+              <polygon points={fillV(i === front)} data-front={fillV(true)} data-back={fillV(false)} />
               <polyline points="0,0 28,26 28,195 0,221" />
             </svg>
             <span>{tab.label}</span>
@@ -44,16 +51,173 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   </ul>
 </nav>
 
+<script>
+  // Pull a folder open by its tab. --t runs from 0 (resting) to 1 (sitting
+  // exactly where the page's folder will be); see the styles below.
+  const folders = document.querySelector<HTMLElement>('.folders');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const narrow = matchMedia('(max-width: 700px)');
+
+  if (folders) {
+    const tabs = [...folders.querySelectorAll<HTMLLIElement>('.tab')];
+    const restingFront = tabs.find((li) => li.classList.contains('front'));
+    let drag: { li: HTMLLIElement; x: number; y: number; distance: number; moved: boolean } | null = null;
+    let leaving = false;
+
+    const setT = (t: number) => folders.style.setProperty('--t', String(t));
+
+    const setFront = (front: HTMLLIElement | undefined) =>
+      tabs.forEach((li) => {
+        const isFront = li === front;
+        li.classList.toggle('front', isFront);
+        li.querySelectorAll('polygon').forEach((p) => p.setAttribute('points', p.dataset[isFront ? 'front' : 'back']!));
+      });
+
+    // One Figma px on the home page and on the page being opened (matching
+    // the --px rules in tokens.css and FolderPage), and how far the folder's
+    // top edge (its left edge on mobile) travels to get there.
+    const measure = (fit: boolean) => {
+      const w = innerWidth;
+      const h = innerHeight;
+      if (narrow.matches) return { from: w / 390, to: w / 390, travel: 0, distance: (319 * w) / 390 };
+      const from = Math.min(w / 1440, h / 640);
+      const to = Math.min(w / 1440, 1.25, fit ? h / 990 : Infinity);
+      return { from, to, travel: h - 200 * to, distance: h - 100 * to - 100 * from };
+    };
+
+    const prepare = (a: HTMLAnchorElement) => {
+      const m = measure(a.hasAttribute('data-fit'));
+      folders.style.setProperty('--px-from', `${m.from}px`);
+      folders.style.setProperty('--px-to', `${m.to}px`);
+      folders.style.setProperty('--travel', `${m.travel}px`);
+      folders.classList.add('live');
+      return m.distance;
+    };
+
+    const open = (li: HTMLLIElement, a: HTMLAnchorElement) => {
+      leaving = true;
+      prepare(a);
+      setFront(li);
+      folders.classList.remove('pulling');
+      folders.classList.add('opening');
+      setT(1);
+      const go = () => location.assign(a.href);
+      const timer = setTimeout(go, 480);
+      // Tabs' own transitions bubble up here too; wait for the folder's.
+      const done = (e: TransitionEvent) => {
+        if (e.target !== folders || e.propertyName !== '--t') return;
+        folders.removeEventListener('transitionend', done);
+        clearTimeout(timer);
+        go();
+      };
+      folders.addEventListener('transitionend', done);
+    };
+
+    const shut = () => {
+      folders.classList.remove('pulling');
+      setFront(restingFront);
+      setT(0);
+    };
+
+    tabs.forEach((li) => {
+      const a = li.querySelector('a')!;
+
+      a.addEventListener('pointerdown', (e) => {
+        if (calm.matches || leaving || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        a.setPointerCapture(e.pointerId);
+        drag = { li, x: e.clientX, y: e.clientY, distance: prepare(a), moved: false };
+      });
+
+      a.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        const pulled = narrow.matches ? e.clientX - drag.x : drag.y - e.clientY;
+        if (!drag.moved && Math.abs(pulled) < 6) return;
+        if (!drag.moved) {
+          drag.moved = true;
+          folders.classList.add('pulling');
+          setFront(li);
+        }
+        setT(Math.min(1, Math.max(0, pulled / drag.distance)));
+      });
+
+      a.addEventListener('pointerup', () => {
+        if (!drag) return;
+        const { moved } = drag;
+        drag = null;
+        const t = parseFloat(folders.style.getPropertyValue('--t')) || 0;
+        if (!moved || t >= 0.5) open(li, a);
+        else shut();
+      });
+
+      a.addEventListener('pointercancel', () => {
+        drag = null;
+        shut();
+      });
+
+      // Pointer clicks are handled above; keyboard and modified clicks
+      // follow the link as usual.
+      a.addEventListener('click', (e) => {
+        if (calm.matches || e.detail === 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+      });
+    });
+
+    // The pulled folder already sits where the next page's does, so skip
+    // the page-switch slide and just let the page appear in it.
+    addEventListener('pageswap', (e) => {
+      if (leaving) (e as Event & { viewTransition?: ViewTransition | null }).viewTransition?.skipTransition();
+    });
+
+    // Coming back with the Back button finds the desk as it was left.
+    addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      leaving = false;
+      folders.classList.remove('opening', 'pulling', 'live');
+      folders.style.transition = 'none';
+      setT(0);
+      setFront(restingFront);
+      requestAnimationFrame(() => folders.style.removeProperty('transition'));
+    });
+
+    addEventListener('resize', () => {
+      if (!drag && !leaving) folders.classList.remove('live');
+    });
+  }
+</script>
+
 <style>
+  /* How far the folder is pulled open: 0 resting, 1 at the page's folder. */
+  @property --t {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
   .folders {
     --line: max(1.5px, calc(2 * var(--px)));
     position: absolute;
     left: 50%;
     bottom: 0;
     width: calc(1240 * var(--px));
-    height: calc(100 * var(--px));
+    height: calc(100 * var(--px) + var(--t) * var(--travel, 0px));
     transform: translateX(-50%);
     overflow: hidden;
+    /* Let go early and it springs back shut. */
+    transition: --t 560ms var(--spring);
+  }
+
+  /* While pulling, the folder grows from the home page's scale to the
+     page's (set from the script), so it lands exactly on the next page. */
+  .folders.live {
+    --px: calc(var(--px-from) + (var(--px-to) - var(--px-from)) * var(--t));
+  }
+
+  .folders.pulling {
+    transition: none;
+  }
+
+  .folders.opening {
+    transition: --t 420ms cubic-bezier(0.3, 0.7, 0.2, 1);
   }
 
   .body {
@@ -104,6 +268,19 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     height: 100%;
     color: var(--pink);
     text-decoration: none;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a {
+      cursor: grab;
+    }
+
+    .pulling a {
+      cursor: grabbing;
+    }
   }
 
   a:focus-visible {
@@ -174,25 +351,27 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   }
 
   @media (max-width: 700px) {
+    /* Pulled out sideways: the body grows from 31 to the page's 350. */
     .folders {
+      --pull: calc(var(--t) * 319 * var(--px));
       left: 0;
       top: calc(43 * var(--px));
       bottom: 0;
-      width: calc(60 * var(--px));
+      width: calc(60 * var(--px) + var(--pull));
       height: auto;
       transform: none;
     }
 
     .body {
       inset: 0 auto 0 0;
-      width: calc(31 * var(--px));
+      width: calc(31 * var(--px) + var(--pull));
       border-left: 0;
       border-bottom: var(--line) solid var(--pink);
     }
 
     .tab {
       top: calc(var(--i) * 194 * var(--px));
-      left: calc(31 * var(--px));
+      left: calc(31 * var(--px) + var(--pull));
       width: calc(29 * var(--px));
       height: calc(221 * var(--px));
     }
@@ -214,7 +393,8 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
 
     span {
       writing-mode: vertical-rl;
-      font-size: calc(28.125 * var(--px));
+      /* Shrinks to the open page's tab label as it's pulled. */
+      font-size: calc((28.125 - 6.125 * var(--t)) * var(--px));
       letter-spacing: calc(1.4 * var(--px));
       padding: 0 calc(3 * var(--px)) 0 0;
     }
@@ -251,6 +431,7 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .folders,
     .tab,
     span {
       transition: none;
