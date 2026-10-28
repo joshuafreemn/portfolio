@@ -92,6 +92,19 @@ import sudokuThemes from '../assets/wrk/sudokurace/themes.jpg';
 import sudokuNight from '../assets/wrk/sudokurace/night.jpg';
 import sudokuFinish from '../assets/wrk/sudokurace/finish.jpg';
 
+import pmHero from '../assets/wrk/pallmall/home-hero.jpg';
+import pmWireHome from '../assets/wrk/pallmall/wireframe-home.jpg';
+import pmWireMasterplan from '../assets/wrk/pallmall/wireframe-masterplan.jpg';
+import pmMasterplan from '../assets/wrk/pallmall/masterplan.jpg';
+import pmFloorplans from '../assets/wrk/pallmall/floorplans.jpg';
+import pmSpecification from '../assets/wrk/pallmall/specification.jpg';
+import pmLocalMap from '../assets/wrk/pallmall/local-map.jpg';
+import pmLiverpool from '../assets/wrk/pallmall/liverpool-stats.jpg';
+import pmConnected from '../assets/wrk/pallmall/connected.jpg';
+import pmMobileHome from '../assets/wrk/pallmall/mobile-home.jpg';
+import pmMobileBuilding from '../assets/wrk/pallmall/mobile-building.jpg';
+import pmMobileFloorplan from '../assets/wrk/pallmall/mobile-floorplan.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -783,6 +796,115 @@ const allCaseStudies: CaseStudy[] = [
       },
     ],
     result: 'Posted across the club’s social channels through the 2026–27 season.',
+  },
+  {
+    slug: 'pallmall',
+    title: 'Pall Mall Liverpool',
+    description:
+      'A marketing website for Pall Mall Gardens, four new Grade A office buildings around a public garden in Liverpool’s business district.',
+    background: '#e8eff8',
+    brief:
+      'Pall Mall Gardens needed a website to market its office space to occupiers and their agents. The brochure was already written, so the site had to carry the same story online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
+    idea:
+      'Build the site from the brochure. I wireframed every page with each section matched to the brochure page it came from, so the content was settled before any design started. The design then took the brochure’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
+    whatIDid: [
+      'Site structure and wireframes mapped to the brochure',
+      'Desktop and mobile designs for every page',
+      'Interactive masterplan and floor plan explorer',
+      'Local amenities map and transport diagram',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: pmHero,
+            alt: 'Home page hero: Pall Mall Gardens Liverpool set over a render of people walking through the new garden, under a cream navigation bar.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Wireframes',
+        images: [
+          {
+            src: pmWireHome,
+            alt: 'Home page wireframe in grey blocks, with yellow notes beside each section naming its brochure page, from the hero on page 1 to the footer on page 31.',
+          },
+          {
+            src: pmWireMasterplan,
+            alt: 'Master Plan wireframe: hero, aerial map, interactive masterplan and public realm, each tagged with its brochure page.',
+          },
+        ],
+        caption: 'Every section was matched to a page of the brochure, noted in yellow beside it.',
+        columns: 2,
+      },
+      {
+        label: 'The masterplan and the building',
+        images: [
+          {
+            src: pmMasterplan,
+            alt: 'A new business community: the four Pall Mall buildings listed with their storeys and floor areas beside a site plan, offices in green and the hotel in orange.',
+          },
+          {
+            src: pmFloorplans,
+            alt: 'Floor plan explorer for 1 Pall Mall: a list of floors from Roof Terrace to Basement beside the roof plan, with amenity icons on dark green.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          {
+            src: pmSpecification,
+            alt: 'Grade A Specification: orange icons for NABERS 5 stars, BREEAM excellent, EPC A, all electric, cycle spaces, EV charging and more.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Liverpool and connectivity',
+        images: [
+          {
+            src: pmLocalMap,
+            alt: 'At the centre of everything: hotels, restaurants, coffee shops and bars listed in cards beside a yellow street map with numbered pins around Pall Mall.',
+          },
+          {
+            src: pmLiverpool,
+            alt: 'World class business destination: Liverpool Lime Street beside orange icons for two airports, a population of 1.6 million and a two hour journey to London.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          {
+            src: pmConnected,
+            alt: 'Connected to everywhere: a UK map with journey times by train and car, an Air, Rail and Merseyrail accordion, and a Merseyrail line diagram.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Mobile',
+        images: [
+          {
+            src: pmMobileHome,
+            alt: 'Mobile home page: the Pall Mall Gardens Liverpool title over a render of the building entrance.',
+          },
+          {
+            src: pmMobileBuilding,
+            alt: 'Mobile 1 Pall Mall page: the building name over a render of people in the garden beneath the brick facade.',
+          },
+          {
+            src: pmMobileFloorplan,
+            alt: 'Mobile floor plan: the Roof Terrace plan on dark green with amenity icons and a scrolling row of floor names.',
+          },
+        ],
+        columns: 3,
+      },
+    ],
+    result: 'Live at pallmallliverpool.com.',
+    url: 'https://pallmallliverpool.com/',
   },
 ];
 

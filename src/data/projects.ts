@@ -7,6 +7,7 @@ import lvlGameDay from '../assets/wrk/leevalleylions/game-day.jpg';
 import storePropertyMap from '../assets/wrk/storeproperty/design-map.jpg';
 import victoriaHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
 import smartQrLanding from '../assets/wrk/smartqr/landing.jpg';
+import pallMallHero from '../assets/wrk/pallmall/home-hero.jpg';
 import { findCaseStudy } from './caseStudies';
 
 export interface ProjectImage {
@@ -112,7 +113,19 @@ export const webProjects: Project[] = [
     url: 'https://www.storeproperty.co.uk/',
   },
   { title: 'The Curve' },
-  { title: 'Pall Mall Liverpool', url: 'https://pallmallliverpool.com/' },
+  {
+    title: 'Pall Mall Liverpool',
+    type: 'Website',
+    client: 'Pall Mall Gardens',
+    agency: 'Smart Soho',
+    role: 'Designer',
+    image: {
+      src: pallMallHero,
+      alt: 'Pall Mall Gardens Liverpool home page hero over a render of the new garden.',
+    },
+    caseStudy: 'pallmall',
+    url: 'https://pallmallliverpool.com/',
+  },
   {
     title: 'Smart QR',
     type: 'Internal Tool · Design & Build',
