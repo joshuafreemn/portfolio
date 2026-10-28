@@ -105,6 +105,20 @@ import pmMobileHome from '../assets/wrk/pallmall/mobile-home.jpg';
 import pmMobileBuilding from '../assets/wrk/pallmall/mobile-building.jpg';
 import pmMobileFloorplan from '../assets/wrk/pallmall/mobile-floorplan.jpg';
 
+import tcHero from '../assets/wrk/thecurve/home-hero.jpg';
+import tcWireHome from '../assets/wrk/thecurve/wireframe-home.jpg';
+import tcDesignHome from '../assets/wrk/thecurve/design-home.jpg';
+import tcSchedule from '../assets/wrk/thecurve/schedule.jpg';
+import tcFloorplans from '../assets/wrk/thecurve/floorplans.jpg';
+import tcFeaturesMotion from '../assets/wrk/thecurve/features-motion.jpg';
+import tcMasterplan from '../assets/wrk/thecurve/masterplan.jpg';
+import tcNeighbours from '../assets/wrk/thecurve/neighbours.jpg';
+import tcBestConnected from '../assets/wrk/thecurve/best-connected.jpg';
+import tcJourneys from '../assets/wrk/thecurve/journeys.jpg';
+import tcMobileHome from '../assets/wrk/thecurve/mobile-home.jpg';
+import tcMobileSchedule from '../assets/wrk/thecurve/mobile-schedule.jpg';
+import tcMobileFeatures from '../assets/wrk/thecurve/mobile-features.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -905,6 +919,120 @@ const allCaseStudies: CaseStudy[] = [
     ],
     result: 'Live at pallmallliverpool.com.',
     url: 'https://pallmallliverpool.com/',
+  },
+  {
+    slug: 'thecurve',
+    title: 'The Curve',
+    description:
+      'A marketing website for Curve, a 200,000 sq ft headquarters office building on Centenary Square in Birmingham.',
+    background: '#efeaf3',
+    brief:
+      'Curve is a new headquarters building at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
+    idea:
+      'Make the building’s gradient tiles the system for the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and took the design through six rounds to the desktop and mobile files handed to the developers.',
+    whatIDid: [
+      'Wireframes built from the brochure',
+      'Six rounds of design, desktop and mobile',
+      'Gradient tile system and scroll motion',
+      'Floor plans, schedule of areas and maps',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: tcHero,
+            alt: 'Home page hero: the Curve Centenary Sq Birmingham logo among gradient tiles in blue, green, purple and orange, with a 200,000 sq ft headquarters office building tile below.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        label: 'Wireframe to design',
+        images: [
+          {
+            src: tcWireHome,
+            alt: 'Home page wireframe: soft gradient tiles around a logo placeholder, then grey image blocks labelled Architecture CGI, Birmingham Cityscape and Bank Court.',
+          },
+          {
+            src: tcDesignHome,
+            alt: 'The final home page: the tile hero, Ahead of the Curve, At the center of Birmingham on deep purple, and cards for the sectors shaping Birmingham’s future.',
+          },
+        ],
+        caption: 'The home page wireframe beside the final design.',
+        columns: 2,
+      },
+      {
+        label: 'The building',
+        images: [
+          {
+            src: tcSchedule,
+            alt: 'Schedule of Areas: a drawing of the curved building on a blue tile beside a table of floor areas from Level 08 down to Bank Court.',
+          },
+          {
+            src: tcFloorplans,
+            alt: 'Floor plans: a list of floors from 08 to Basement with their areas, beside a teal plan of the selected floor.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        label: 'Motion',
+        images: [
+          {
+            src: tcFeaturesMotion,
+            alt: 'Motion preview in a browser window: Key Building Features cards with gradient tops and icons for HVAC, smart lighting, terrace and 182 cycles, staggered as they rise into view.',
+          },
+        ],
+        caption: 'The key feature cards rise in staggered layers as the page scrolls.',
+        columns: 1,
+      },
+      {
+        label: 'Masterplan and location',
+        images: [
+          {
+            src: tcMasterplan,
+            alt: '1 Million Sq Ft: masterplan figures beside an illustrated aerial view of Arena Central, with Curve picked out in blue among HSBC, HMRC and the University of Birmingham.',
+          },
+          {
+            src: tcNeighbours,
+            alt: 'Meet Your Neighbours: a numbered list of nearby companies beside a yellow street map of central Birmingham with Curve marked.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          {
+            src: tcBestConnected,
+            alt: 'Best Connected City-Region in the UK: text beside a collage of station escalators, the Library of Birmingham and canal-side buildings over a yellow tile.',
+          },
+          {
+            src: tcJourneys,
+            alt: 'Get Where You Need to Be: train times from Birmingham New Street shown as stops on an orange line, with tabs for national rail, drive, metro and HS2.',
+          },
+        ],
+        columns: 2,
+      },
+      {
+        label: 'Mobile',
+        images: [
+          {
+            src: tcMobileHome,
+            alt: 'Mobile home page: the Arena Central tab, Curve logo and the 200,000 sq ft tile between gradient strips.',
+          },
+          {
+            src: tcMobileSchedule,
+            alt: 'Mobile schedule of areas: the building drawing above a table of floors, uses and areas.',
+          },
+          {
+            src: tcMobileFeatures,
+            alt: 'Mobile key building features: a carousel with the Reception card in front and the other feature icons in a row beneath.',
+          },
+        ],
+        columns: 3,
+      },
+    ],
+    result: 'Designed for Kier through six rounds and handed to developers for build.',
   },
 ];
 
