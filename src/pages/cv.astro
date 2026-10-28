@@ -34,15 +34,15 @@ const education = [
       <div class="message">
         <p>Hello from London,</p>
         <p>
-          Wish you were here! Though I suppose this website will have to do. I’m a graphic designer working across
-          branding, motion, and web. My work blends creativity with precision, turning ideas into visuals that move,
-          whether on screen or in print.
+          I’m Josh, a multidisciplinary designer working across branding, campaigns, print, motion and web. I studied
+          Creative Advertising at Lincoln and I’m now a mid-weight designer at Smart Soho, taking projects from pitch to
+          launch for clients like Kier and Store Property.
         </p>
         <p>
-          If you’re looking for bold design, sharp storytelling, or just someone to chat pixels and keyframes with,
-          drop me a line.
+          I care about a strong idea and the craft to carry it, from a brand identity to a looping social clip. I also
+          build my own tools with AI to speed up studio work.
         </p>
-        <p class="sign-off">Talk Soon,<br />Josh</p>
+        <p class="sign-off">Talk soon,<br />Josh</p>
       </div>
       <div class="address" aria-hidden="true">
         <div class="lines"><span></span><span></span><span></span><span></span><span></span></div>
@@ -286,13 +286,18 @@ const education = [
   .rows li {
     position: relative;
     display: grid;
+    grid-template-rows: minmax(0, 1fr);
     border-bottom: 1px solid var(--black);
   }
 
   .cell {
     display: flex;
     align-items: center;
-    padding: calc(3 * var(--s)) 0 0 calc(7 * var(--s));
+    /* Keep the text inside its ruled row (the track would otherwise grow
+       to the font's line box and push the text onto the rule below). */
+    min-height: 0;
+    padding: 0 0 0 calc(7 * var(--s));
+    line-height: 1;
     white-space: nowrap;
   }
 

@@ -141,16 +141,22 @@ const fillV = '-3,0 28,26 28,195 -3,221';
     width: calc(342 * var(--px));
     height: calc(46 * var(--px));
     z-index: var(--z);
-    transition: transform 180ms ease;
+    transition:
+      top 180ms ease,
+      height 180ms ease,
+      width 180ms ease;
   }
 
   .tab.front {
     z-index: 10;
   }
 
+  /* A raised tab grows upward with its bottom kept on the folder edge, so
+     no gap opens under it. */
   .tab:not(.front):hover,
   .tab:not(.front):focus-within {
-    transform: translateY(calc(-6 * var(--px)));
+    top: calc(-6 * var(--px));
+    height: calc(52 * var(--px));
   }
 
   .tab a {
