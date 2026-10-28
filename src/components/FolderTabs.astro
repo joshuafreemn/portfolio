@@ -2,9 +2,16 @@
 // The folder stack from the Figma "Folders" group: four tabs over a lilac
 // folder body. Desktop tabs run along the bottom edge; on mobile they turn
 // 90° and run down the left edge (frame "iPhone 13 & 14 - 1").
+//
+// A tab can be grabbed and the folder pulled up out of the bottom of the
+// screen (out of the left edge on mobile). Let go past halfway and it opens
+// into that page, which sits exactly where the pulled folder ends up; let go
+// before and it springs shut. A plain click plays the pull on its own.
 export interface Tab {
   label: string;
   href: string;
+  /** The page fits the folder to the screen, so its folder is sized by height too. */
+  fit?: boolean;
 }
 
 interface Props {
@@ -27,13 +34,13 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     {
       tabs.map((tab, i) => (
         <li class:list={['tab', { front: i === front }]} style={`--i: ${i}; --z: ${tabs.length - i}`}>
-          <a href={tab.href}>
+          <a href={tab.href} draggable="false" data-fit={tab.fit ? '' : undefined}>
             <svg class="shape shape-h" viewBox="0 0 342 46" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points={fillH(i === front)} />
+              <polygon points={fillH(i === front)} data-front={fillH(true)} data-back={fillH(false)} />
               <polyline points="0,46 40,1 302,1 342,46" />
             </svg>
             <svg class="shape shape-v" viewBox="0 0 29 221" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points={fillV(i === front)} />
+              <polygon points={fillV(i === front)} data-front={fillV(true)} data-back={fillV(false)} />
               <polyline points="0,0 28,26 28,195 0,221" />
             </svg>
             <span>{tab.label}</span>
@@ -44,16 +51,368 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   </ul>
 </nav>
 
+<script>
+  // Pull one folder out of the stack by its tab. The grabbed folder is a copy
+  // of the stack (the "sheet") that rises from behind it while the rest stays
+  // put, then sinks away as the sheet nears the top. --t runs from 0
+  // (resting) to 1 (sitting exactly where the page's folder will be) and is
+  // driven by a spring, so the sheet lags the pointer a touch; --w is its
+  // squash and stretch, which follows the sheet's speed on a looser spring:
+  // it stretches when yanked and squashes and wobbles when it stops.
+  //
+  // The page itself starts loading, in a hidden frame, as soon as a tab is
+  // pointed at. While pulling, that frame is clipped to the sheet's body and
+  // moved with it, so the page's content rides up inside the folder; when it
+  // lands the frame shows exactly what the real page will, and stays on
+  // screen until the real page has painted.
+  const folders = document.querySelector<HTMLElement>('.folders');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const narrow = matchMedia('(max-width: 700px)');
+
+  if (folders) {
+    const tabs = [...folders.querySelectorAll<HTMLLIElement>('.tab')];
+    const clamp = (n: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, n));
+
+    let sheet: HTMLElement | null = null;
+    let lifted = -1;
+    let leaving = false;
+    let drag: { index: number; a: HTMLAnchorElement; x: number; y: number; moved: boolean } | null = null;
+
+    // Spring state: position, velocity and target for --t; the same for --w.
+    let pos = 0;
+    let vel = 0;
+    let target = 0;
+    let stiffness = 900;
+    let damping = 0.75;
+    let w = 0;
+    let wVel = 0;
+    let distance = 1;
+    let frame = 0;
+    let last = 0;
+    let onRest: (() => void) | null = null;
+    let finalPx = 1;
+
+    const peeks = new Map<string, HTMLIFrameElement>();
+    let peek: HTMLIFrameElement | null = null;
+
+    const preload = (a: HTMLAnchorElement) => {
+      let el = peeks.get(a.href);
+      if (!el) {
+        const frame = document.createElement('iframe');
+        frame.className = 'peek';
+        frame.src = a.href;
+        frame.tabIndex = -1;
+        frame.title = '';
+        frame.setAttribute('aria-hidden', 'true');
+        frame.addEventListener('load', () => {
+          frame.dataset.ready = '';
+          render();
+        });
+        document.body.append(frame);
+        peeks.set(a.href, frame);
+        el = frame;
+      }
+      return el;
+    };
+
+    const setFront = (list: HTMLLIElement[], front: HTMLLIElement | undefined) =>
+      list.forEach((li) => {
+        const isFront = li === front;
+        li.classList.toggle('front', isFront);
+        li.querySelectorAll('polygon').forEach((p) => p.setAttribute('points', p.dataset[isFront ? 'front' : 'back']!));
+      });
+
+    // One Figma px on the home page and on the page being opened (matching
+    // the --px rules in tokens.css and FolderPage), and how far the folder's
+    // top edge (its left edge on mobile) travels to get there.
+    const measure = (fit: boolean) => {
+      const vw = innerWidth;
+      const vh = innerHeight;
+      if (narrow.matches) return { from: vw / 390, to: vw / 390, travel: 0, distance: (319 * vw) / 390 };
+      const from = Math.min(vw / 1440, vh / 640);
+      const to = Math.min(vw / 1440, 1.25, fit ? vh / 990 : Infinity);
+      return { from, to, travel: vh - 200 * to, distance: vh - 100 * to - 100 * from };
+    };
+
+    const lift = (index: number, a: HTMLAnchorElement) => {
+      const m = measure(a.hasAttribute('data-fit'));
+      distance = m.distance;
+      finalPx = m.to;
+      peek = preload(a);
+      sheet = folders.cloneNode(true) as HTMLElement;
+      sheet.classList.add('sheet', 'live');
+      sheet.removeAttribute('aria-label');
+      sheet.setAttribute('aria-hidden', 'true');
+      sheet.inert = true;
+      sheet.style.setProperty('--px-from', `${m.from}px`);
+      sheet.style.setProperty('--px-to', `${m.to}px`);
+      sheet.style.setProperty('--travel', `${m.travel}px`);
+      const sheetTabs = [...sheet.querySelectorAll<HTMLLIElement>('.tab')];
+      setFront(sheetTabs, sheetTabs[index]);
+      folders.after(sheet);
+      lifted = index;
+      tabs[index].classList.add('lifted');
+      folders.classList.add('pulling');
+    };
+
+    const drop = () => {
+      sheet?.remove();
+      sheet = null;
+      peek?.classList.remove('showing');
+      peek = null;
+      tabs[lifted]?.classList.remove('lifted');
+      lifted = -1;
+      folders.classList.remove('pulling');
+      folders.style.removeProperty('--sink');
+      pos = vel = w = wVel = 0;
+    };
+
+    const render = () => {
+      if (!sheet) return;
+      sheet.style.setProperty('--t', String(pos));
+      sheet.style.setProperty('--w', String(w));
+      // The other tabs join the sheet as it lands, and the stack sinks away.
+      sheet.style.setProperty('--ghost', String(clamp((pos - 0.8) / 0.2)));
+      folders.style.setProperty('--sink', String(clamp((pos - 0.3) / 0.6)));
+      showPeek();
+    };
+
+    // Line the frame's folder body up with the sheet's and clip it to the
+    // inside of the sheet's border. Clip insets are in the frame's own
+    // coordinates, i.e. before it's moved.
+    const showPeek = () => {
+      if (!sheet || !peek || !('ready' in peek.dataset)) return;
+      const box = sheet.querySelector('.body')!.getBoundingClientRect();
+      const line = Math.max(1.5, 2 * finalPx);
+      const vw = document.documentElement.clientWidth;
+      if (narrow.matches) {
+        const right = 350 * finalPx;
+        const dx = box.right - right;
+        peek.style.translate = `${dx}px 0`;
+        peek.style.clipPath = `inset(${box.top + line}px ${vw - right + line}px 0 ${Math.max(0, -dx)}px)`;
+      } else {
+        const top = 145 * finalPx;
+        const dy = box.top - top;
+        peek.style.translate = `0 ${dy}px`;
+        peek.style.clipPath = `inset(${top + line}px ${vw - box.right + line}px 0 ${box.left + line}px)`;
+      }
+      peek.classList.add('showing');
+    };
+
+    const tick = (now: number) => {
+      const dt = Math.min(0.032, (now - last) / 1000);
+      last = now;
+      vel += (stiffness * (target - pos) - 2 * damping * Math.sqrt(stiffness) * vel) * dt;
+      pos += vel * dt;
+      const wTarget = clamp((vel * distance) / 5000, -0.25, 0.35);
+      wVel += (260 * (wTarget - w) - 2 * 0.22 * Math.sqrt(260) * wVel) * dt;
+      w += wVel * dt;
+      render();
+      // When opening, go as soon as the folder has landed; the last of the
+      // wobble is too small to see.
+      const settle = leaving ? 10 : 1;
+      const still =
+        Math.abs(target - pos) < 0.002 &&
+        Math.abs(vel) < 0.02 &&
+        Math.abs(w) < 0.003 * settle &&
+        Math.abs(wVel) < 0.02 * settle;
+      if (still && !drag) {
+        frame = 0;
+        pos = target;
+        w = 0;
+        render();
+        onRest?.();
+        return;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+
+    const run = () => {
+      if (frame) return;
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    };
+
+    const open = (a: HTMLAnchorElement) => {
+      leaving = true;
+      target = 1;
+      stiffness = 320;
+      damping = 0.9;
+      let gone = false;
+      const go = () => {
+        if (gone) return;
+        gone = true;
+        location.assign(a.href);
+      };
+      const timer = setTimeout(go, 1400);
+      onRest = () => {
+        clearTimeout(timer);
+        go();
+      };
+      run();
+    };
+
+    // Let go early: it drops back into the stack with a bounce.
+    const shut = () => {
+      target = 0;
+      stiffness = 420;
+      damping = 0.32;
+      onRest = drop;
+      run();
+    };
+
+    addEventListener('resize', showPeek);
+
+    tabs.forEach((li, index) => {
+      const a = li.querySelector('a')!;
+
+      // Start loading the page as soon as the tab is pointed at.
+      a.addEventListener('pointerenter', () => {
+        if (!calm.matches && !leaving) preload(a);
+      });
+
+      a.addEventListener('pointerdown', (e) => {
+        if (calm.matches || leaving || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        // Catching a folder that's still falling back picks it up where it is.
+        if (sheet && lifted !== index) return;
+        a.setPointerCapture(e.pointerId);
+        const offset = pos * distance;
+        drag = {
+          index,
+          a,
+          x: e.clientX - (narrow.matches ? offset : 0),
+          y: e.clientY + (narrow.matches ? 0 : offset),
+          moved: Boolean(sheet),
+        };
+        if (sheet) {
+          onRest = null;
+          stiffness = 900;
+          damping = 0.75;
+        }
+      });
+
+      a.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        const pulled = narrow.matches ? e.clientX - drag.x : drag.y - e.clientY;
+        if (!drag.moved) {
+          if (Math.abs(pulled) < 6) return;
+          drag.moved = true;
+          lift(index, a);
+          stiffness = 900;
+          damping = 0.75;
+          onRest = null;
+        }
+        target = clamp(pulled / distance, -0.05, 1.05);
+        run();
+      });
+
+      a.addEventListener('pointerup', () => {
+        if (!drag) return;
+        const { moved } = drag;
+        drag = null;
+        if (!moved) {
+          // A plain click: pull it out for them.
+          lift(index, a);
+          open(a);
+        } else if (target >= 0.5) open(a);
+        else shut();
+      });
+
+      a.addEventListener('pointercancel', () => {
+        if (!drag) return;
+        drag = null;
+        if (sheet) shut();
+      });
+
+      // Pointer clicks are handled above; keyboard and modified clicks
+      // follow the link as usual.
+      a.addEventListener('click', (e) => {
+        if (calm.matches || e.detail === 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+      });
+    });
+
+    // The pulled folder already sits where the next page's does, so skip
+    // the page-switch slide and just let the page appear in it.
+    addEventListener('pageswap', (e) => {
+      const transition = (e as Event & { viewTransition?: ViewTransition | null }).viewTransition;
+      if (!leaving || !transition) return;
+      transition.ready.catch(() => {});
+      transition.skipTransition();
+    });
+
+    // Coming back with the Back button finds the desk as it was left.
+    addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      cancelAnimationFrame(frame);
+      frame = 0;
+      leaving = false;
+      onRest = null;
+      drag = null;
+      target = 0;
+      drop();
+    });
+  }
+</script>
+
 <style>
+  /* The page loading behind the scenes, shown through the pulled sheet. */
+  :global(iframe.peek) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  :global(iframe.peek.showing) {
+    visibility: visible;
+  }
+
   .folders {
     --line: max(1.5px, calc(2 * var(--px)));
     position: absolute;
+    z-index: 1;
     left: 50%;
-    bottom: 0;
+    /* --sink drops the stack away as a pulled folder nears the top. */
+    bottom: calc(var(--sink, 0) * -100 * var(--px));
     width: calc(1240 * var(--px));
-    height: calc(100 * var(--px));
+    height: calc(100 * var(--px) + var(--t, 0) * var(--travel, 0px));
     transform: translateX(-50%);
+    transform-origin: 50% 100%;
     overflow: hidden;
+  }
+
+  /* The pulled folder (a copy of the stack made by the script) rises from
+     behind the stack, growing from the home page's scale to the page's so it
+     lands exactly on the next page. It pinches in as it stretches. */
+  .folders.sheet {
+    z-index: 0;
+    bottom: 0;
+    scale: calc(1 - var(--w, 0) * 0.08) 1;
+    animation: none !important;
+  }
+
+  .folders.live {
+    --px: calc(var(--px-from) + (var(--px-to) - var(--px-from)) * var(--t, 0));
+  }
+
+  /* Its tab carries most of the squash and stretch. */
+  .sheet .tab.front {
+    transform-origin: 50% 100%;
+    scale: calc(1 - var(--w, 0) * 0.45) calc(1 + var(--w, 0));
+    transition: none;
+  }
+
+  .sheet .tab:not(.front) {
+    opacity: var(--ghost, 0);
+  }
+
+  .tab.lifted {
+    visibility: hidden;
   }
 
   .body {
@@ -104,6 +463,20 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
     height: 100%;
     color: var(--pink);
     text-decoration: none;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a {
+      cursor: grab;
+    }
+
+    .pulling a,
+    .sheet a {
+      cursor: grabbing;
+    }
   }
 
   a:focus-visible {
@@ -174,25 +547,43 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
   }
 
   @media (max-width: 700px) {
+    /* Pulled out sideways: the body grows from 31 to the page's 350. */
     .folders {
-      left: 0;
+      --pull: calc(var(--t, 0) * 319 * var(--px));
+      left: calc(var(--sink, 0) * -60 * var(--px));
       top: calc(43 * var(--px));
       bottom: 0;
-      width: calc(60 * var(--px));
+      width: calc(60 * var(--px) + var(--pull));
       height: auto;
       transform: none;
+      transform-origin: 0 50%;
+    }
+
+    .folders.sheet {
+      left: 0;
+      scale: 1 calc(1 - var(--w, 0) * 0.08);
+    }
+
+    .sheet .tab.front {
+      transform-origin: 0 50%;
+      scale: calc(1 + var(--w, 0)) calc(1 - var(--w, 0) * 0.45);
+    }
+
+    /* Open pages on mobile show only their own tab. */
+    .sheet .tab:not(.front) {
+      opacity: 0;
     }
 
     .body {
       inset: 0 auto 0 0;
-      width: calc(31 * var(--px));
+      width: calc(31 * var(--px) + var(--pull));
       border-left: 0;
       border-bottom: var(--line) solid var(--pink);
     }
 
     .tab {
       top: calc(var(--i) * 194 * var(--px));
-      left: calc(31 * var(--px));
+      left: calc(31 * var(--px) + var(--pull));
       width: calc(29 * var(--px));
       height: calc(221 * var(--px));
     }
@@ -214,7 +605,8 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
 
     span {
       writing-mode: vertical-rl;
-      font-size: calc(28.125 * var(--px));
+      /* Shrinks to the open page's tab label as it's pulled. */
+      font-size: calc((28.125 - 6.125 * var(--t, 0)) * var(--px));
       letter-spacing: calc(1.4 * var(--px));
       padding: 0 calc(3 * var(--px)) 0 0;
     }
