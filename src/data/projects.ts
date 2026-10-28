@@ -63,7 +63,7 @@ export const designProjects: Project[] = [
   },
   {
     title: 'RLAM Life Science',
-    type: 'Brand Identity & Kinetic System',
+    type: 'Brand Identity Pitch',
     client: 'Royal London Asset Management: Life Science',
     agency: 'Smart Soho',
     role: 'Designer',
@@ -90,6 +90,7 @@ export const designProjects: Project[] = [
     title: 'Lee Valley Lions',
     type: 'Social Media · Motion',
     client: 'Lee Valley Lions Ice Hockey Club',
+    role: 'Freelance designer',
     image: {
       src: lvlGameDay,
       alt: 'A Lee Valley Lions Game Day poster: a player skating in front of huge white GAME DAY type.',

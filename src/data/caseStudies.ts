@@ -157,7 +157,7 @@ const allCaseStudies: CaseStudy[] = [
     slug: 'rlamls',
     title: 'RLAM Life Sciences',
     description:
-      'A brand identity for Royal London Asset Management: Life Science, built on cell division, with a custom display typeface and a symbol system that scales from signage to favicon.',
+      'A pitch identity for Royal London Asset Management: Life Science, built on cell division, with a custom display typeface and a symbol system that scales from signage to favicon.',
     background: '#e3fbf7',
     idea:
       'Cell division is how living things grow: one becomes two, then four. That is exactly the offer to a life science tenant at an RLAM park, which is to start small and expand within the portfolio over time. I built the whole identity from that one idea, so the mark, the typeface and the motion rules all tell the same story of structured, organic growth.',
@@ -356,6 +356,7 @@ const allCaseStudies: CaseStudy[] = [
     idea:
       'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and managed the handover to an external developer.',
     whatIDid: [
+      'Presented to the client at every phase and was their day-to-day contact, supporting the account team',
       'Sitemap and user flows',
       'Wireframes styled in the brand',
       'Final desktop and mobile designs',
