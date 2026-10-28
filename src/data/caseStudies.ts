@@ -818,9 +818,9 @@ const allCaseStudies: CaseStudy[] = [
       'A marketing website for Pall Mall Gardens, four new Grade A office buildings around a public garden in Liverpool’s business district.',
     background: '#e8eff8',
     brief:
-      'Pall Mall Gardens needed a website to market its office space to occupiers and their agents. The brochure was already written, so the site had to carry the same story online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
+      'Kier needed a website to market the office space at Pall Mall Gardens to occupiers and their agents. A colleague had created the branding and the brochure already told the story, so the site had to carry it online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
     idea:
-      'Build the site from the brochure. I wireframed every page with each section matched to the brochure page it came from, so the content was settled before any design started. The design then took the brochure’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
+      'Build the site from the brochure. I wireframed every page with each section matched to the brochure page it came from, so the content was settled before any design started. The web design was all mine: I took the brand’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
     whatIDid: [
       'Site structure and wireframes mapped to the brochure',
       'Desktop and mobile designs for every page',

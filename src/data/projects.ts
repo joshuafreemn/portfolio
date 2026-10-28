@@ -128,7 +128,7 @@ export const webProjects: Project[] = [
   {
     title: 'Pall Mall Liverpool',
     type: 'Website',
-    client: 'Pall Mall Gardens',
+    client: 'Kier',
     agency: 'Smart Soho',
     role: 'Designer',
     image: {
