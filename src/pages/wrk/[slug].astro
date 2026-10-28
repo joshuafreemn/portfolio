@@ -6,7 +6,7 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CloseButton from '../../components/CloseButton.astro';
 import { caseStudies, type CaseStudy } from '../../data/caseStudies';
-import { designProjects, webProjects } from '../../data/projects';
+import { designProjects, webProjects, experiments } from '../../data/projects';
 
 export const getStaticPaths = (() =>
   caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }))) satisfies GetStaticPaths;
@@ -18,9 +18,11 @@ interface Props {
 const { study } = Astro.props;
 
 // Prev / Next follow the card order on the study's own folder (Design or
-// Web), skipping projects whose case study isn't ready.
-const isWeb = webProjects.some((p) => p.caseStudy === study.slug);
-const folder = isWeb ? { projects: webProjects, href: '/web.html' } : { projects: designProjects, href: '/work.html' };
+// Web, with the experiments after the web projects), skipping projects whose
+// case study isn't ready.
+const webOrder = [...webProjects, ...experiments];
+const isWeb = webOrder.some((p) => p.caseStudy === study.slug);
+const folder = isWeb ? { projects: webOrder, href: '/web.html' } : { projects: designProjects, href: '/work.html' };
 const order = folder.projects
   .map((p) => caseStudies.find((c) => c.slug === p.caseStudy))
   .filter((c): c is CaseStudy => Boolean(c));
@@ -57,6 +59,14 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       <header class="intro">
         <h1>{study.title}</h1>
         <p class="lede">{study.description}</p>
+        {
+          study.url && (
+            <a class="live" href={study.url} target="_blank" rel="noopener">
+              Try it live <span aria-hidden="true">↗</span>
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          )
+        }
       </header>
 
       {
@@ -204,6 +214,24 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     font-size: max(16px, calc(25 * var(--px)));
     font-weight: 300;
     line-height: 1.4;
+  }
+
+  .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    min-height: 44px;
+    margin-top: calc(8 * var(--px));
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: max(22px, calc(32 * var(--px)));
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .live:hover,
+  .live:focus-visible {
+    text-decoration: underline;
   }
 
   .notes {
