@@ -79,7 +79,7 @@ export const designProjects: Project[] = [
     type: 'Branding & Campaign Pitch',
     client: '123 Victoria Street, London',
     agency: 'Smart Soho',
-    role: 'Sole designer (pitch route)',
+    role: 'Sole designer, route three',
     image: {
       src: victoriaHorses,
       alt: 'Office workers racing horses past a red-brick building, from the Find Your Place campaign.',
@@ -118,7 +118,7 @@ export const webProjects: Project[] = [
     type: 'Website',
     client: 'Kier',
     agency: 'Smart Soho',
-    role: 'Designer',
+    role: 'Sole web designer',
     image: {
       src: curveHero,
       alt: 'Curve home page hero: the logo among blue, green, purple and orange gradient tiles.',
@@ -130,7 +130,7 @@ export const webProjects: Project[] = [
     type: 'Website',
     client: 'Kier',
     agency: 'Smart Soho',
-    role: 'Designer',
+    role: 'Sole web designer',
     image: {
       src: pallMallHero,
       alt: 'Pall Mall Gardens Liverpool home page hero over a render of the new garden.',
