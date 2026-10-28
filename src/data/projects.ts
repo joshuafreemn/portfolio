@@ -151,7 +151,7 @@ export const experiments: Experiment[] = [
   {
     title: 'Heatmapper',
     url: 'https://heatmapper-mu.vercel.app/',
-    description: 'Paint hot and cold zones onto a floorplan and export the heatmap.',
+    description: 'Maps shop floor circulation and dwell time on a floorplan.',
     caseStudy: 'heatmapper',
   },
   {

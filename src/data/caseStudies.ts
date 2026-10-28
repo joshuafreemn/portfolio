@@ -503,18 +503,18 @@ const allCaseStudies: CaseStudy[] = [
   {
     slug: 'cinesnap',
     title: 'Cinesnap',
-    description: 'A browser tool that scans a film for its cuts, so you can grab a clean still from any shot.',
+    description: 'An in-house tool for pulling clean, full-quality stills from films and CGI renders.',
     background: '#efe6dc',
     brief:
-      'Pulling stills from a film usually means scrubbing a timeline by hand, and it is easy to land a frame or two away from the shot you wanted.',
+      'At work I often get 4K CGI renders, or a finished edit from a client or another company, and need stills from them for a brochure or website. Scrubbing a timeline by hand is slow, and a screen grab rarely gives you the full-quality frame.',
     idea:
       'Let the app find the cuts first. A quick scan splits the film into scenes and shots, so you jump straight to a shot and step frame by frame to the exact still.',
     whatIDid: [
+      'Designed and built it on my own, with AI',
       'A three-step flow: import and scan, capture, then review and export',
       'Scene and cut detection with adjustable sensitivity and scan speed',
       'Frame stepping, with a strip of the frames either side of the playhead',
-      'Split screen and stacked layouts, and shortcuts you can remap',
-      'Stills named by timecode, downloaded one at a time or as a zip',
+      'Stills saved as full-resolution PNGs, named by timecode, one at a time or as a zip',
     ],
     work: [
       {
@@ -553,22 +553,23 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'Review. Each still is named by its timecode, ready to download on its own or all together as a zip.',
       },
     ],
-    result: 'Live on the web. It runs in the browser, so the film never leaves your computer.',
+    result:
+      'Used in-house for brochure and website stills. It runs in the browser, so client films never leave the computer.',
     url: 'https://cinesnap-eight.vercel.app/',
   },
   {
     slug: 'heatmapper',
     title: 'Heatmapper',
-    description: 'A browser editor for painting hot and cold zones onto a floorplan and exporting a clean heatmap.',
+    description: 'A browser tool for mapping how shoppers move through a store and where they linger, made for a retail design client.',
     background: '#e3efe9',
     brief:
-      'A heatmap over a floorplan is a quick way to show where a space runs hot or cold, but making one by hand is slow and hard to keep tidy.',
+      'A client designing shop floors needed a way to show customer circulation and highlight areas of dwell time while a layout was still at the strategy stage.',
     idea:
-      'Paint it like a picture. Hot and cold brushes mark the extremes, the app blends everything in between into a smooth gradient, and the floor outline keeps it inside the walls.',
+      'Paint it like a picture. Hot brushes mark where people linger, cold ones where they pass straight by, and the app blends the rest into a smooth map that stays inside the walls.',
     whatIDid: [
-      'Hot and cold brushes, an eraser, and exact hot or cold points',
-      'Floor boundaries, plus no-heat cutouts for cores and shafts',
-      'Palette, blend and opacity controls',
+      'Designed and built it on my own, with AI',
+      'Hot and cold brushes, an eraser, and exact points for key spots',
+      'Floor boundaries, plus cutouts for stockrooms and other no-go areas',
       'Export as a combined PNG or a transparent overlay, at the plan’s own size',
       'Project files you can reopen, and a guided tour on a first visit',
     ],
@@ -577,49 +578,53 @@ const allCaseStudies: CaseStudy[] = [
         images: [
           {
             src: heatMasked,
-            alt: 'Heatmap Studio with an office floorplan: red along the top rooms, blue strokes lower down, green in between, a floor boundary around the plan and a cutout over the central core.',
+            alt: 'Heatmap Studio with a shop floor plan: red around the feature table, new-in wall, fitting rooms and tills, blue in the quiet corners, a floor boundary around the shop and the stockroom cut out.',
           },
         ],
         columns: 1,
-        caption: 'A floor boundary keeps the heat inside the plan, and a cutout keeps the core clear.',
+        caption:
+          'Dwell time around the feature table, the new-in wall, the fitting rooms and the tills, with quieter corners in blue. A cutout keeps the stockroom clear.',
       },
       {
         label: 'Process',
         images: [
           {
             src: heatTour,
-            alt: 'The guided tour on a first visit, highlighting the brush controls over a dimmed floorplan.',
+            alt: 'The guided tour on a first visit, highlighting the brush controls over a dimmed shop floor plan.',
           },
           {
             src: heatPainted,
-            alt: 'The floorplan after painting, with hot red areas along the top and cold blue strokes across the lower rooms.',
+            alt: 'The shop plan after painting, with hot strokes at the busy spots and cold strokes in the quiet corners.',
           },
         ],
-        caption: 'A short tour shows the tools on a first visit. Then paint the hottest and coldest areas and the app fills in the rest.',
+        caption: 'A short tour shows the tools on a first visit. Then paint the busiest and quietest areas and the app fills in the rest.',
       },
       {
         images: [
           {
             src: heatExport,
-            alt: 'The exported heatmap: the office plan with a smooth red, yellow, green and blue gradient and no editing guides.',
+            alt: 'The exported heatmap: the shop plan with warm areas at the fitting rooms, new-in wall and entrance, cool corners, and no editing guides.',
           },
         ],
         columns: 1,
-        caption: 'The exported PNG, at the plan’s own size with the editing guides left out. The plan is a sample made for this page.',
+        caption: 'The exported PNG, at the plan’s own size with the editing guides left out. The shop plan is a sample made for this page.',
       },
     ],
-    result: 'Live on the web. Plans and projects stay on your computer, and nothing is uploaded.',
+    result:
+      'Made for a retail design client’s strategy work on shop floors. Plans and projects stay on the computer, and nothing is uploaded.',
     url: 'https://heatmapper-mu.vercel.app/',
   },
   {
     slug: 'sudokurace',
     title: 'Sudoku Race',
-    description: 'Head-to-head Sudoku in the browser. Share a room code and race a friend to fill the grid, or practise alone.',
+    description: 'Head-to-head Sudoku for the studio. Share a room code and race your colleagues to fill the grid.',
     background: '#f3ede0',
-    brief: 'Sudoku is a solo game. This turns it into one you can race a friend at, live, with nothing to install.',
+    brief:
+      'Something to brighten the mornings when we got into work early, or the rainy days when we couldn’t get out to stretch our legs.',
     idea:
       'Treat it like a race. A track above the grid shows how far each player has got, and help such as a solve costs points, so speed and skill both count.',
     whatIDid: [
+      'Designed and built it on my own, with AI',
       'Match setup: invite friends with a room code, or practise alone',
       'Four modes: Standardoku, Countdown, Domination and Sabotage',
       'A live race track showing every player’s progress',
@@ -665,7 +670,7 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'The Nighttime theme, and the finish.',
       },
     ],
-    result: 'Live on the web. Matches run directly between browsers, with no accounts.',
+    result: 'Played in the studio on early mornings and rainy days. Matches run directly between browsers, with no accounts.',
     url: 'https://soduku-race.vercel.app/',
   },
 ];
