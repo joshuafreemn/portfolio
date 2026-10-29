@@ -63,7 +63,7 @@ export const designProjects: Project[] = [
   },
   {
     title: 'RLAM Life Science',
-    type: 'Brand Identity & Kinetic System',
+    type: 'Brand Identity Pitch',
     client: 'Royal London Asset Management: Life Science',
     agency: 'Smart Soho',
     role: 'Designer',
@@ -79,7 +79,7 @@ export const designProjects: Project[] = [
     type: 'Branding & Campaign Pitch',
     client: '123 Victoria Street, London',
     agency: 'Smart Soho',
-    role: 'Sole designer (pitch route)',
+    role: 'Sole designer, route three',
     image: {
       src: victoriaHorses,
       alt: 'Office workers racing horses past a red-brick building, from the Find Your Place campaign.',
@@ -90,6 +90,7 @@ export const designProjects: Project[] = [
     title: 'Lee Valley Lions',
     type: 'Social Media · Motion',
     client: 'Lee Valley Lions Ice Hockey Club',
+    role: 'Freelance designer',
     image: {
       src: lvlGameDay,
       alt: 'A Lee Valley Lions Game Day poster: a player skating in front of huge white GAME DAY type.',
@@ -118,7 +119,7 @@ export const webProjects: Project[] = [
     type: 'Website',
     client: 'Kier',
     agency: 'Smart Soho',
-    role: 'Designer',
+    role: 'Sole web designer',
     image: {
       src: curveHero,
       alt: 'Curve home page hero: the logo among blue, green, purple and orange gradient tiles.',
@@ -130,7 +131,7 @@ export const webProjects: Project[] = [
     type: 'Website',
     client: 'Kier',
     agency: 'Smart Soho',
-    role: 'Designer',
+    role: 'Sole web designer',
     image: {
       src: pallMallHero,
       alt: 'Pall Mall Gardens Liverpool home page hero over a render of the new garden.',

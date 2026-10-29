@@ -157,16 +157,16 @@ const allCaseStudies: CaseStudy[] = [
     slug: 'rlamls',
     title: 'RLAM Life Sciences',
     description:
-      'Conceptual brand identity for Royal London Asset Management: Life Science, inspired by cell division, with a custom display typeface and kinetic design rules.',
+      'A pitch identity for Royal London Asset Management: Life Science, built on cell division, with a custom display typeface and a symbol system that scales from signage to favicon.',
     background: '#e3fbf7',
     idea:
-      'The concept is inspired by the process of cell division, a core mechanism through which living organisms grow. This serves as an analogy for how a tenant within RLAM can begin at a small scale and progressively expand over time. The design reflects structured, organic growth, aligning with RLAM’s commitment to supporting long-term development and scalable potential.',
+      'Cell division is how living things grow: one becomes two, then four. That is exactly the offer to a life science tenant at an RLAM park, which is to start small and expand within the portfolio over time. I built the whole identity from that one idea, so the mark, the typeface and the motion rules all tell the same story of structured, organic growth.',
     whatIDid: [
-      'Identity concept and logo lockups',
-      'Custom display typeface built from the cell-division abstraction',
-      'Font pairing and symbol reductions',
-      'Logos for four parks in the portfolio',
-      'Applications: staff badge, website, signage and merchandise',
+      'Concept and identity, from the first idea to the lockups',
+      'A custom display typeface drawn from the cell-division form',
+      'Type pairing and a set of reduced symbols, tested down to micro sizes',
+      'A sub-brand system covering four parks in the portfolio',
+      'Applications across staff badges, web, signage and merchandise',
       'Campaign cards',
     ],
     work: [
@@ -213,7 +213,7 @@ const allCaseStudies: CaseStudy[] = [
           { src: iconMicro, alt: 'Micro icon reduction of the RLAM Life Sciences mark.', width: 71 },
         ],
         caption:
-          'Font pairings and reduced symbols were tested in parallel so the custom forms could hold up from full lockups down to the smallest navigation marks.',
+          'I tested the type pairings and reduced symbols side by side, so the custom forms hold up from full lockups down to the smallest navigation marks.',
         columns: 3,
       },
       {
@@ -255,7 +255,7 @@ const allCaseStudies: CaseStudy[] = [
       'Find Your Place: a pitch route for the relaunch of 123 Victoria Street in London, built on the podium, the track and the race to the line.',
     background: '#f8f2cf',
     brief:
-      'Creative options for relaunching 123 Victoria Street, a London office building, after its third major refurbishment. This is route three of the pitch, which I designed on my own.',
+      '123 Victoria Street, a London office building, was relaunching after its third major refurbishment and needed a brand that made it feel new again. Smart Soho pitched three creative routes. I owned route three end to end, from the strategy to the finished campaign.',
     idea:
       '123 Victoria Street is more than an address. Its number reflects the podium positions of first, second and third, while Victoria suggests victory and success. Following its third major refurbishment, the building is sharper, more agile and ready for its next chapter. Like lanes one, two and three on a track, it offers occupiers the inside line by design. “Find Your Place” captures this sense of position, progress and belonging.',
     whatIDid: [
@@ -354,12 +354,13 @@ const allCaseStudies: CaseStudy[] = [
     brief:
       'After Store House, Store Property asked Smart Soho to redesign their company website, which felt rigid and formal. The brand was established and they had invested in merchandise they didn’t want to remake, so the new site had to work within it.',
     idea:
-      'Start from how people use the site. I mapped the sitemap and the user flows for tenants, prospective tenants, agents and visitors. The client isn’t technical, so I drew the wireframes inside the brand to help them picture the finished site, then took it through to final designs and worked with an external developer to build it.',
+      'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and managed the handover to an external developer.',
     whatIDid: [
+      'Presented to the client at every phase and was their day-to-day contact, supporting the account team',
       'Sitemap and user flows',
       'Wireframes styled in the brand',
       'Final desktop and mobile designs',
-      'Design handover and build with an external developer',
+      'Handover to an external developer and support through the build',
     ],
     work: [
       {
@@ -411,7 +412,7 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
     ],
-    result: 'Live at storeproperty.co.uk, built by an external developer from my designs. The client was very pleased with it.',
+    result: 'Live at storeproperty.co.uk, built from my designs. It followed straight on from Store House, so the same client came back to the studio for a second project.',
   },
   {
     slug: 'storehouse',
@@ -419,9 +420,9 @@ const allCaseStudies: CaseStudy[] = [
     description: 'Branding, a brochure and a one-page website for Store House, a newly acquired building in Bermondsey.',
     background: '#f3efe8',
     brief:
-      'Store Property approached Smart Soho to create branding, a brochure and a website for Store House, a building they had just acquired.',
+      'Store Property had just acquired Store House, a building in Bermondsey, and needed to launch it to the market: a brand, a brochure and a website.',
     idea:
-      'For the pitch I created a branding route which, as often happens, was combined with a colleague’s route to make the final identity. That identity carried through the brochure and the website. With little time for the one-page site, I designed straight from the brochure and translated it into the live build, including the hero animation the client particularly liked.',
+      'My pitch route drew the building mark from the site’s own materials, brick and plywood, with a wordmark that runs like packing tape. In the final identity it was combined with a colleague’s route, and I carried that identity through the brochure and the website. With the site on a short deadline, I designed it straight from the brochure as one scrolling page, and made the hero animation that became the client’s favourite part.',
     whatIDid: [
       'Pitch branding route, combined with a colleague’s for the final identity',
       'Brochure',
@@ -487,7 +488,7 @@ const allCaseStudies: CaseStudy[] = [
       },
     ],
     result:
-      'Live at storehousese1.com. Store Property has since bought more buildings, and the branding has been extended to two of them, including 30 Newman Street (storehousew1.com). The client liked it so much that they are retiring their SP Managed brand and bringing everything under Store House.',
+      'The brand outgrew the building. Store Property has extended it to two more acquisitions, including 30 Newman Street (storehousew1.com), and is retiring its SP Managed brand to bring everything under Store House. Live at storehousese1.com.',
   },
   {
     slug: 'smartqr',
@@ -719,9 +720,9 @@ const allCaseStudies: CaseStudy[] = [
     description: 'Social media for Lee Valley Lions, an ice hockey club at Lee Valley Ice Centre: game days, results, signings and fixtures.',
     background: '#e3edf8',
     brief:
-      'The Lions needed a steady run of posts through the season: game day, line-ups, scores and results, monthly fixtures, and news of every signing.',
+      'An ice hockey club lives on its feed. The Lions needed posts for every game day, line-up, score and result, plus monthly fixtures and every signing, all season long.',
     idea:
-      'One kit of parts for the whole season. The club’s blue, white and green stripes, jersey-mesh textures, heavy type and the lion crest, with a template for each kind of post so the feed looks like one club from week to week.',
+      'Design a system, not a run of posts. I built one kit of parts for the whole season from the club’s blue, white and green stripes, jersey-mesh textures, heavy type and the lion crest, with a template for each kind of post. That keeps the feed unmistakably the Lions from week to week, however many posts a match day needs.',
     whatIDid: [
       'Templates for game day, line-ups, period scores, full time and the weekend wrap-up',
       'Player and staff signing announcements',
@@ -820,7 +821,7 @@ const allCaseStudies: CaseStudy[] = [
     brief:
       'Kier needed a website to market the office space at Pall Mall Gardens to occupiers and their agents. A colleague had created the branding and the brochure already told the story, so the site had to carry it online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
     idea:
-      'Build the site from the brochure. I wireframed every page with each section matched to the brochure page it came from, so the content was settled before any design started. The web design was all mine: I took the brand’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
+      'Settle the content before the design. I wireframed every page with each section matched to the brochure page it came from, so the story was agreed before any design started and design rounds could focus on the look. I was the sole web designer, taking the brand’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
     whatIDid: [
       'Site structure and wireframes mapped to the brochure',
       'Desktop and mobile designs for every page',
@@ -929,7 +930,7 @@ const allCaseStudies: CaseStudy[] = [
     brief:
       'Curve is a new headquarters building by Kier at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
     idea:
-      'A colleague created the branding, built on gradient tiles. In the web design, which was all mine, I made those tiles the system for the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and took the design through six rounds to the desktop and mobile files handed to the developers.',
+      'Turn the brand’s gradient tiles into the site’s system. A colleague created the branding; as the sole web designer, I made those tiles the structure of the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and led the design through six rounds of design to the desktop and mobile files handed to the developers.',
     whatIDid: [
       'Wireframes built from the brochure',
       'Six rounds of design, desktop and mobile',
