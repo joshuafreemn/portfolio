@@ -9,6 +9,8 @@ interface Props {
   /** Open Graph image, relative to the site root. */
   image?: string;
   bodyClass?: string;
+  /** Keep the page out of search results (404 and its design options). */
+  noindex?: boolean;
 }
 
 const {
@@ -16,6 +18,7 @@ const {
   description = 'Joshua Freeman — multidisciplinary designer working across branding, motion and web.',
   image = '/og.png',
   bodyClass,
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -49,6 +52,7 @@ const ogImage = new URL(image, Astro.site);
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Joshua Freeman" />
