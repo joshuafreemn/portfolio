@@ -142,6 +142,28 @@ import tcMobileHome from '../assets/wrk/thecurve/mobile-home.jpg';
 import tcMobileSchedule from '../assets/wrk/thecurve/mobile-schedule.jpg';
 import tcMobileFeatures from '../assets/wrk/thecurve/mobile-features.jpg';
 
+import btsHero from '../assets/wrk/bts/hero.jpg';
+import btsCastComputerKid from '../assets/wrk/bts/cast-computer-kid.jpg';
+import btsCastLaptopMan from '../assets/wrk/bts/cast-laptop-man.jpg';
+import btsCastSchool from '../assets/wrk/bts/cast-school.jpg';
+import btsCastBusiness from '../assets/wrk/bts/cast-business.jpg';
+import btsKeyboard from '../assets/wrk/bts/keyboard.jpg';
+import btsKiosk from '../assets/wrk/bts/kiosk.jpg';
+import btsPortalOpens from '../assets/wrk/bts/portal-opens.jpg';
+import btsPortal from '../assets/wrk/bts/portal.jpg';
+import btsPortalInside from '../assets/wrk/bts/portal-inside.jpg';
+import btsPulledThrough from '../assets/wrk/bts/pulled-through.jpg';
+import btsTvStatic from '../assets/wrk/bts/tv-static.jpg';
+import btsTvChannel from '../assets/wrk/bts/tv-channel.jpg';
+import btsTvGlitch from '../assets/wrk/bts/tv-glitch.jpg';
+import btsSpecialBulletin from '../assets/wrk/bts/special-bulletin.jpg';
+import btsTheBuilding from '../assets/wrk/bts/the-building.jpg';
+import btsTypeGrid from '../assets/wrk/bts/type-grid.jpg';
+import btsArtOfBuilding from '../assets/wrk/bts/art-of-building.jpg';
+import btsGreenScreen from '../assets/wrk/bts/green-screen.jpg';
+import btsArchiveFootage from '../assets/wrk/bts/archive-footage.jpg';
+import btsSwitchOff from '../assets/wrk/bts/switch-off.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -1347,6 +1369,106 @@ const allCaseStudies: CaseStudy[] = [
       },
     ],
     outcome: 'Handed to developers after six rounds of design, and in development now.',
+  },
+  {
+    slug: 'bts',
+    title: 'Behind the Scenes',
+    description:
+      'How my showreel was made: an animated short about a kid, a strange old computer and a TV remote, where every channel he flicks to is a piece of my work.',
+    background: '#efe9f6',
+    glance: [
+      { label: 'Project', value: 'Showreel intro and framing film' },
+      { label: 'My role', value: 'Idea, character design, illustration and animation' },
+      { label: 'Cast', value: 'Four characters, drawn in one flat, angular style' },
+      { label: 'Delivered', value: 'Characters · Storyboard · Animated sequences · Edit' },
+    ],
+    problem:
+      'A showreel is usually a fast cut of clips and a logo. Mine had to hold together very different work, from property launches and type-led films to sport, and still feel like one piece by one person.',
+    solution:
+      'Give the reel a story to live inside. A kid types into an old computer, gets pulled through a glowing portal and lands in front of a TV. Every press of the remote changes the channel, and every channel is a project. The work becomes the plot, and the characters carry you from one piece to the next.',
+    delivery: [
+      'The idea and the story',
+      'Character designs for the cast',
+      'Illustrated scenes, from the computer to the portal and the TV',
+      'Animated transitions that turn client work into channels',
+      'The final edit of the reel',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: btsHero,
+            alt: 'A boy in a blue jumper sits at a cream retro computer kiosk on a lilac background, its screen glowing with green numbers.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        story: {
+          heading: 'Meet the cast',
+          text: 'Before any animation I drew the characters: the kid at the computer, a man on a laptop, a student with a backpack and a startled businessman. Flat colour, angular shapes and long pink limbs keep them simple enough to move, and odd enough to remember.',
+        },
+        images: [
+          { src: btsCastComputerKid, alt: 'Character design: the kid hunched over a computer keyboard, with long pink arms.' },
+          { src: btsCastLaptopMan, alt: 'Character design: a man with wide eyes holding an open laptop.' },
+          { src: btsCastSchool, alt: 'Character design: a tall, thin student with a backpack and a green T-shirt.' },
+          { src: btsCastBusiness, alt: 'Character design: a businessman in a dark suit and green tie, eyes wide in surprise.' },
+        ],
+        columns: 4,
+      },
+      {
+        story: {
+          heading: 'Through the portal',
+          text: 'The film opens on hands at a chunky cream keyboard. The kid types, the kiosk counts down, and a green portal swells out of the screen until it swallows him whole. It is the reel’s way of saying: step inside.',
+        },
+        images: [
+          { src: btsKeyboard, alt: 'Close-up of long pink hands typing on a cream keyboard.' },
+          { src: btsKiosk, alt: 'The kid at the kiosk as its screen fills with green readouts.' },
+          { src: btsPortalOpens, alt: 'Over the kid’s shoulder, a glowing green portal opens beside the kiosk.' },
+          { src: btsPortal, alt: 'The kid at the kiosk in the dark, dwarfed by a huge glowing green ring.' },
+          { src: btsPortalInside, alt: 'The portal fills the frame: a ring of green light on black.' },
+          { src: btsPulledThrough, alt: 'The kid’s arm and the kiosk are pulled into a pixelated green light.' },
+        ],
+        gallery: true,
+      },
+      {
+        story: {
+          heading: 'Changing the channel',
+          text: 'He lands in front of an old TV full of static, a chunky green remote in his hand. Each press glitches the picture and tunes into something new, which gives the reel its rhythm and a reason to cut.',
+        },
+        images: [
+          { src: btsTvStatic, alt: 'A pink hand points a green remote at a TV showing grey static.' },
+          { src: btsTvChannel, alt: 'The remote in front of the TV as a green abstract picture tunes in.' },
+          { src: btsTvGlitch, alt: 'The remote in front of a pink, glitching picture breaking into stripes.' },
+        ],
+        columns: 3,
+      },
+      {
+        story: {
+          heading: 'Every channel is a project',
+          text: 'Then the work takes over. A Special Bulletin breaks in over a spinning globe, an illustrated building curves across a city, a grid of type and photography spells out a brand, and a property film opens on The Art of Building. Each one is a real project, framed as something you just flicked to.',
+        },
+        images: [
+          { src: btsSpecialBulletin, alt: 'Special Bulletin in chunky green letters over a globe and a broadcast tower on pink.' },
+          { src: btsTheBuilding, alt: 'An illustrated curved office building in a busy city, with The Building in white type across it.' },
+          { src: btsTypeGrid, alt: 'A grid of large letters on coloured tiles, alternating with street photography.' },
+          { src: btsArtOfBuilding, alt: 'Serif titles reading The Art of Building and Capital Cared for on pale grey.' },
+          { src: btsGreenScreen, alt: 'A green frame holding a desktop computer mockup and photos of shopfronts and products.' },
+        ],
+        gallery: true,
+      },
+      {
+        story: {
+          heading: 'Switch off',
+          text: 'The reel signs off the way old TV did. A burst of archive footage, then the picture collapses to a single line of light, and the set goes dark.',
+        },
+        images: [
+          { src: btsArchiveFootage, alt: 'Archive-style footage of a couple sitting on a sofa, staring at the camera.' },
+          { src: btsSwitchOff, alt: 'A black screen with a single bright horizontal line, like an old TV switching off.' },
+        ],
+        columns: 2,
+      },
+    ],
   },
 ];
 
