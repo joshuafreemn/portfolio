@@ -107,7 +107,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
         pockets.length > 0 && (
           <div class="pocket">
             {pockets.map((card, i) => (
-              <section class="pull" tabindex="0" style={`--tile: ${card.color}; --i: ${i}`}>
+              <div class="slot" style={`--tile: ${card.color}; --i: ${i}`}>
+              <section class="pull" tabindex="0">
                 <h2>{card.title}</h2>
                 {card.text && <p>{card.text}</p>}
                 {card.list && (
@@ -118,6 +119,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                   </ul>
                 )}
               </section>
+              </div>
             ))}
           </div>
         )
@@ -362,8 +364,23 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     animation: none !important;
   }
 
+  /* Each card sits in a fixed slot that takes the hover, so the card can move
+     without the pointer slipping off it and making it bounce. Hovering the
+     raised card still counts, because it's inside the slot. */
+  .slot {
+    position: relative;
+  }
+
+  .slot + .slot {
+    margin-left: calc(-24 * var(--px));
+  }
+
+  .slot:hover,
+  .slot:focus-within {
+    z-index: 1;
+  }
+
   .pull {
-    align-self: start;
     padding: calc(22 * var(--px)) calc(26 * var(--px)) calc(28 * var(--px));
     background: var(--tile);
     box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
@@ -372,22 +389,16 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     font-weight: 300;
     line-height: 1.45;
     transform: rotate(calc((var(--i) - 1) * 1.6deg));
-    transition: transform 450ms var(--spring);
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
     cursor: default;
   }
 
-  .pull + .pull {
-    margin-left: calc(-24 * var(--px));
-  }
-
-  .pull:nth-child(2) {
+  .slot:nth-child(2) .pull {
     color: var(--white);
   }
 
-  .pull:hover,
-  .pull:focus-visible,
-  .pull:focus-within {
-    z-index: 1;
+  .slot:hover .pull,
+  .slot:focus-within .pull {
     transform: rotate(0deg) translateY(calc(-100% + var(--tab) - var(--tuck) - 12 * var(--px)));
   }
 
@@ -425,13 +436,13 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     }
 
 
-    .pull + .pull {
+    .slot + .slot {
       margin-left: 0;
     }
 
     .pull,
-    .pull:hover,
-    .pull:focus-within {
+    .slot:hover .pull,
+    .slot:focus-within .pull {
       transform: none;
     }
   }
@@ -849,14 +860,13 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     }
 
 
-    .pull + .pull {
+    .slot + .slot {
       margin-left: 0;
     }
 
     .pull,
-    .pull:hover,
-    .pull:focus-within,
-    .pull:focus-visible {
+    .slot:hover .pull,
+    .slot:focus-within .pull {
       transform: none;
     }
 
