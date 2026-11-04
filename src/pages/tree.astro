@@ -1,0 +1,284 @@
+---
+// Link in bio (/tree.html, which /qr.html also redirects to): the name and
+// label tape from the home page over a stack of index cards, one per link.
+// Built for a phone first; on a big screen it sits as a column on the desk.
+import Base from '../layouts/Base.astro';
+import { contact } from '../data/site';
+
+interface TreeLink {
+  label: string;
+  href: string;
+  /** A small line under the label. */
+  note?: string;
+  icon?: string;
+  external?: boolean;
+}
+
+const links: TreeLink[] = [
+  { label: 'Showreel', href: '/showreel.html', note: 'Motion and animation' },
+  { label: 'Design work', href: '/work.html', note: 'Branding, campaigns and print' },
+  { label: 'Web work', href: '/web.html', note: 'Websites and tools I’ve built' },
+  { label: 'About me', href: '/cv.html', note: 'Where I’ve punch’d in over the years' },
+  {
+    label: 'LinkedIn',
+    href: contact.linkedin,
+    icon: '/Assets/socails/LinkedIn.svg',
+    external: true,
+  },
+  { label: 'Email me', href: `mailto:${contact.email}`, icon: '/Assets/socails/email.svg' },
+];
+
+// Each card sits at a slightly different angle, like a pile on the desk.
+const tilts = [-1.2, 0.8, -0.6, 1.1, -0.9, 0.5];
+---
+
+<Base
+  title="Links · Joshua Freeman"
+  description="Joshua Freeman, multidisciplinary designer: showreel, design work, web work, LinkedIn and email."
+  bodyClass="tree-page"
+>
+  <main class="tree">
+    <header class="title">
+      <h1>
+        <img src="/Assets/Joshua Freeman Title.svg" alt="Joshua Freeman" width="685" height="230" />
+      </h1>
+      <p class="role">Multidisciplinary designer</p>
+    </header>
+
+    <ul class="links">
+      {
+        links.map((link, i) => (
+          <li style={`--tilt: ${tilts[i % tilts.length]}deg; --i: ${i}`}>
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener' : undefined}
+            >
+              <span class="label">
+                {link.label}
+                {link.note && <small>{link.note}</small>}
+              </span>
+              {link.icon ? (
+                <span class="icon" style={`--icon: url('${link.icon}')`} aria-hidden="true" />
+              ) : (
+                <span class="arrow" aria-hidden="true">
+                  →
+                </span>
+              )}
+              {link.external && <span class="sr-only">(opens in a new tab)</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="site"><a href="/">joshuafreemn.space</a></p>
+  </main>
+</Base>
+
+<style>
+  :global(body.tree-page) {
+    /* Sized for a phone; capped so it stays a neat column on a desktop. */
+    --u: min(100vw / 390, 1.25px);
+  }
+
+  .tree {
+    position: relative;
+    width: min(100%, calc(390 * var(--u)));
+    margin: 0 auto;
+    padding: calc(40 * var(--u)) calc(20 * var(--u)) calc(48 * var(--u));
+  }
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: calc(34 * var(--u));
+  }
+
+  h1 {
+    margin: 0;
+    line-height: 0;
+  }
+
+  h1 img {
+    display: block;
+    width: calc(300 * var(--u));
+    height: auto;
+  }
+
+  .role {
+    width: calc(300 * var(--u));
+    margin: calc(10 * var(--u)) 0 0;
+    padding: calc(1.5 * var(--u)) calc(5 * var(--u)) 0 0;
+    background: var(--white);
+    border-radius: calc(2.5 * var(--u));
+    font-family: var(--font-display);
+    font-size: calc(35.6 * var(--u));
+    line-height: calc(16.5 * var(--u));
+    letter-spacing: calc(-1.65 * var(--u));
+    text-align: right;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: calc(14 * var(--u));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links li {
+    rotate: var(--tilt);
+  }
+
+  .links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(12 * var(--u));
+    min-height: calc(74 * var(--u));
+    padding: calc(12 * var(--u)) calc(18 * var(--u)) calc(10 * var(--u)) calc(20 * var(--u));
+    background: var(--white);
+    border: calc(3 * var(--u)) solid var(--pink);
+    border-radius: calc(14 * var(--u));
+    color: var(--pink);
+    text-decoration: none;
+    transition:
+      transform 450ms var(--spring),
+      box-shadow 250ms ease;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-size: calc(44 * var(--u));
+    line-height: 0.8;
+    letter-spacing: calc(-1.6 * var(--u));
+    text-transform: uppercase;
+  }
+
+  .label small {
+    margin-top: calc(6 * var(--u));
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: max(13px, calc(14 * var(--u)));
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .arrow {
+    font-size: calc(28 * var(--u));
+    transition: translate 300ms var(--spring);
+  }
+
+  /* The icon files are drawn in mixed colours; mask them to the site pink. */
+  .icon {
+    flex: none;
+    width: calc(34 * var(--u));
+    height: calc(34 * var(--u));
+    background: var(--pink);
+    mask: var(--icon) center / contain no-repeat;
+  }
+
+  .links a:hover,
+  .links a:focus-visible {
+    transform: translateY(calc(-4 * var(--u))) rotate(calc(var(--tilt) * -1));
+    box-shadow: 0 calc(10 * var(--u)) calc(18 * var(--u)) rgb(138 74 116 / 0.25);
+  }
+
+  .links a:hover .arrow,
+  .links a:focus-visible .arrow {
+    translate: calc(5 * var(--u)) 0;
+  }
+
+  .links a:active {
+    transform: scale(0.98);
+  }
+
+  .links a:focus-visible {
+    outline: calc(3 * var(--u)) solid var(--purple);
+    outline-offset: calc(3 * var(--u));
+  }
+
+
+  .site {
+    margin: calc(30 * var(--u)) 0 0;
+    text-align: center;
+  }
+
+  .site a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 calc(8 * var(--u));
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: calc(28 * var(--u));
+    letter-spacing: calc(-0.5 * var(--u));
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .site a:hover,
+  .site a:focus-visible {
+    text-decoration: underline;
+  }
+
+  /* Arrival: the name drops in, the tape pulls out, then the cards deal onto
+     the desk one after another. */
+  @media (prefers-reduced-motion: no-preference) {
+    h1 {
+      animation: drop 760ms var(--spring) 80ms both;
+    }
+
+    .role {
+      animation: tape 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 520ms both;
+    }
+
+    .links li {
+      animation: deal 520ms var(--spring) calc(700ms + var(--i) * 80ms) both;
+    }
+  }
+
+  @keyframes drop {
+    from {
+      opacity: 0;
+      translate: 0 calc(-50 * var(--u));
+      rotate: -5deg;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes tape {
+    from {
+      clip-path: inset(0 0 0 100% round calc(2.5 * var(--u)));
+    }
+    to {
+      clip-path: inset(0 0 0 0 round calc(2.5 * var(--u)));
+    }
+  }
+
+  @keyframes deal {
+    from {
+      opacity: 0;
+      translate: 0 calc(40 * var(--u));
+      rotate: calc(var(--tilt) * 4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .links a,
+    .arrow {
+      transition: none;
+    }
+  }
+</style>

@@ -11,13 +11,14 @@ import { nav } from '../data/site';
 interface Props {
   title: string;
   description: string;
-  /** Index of the current section in `nav`. */
+  /** Index of the current section in `nav`; -1 for none (all tabs behind). */
   current: number;
   /** Fit the folder to the screen and clip what runs past it (Motion page). */
   fit?: boolean;
+  noindex?: boolean;
 }
 
-const { title, description, current, fit = false } = Astro.props;
+const { title, description, current, fit = false, noindex = false } = Astro.props;
 
 // Same tab geometry as the home page's FolderTabs: the front tab's fill runs
 // past the folder's top edge to hide the stroke there.
@@ -25,7 +26,7 @@ const fillH = (isFront: boolean) => (isFront ? '0,49 40,1 302,1 342,49' : '0,44 
 const fillV = '-3,0 28,26 28,195 -3,221';
 ---
 
-<Base title={`${title} · Joshua Freeman`} description={description} bodyClass={fit ? 'folder-page fit' : 'folder-page'}>
+<Base title={`${title} · Joshua Freeman`} description={description} noindex={noindex} bodyClass={fit ? 'folder-page fit' : 'folder-page'}>
   <header class="top">
     <CloseButton />
   </header>

@@ -1,0 +1,290 @@
+---
+// The 404 page, "Misfiled": the folder is open but no tab is in front, and
+// the only thing inside is an index card ruled like the punch card, stamped
+// 404, listing where to look instead. Each row punches a hole on hover.
+import FolderPage from '../../layouts/FolderPage.astro';
+import { nav } from '../../data/site';
+
+interface Props {
+  noindex?: boolean;
+}
+
+const { noindex = true } = Astro.props;
+---
+
+<FolderPage
+  title="Page not found"
+  description="This page has gone missing from the folder."
+  current={-1}
+  noindex={noindex}
+>
+  <div class="desk">
+    <section class="card" aria-labelledby="nf-title" data-fidget-zone>
+      <span class="rule header" aria-hidden="true"></span>
+      <span class="rule margin" aria-hidden="true"></span>
+      <h2 id="nf-title">File not found</h2>
+      <p class="note">
+        This page has gone missing from the folder. It may have moved when I had a tidy up. Try one of these instead:
+      </p>
+      <ul class="rows">
+        {
+          nav.map((tab) => (
+            <li>
+              <a href={tab.href}>{tab.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="/">Home</a></li>
+      </ul>
+      <span class="stamp" aria-hidden="true">404</span>
+      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" data-fidget="wiggle" />
+    </section>
+  </div>
+</FolderPage>
+
+<style>
+  .desk {
+    display: grid;
+    place-items: start center;
+    padding: calc(90 * var(--px)) 0 calc(120 * var(--px));
+  }
+
+  .card {
+    position: relative;
+    width: calc(711 * var(--px));
+    padding: calc(70 * var(--px)) calc(40 * var(--px)) calc(50 * var(--px)) calc(70 * var(--px));
+    background: var(--white);
+    border-radius: calc(17 * var(--px));
+    color: var(--black);
+    transform: rotate(-1.4deg);
+    transition:
+      transform 500ms var(--spring),
+      box-shadow 300ms ease;
+  }
+
+  @media (hover: hover) and (min-width: 701px) {
+    .card:hover {
+      transform: rotate(-0.6deg) translateY(calc(-8 * var(--px)));
+      box-shadow: 0 calc(16 * var(--px)) calc(28 * var(--px)) rgb(138 74 116 / 0.2);
+    }
+  }
+
+  .rule {
+    position: absolute;
+    background: var(--black);
+  }
+
+  .header {
+    top: calc(52 * var(--px));
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  .margin {
+    top: calc(52 * var(--px));
+    bottom: 0;
+    left: calc(44 * var(--px));
+    width: 1px;
+  }
+
+  h2 {
+    position: absolute;
+    top: calc(10 * var(--px));
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: calc(55 * var(--px));
+    font-weight: 400;
+    line-height: calc(40 * var(--px));
+    letter-spacing: calc(-2.2 * var(--px));
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .note {
+    max-width: calc(400 * var(--px));
+    margin: calc(20 * var(--px)) 0 calc(36 * var(--px));
+    font-size: max(15px, calc(24 * var(--px)));
+    font-weight: 300;
+    line-height: 1.15;
+  }
+
+  .rows {
+    margin: 0 0 0 calc(-70 * var(--px));
+    padding: 0;
+    border-top: 1px solid var(--black);
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: calc(44 * var(--px));
+    letter-spacing: calc(-1.6 * var(--px));
+    text-transform: uppercase;
+  }
+
+  .rows li {
+    position: relative;
+    border-bottom: 1px solid var(--black);
+  }
+
+  .rows a {
+    display: flex;
+    align-items: center;
+    min-height: max(44px, calc(46 * var(--px)));
+    padding: calc(4 * var(--px)) 0 0 calc(78 * var(--px));
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .rows a::after {
+    content: '→';
+    margin-left: calc(12 * var(--px));
+    font-family: var(--font-body);
+    font-size: 0.6em;
+    opacity: 0;
+    translate: calc(-8 * var(--px)) 0;
+    transition:
+      opacity 150ms ease,
+      translate 300ms var(--spring);
+  }
+
+  .rows a:hover::after,
+  .rows a:focus-visible::after {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .rows a:focus-visible {
+    outline: 2px solid var(--purple);
+    outline-offset: -2px;
+  }
+
+  /* Pointing at a row punches a hole in its margin, as on the punch card. */
+  .rows li::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(22 * var(--px));
+    width: calc(15 * var(--px));
+    height: calc(15 * var(--px));
+    border-radius: 50%;
+    background: var(--baby-pink);
+    box-shadow: inset 0 calc(2 * var(--px)) calc(3 * var(--px)) rgb(0 0 0 / 0.45);
+    transform: translateY(-50%) scale(0);
+    transition: transform 140ms ease-in;
+    pointer-events: none;
+  }
+
+  .rows li:hover::before {
+    transform: translateY(-50%) scale(1);
+    transition: transform 380ms var(--spring);
+  }
+
+  /* A rubber stamp, slightly uneven, in the folder's purple. */
+  .stamp {
+    position: absolute;
+    top: calc(96 * var(--px));
+    right: calc(30 * var(--px));
+    padding: calc(10 * var(--px)) calc(22 * var(--px)) calc(2 * var(--px));
+    border: calc(6 * var(--px)) solid var(--purple);
+    border-radius: calc(12 * var(--px));
+    color: var(--purple);
+    font-family: var(--font-display);
+    font-size: calc(120 * var(--px));
+    line-height: 0.8;
+    letter-spacing: calc(-3 * var(--px));
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    transform: rotate(12deg);
+    animation: stamp 520ms var(--spring) 350ms both;
+  }
+
+  @keyframes stamp {
+    from {
+      opacity: 0;
+      transform: rotate(12deg) scale(1.6);
+    }
+    60% {
+      opacity: 0.85;
+    }
+  }
+
+  .clip {
+    position: absolute;
+    top: calc(-14 * var(--px));
+    right: calc(-46 * var(--px));
+    width: calc(185 * var(--px));
+    height: auto;
+    transform: rotate(-12deg);
+    animation: wiggle 900ms ease-out 500ms both;
+  }
+
+  @media (max-width: 700px) {
+    .desk {
+      padding: calc(30 * var(--px)) 0 calc(60 * var(--px));
+    }
+
+    .card {
+      width: 100%;
+      padding: calc(48 * var(--px)) calc(18 * var(--px)) calc(24 * var(--px)) calc(40 * var(--px));
+      border-radius: calc(10 * var(--px));
+    }
+
+    .header,
+    .margin {
+      top: calc(34 * var(--px));
+    }
+
+    .margin {
+      left: calc(26 * var(--px));
+    }
+
+    h2 {
+      top: calc(6 * var(--px));
+      font-size: calc(36 * var(--px));
+      line-height: calc(28 * var(--px));
+    }
+
+    .note {
+      margin-right: calc(70 * var(--px));
+    }
+
+    .rows {
+      margin-left: calc(-40 * var(--px));
+      font-size: calc(30 * var(--px));
+    }
+
+    .rows a {
+      padding-left: calc(48 * var(--px));
+    }
+
+    .rows li::before {
+      left: calc(6 * var(--px));
+    }
+
+    .stamp {
+      top: calc(56 * var(--px));
+      right: calc(10 * var(--px));
+      font-size: calc(54 * var(--px));
+      border-width: calc(3 * var(--px));
+    }
+
+    .clip {
+      right: calc(-20 * var(--px));
+      width: calc(100 * var(--px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stamp,
+    .clip {
+      animation: none;
+    }
+
+    .card,
+    .rows li::before,
+    .rows a::after {
+      transition: none;
+    }
+  }
+</style>

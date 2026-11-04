@@ -1,6 +1,7 @@
 // Site-wide details: contact links, the folder-tab navigation and the CV.
 
-// Not shown on the site for now: a designed contact treatment is coming.
+// Only the link-in-bio page (tree.astro) shows these for now: a designed
+// contact treatment for the rest of the site is coming.
 export const contact = {
   email: 'joshuafreemn@gmail.com',
   linkedin: 'https://www.linkedin.com/in/joshuafreemn/',

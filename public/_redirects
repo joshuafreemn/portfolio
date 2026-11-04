@@ -1,0 +1,9 @@
+# Old pages from the previous site, sent to their nearest new page
+# (Cloudflare Pages / Netlify format).
+/about.html         /cv.html    301
+/about              /cv.html    301
+/snapshots.html     /           301
+/snap/*             /           301
+/wrk/portsea.html   /work.html  301
+/wrk/spmanaged.html /work.html  301
+/wrk/flashcards.html /work.html 301
