@@ -1,11 +1,12 @@
 ---
-// Case study template: The brief · The idea · What I did · The work · Where it
-// ran, then Prev / Next. Sections without copy are left out.
+// Case study template: At a glance, then The problem · The solution · The
+// delivery, the work (story notes between groups) and The outcome, then
+// Prev / Next. Sections without copy are left out.
 import type { GetStaticPaths } from 'astro';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CloseButton from '../../components/CloseButton.astro';
-import { caseStudies, type CaseStudy } from '../../data/caseStudies';
+import { caseStudies, type CaseStudy, type WorkGroup } from '../../data/caseStudies';
 import { designProjects, webProjects, experiments } from '../../data/projects';
 
 export const getStaticPaths = (() =>
@@ -40,6 +41,23 @@ const posters = new Map(
   ),
 );
 
+// Story notes open a chapter: the note and the groups after it, up to the
+// next note, sit together on one panel. Groups before the first note stand
+// on their own.
+type Chapter = { story?: WorkGroup['story']; groups: { group: WorkGroup; g: number }[] };
+const chapters: Chapter[] = [];
+study.work.forEach((group, g) => {
+  if (group.story || chapters.length === 0) chapters.push({ story: group.story, groups: [] });
+  chapters[chapters.length - 1].groups.push({ group, g });
+});
+
+// The three notes are pulled out of a pocket like the Experiments cards.
+const pockets = [
+  study.problem && { title: 'The problem', text: study.problem, color: 'var(--blue)' },
+  study.solution && { title: 'The solution', text: study.solution, color: 'var(--purple)' },
+  study.delivery && { title: 'The delivery', list: study.delivery, color: 'var(--baby-pink)' },
+].filter(Boolean) as { title: string; text?: string; list?: string[]; color: string }[];
+
 const ogImage = study.work[0]?.images[0];
 const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format: 'jpg' })).src : undefined;
 ---
@@ -70,30 +88,39 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       </header>
 
       {
-        (study.brief || study.idea || study.whatIDid) && (
-          <div class="notes">
-            {study.brief && (
-              <section class="note">
-                <h2>The brief</h2>
-                <p>{study.brief}</p>
+        study.glance && (
+          <section class="glance" aria-labelledby="at-a-glance">
+            <h2 id="at-a-glance">At a glance</h2>
+            <dl>
+              {study.glance.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )
+      }
+
+      {
+        pockets.length > 0 && (
+          <div class="pocket">
+            {pockets.map((card, i) => (
+              <div class="slot" style={`--tile: ${card.color}; --i: ${i}`}>
+              <section class="pull" tabindex="0">
+                <h2>{card.title}</h2>
+                {card.text && <p>{card.text}</p>}
+                {card.list && (
+                  <ul>
+                    {card.list.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
               </section>
-            )}
-            {study.idea && (
-              <section class="note">
-                <h2>The idea</h2>
-                <p>{study.idea}</p>
-              </section>
-            )}
-            {study.whatIDid && (
-              <section class="note">
-                <h2>What I did</h2>
-                <ul>
-                  {study.whatIDid.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
+              </div>
+            ))}
           </div>
         )
       }
@@ -101,50 +128,107 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       <section class="work" aria-labelledby="the-work">
         <h2 id="the-work" class="sr-only">The work</h2>
         {
-          study.work.map((group, g) => (
-            <figure class="group" style={`--columns: ${group.columns ?? 2}`}>
-              {group.label && <p class="label">{group.label}</p>}
-              <div class="grid">
-                {group.images.map((image) => (
-                  <div class:list={['tile', { fit: image.width }]}>
-                    {image.video ? (
-                      <video
-                        src={image.video}
-                        poster={posters.get(image.src)}
-                        aria-label={image.alt}
-                        width={image.src.width}
-                        height={image.src.height}
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        preload="metadata"
-                      />
-                    ) : (
-                      <Image
-                        style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
-                        src={image.src}
-                        alt={image.alt}
-                        widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
-                        sizes={`(max-width: 700px) 100vw, ${Math.round(1113 / (group.columns ?? 2))}px`}
-                        format="webp"
-                        loading={g === 0 ? 'eager' : 'lazy'}
-                      />
+          chapters.map((chapter) => (
+            <div class:list={['chapter', { 'has-story': chapter.story }]}>
+              {chapter.story && (
+                <section class="note story">
+                  <h3>{chapter.story.heading}</h3>
+                  <p>{chapter.story.text}</p>
+                </section>
+              )}
+              {chapter.groups.map(({ group, g }) => {
+                const columns = group.columns ?? 2;
+                // A lone clip shows its caption over itself on hover.
+                const overlay = group.images.length === 1 && group.images[0].video && group.caption;
+                return (
+                  <figure
+                    class:list={['group', { single: columns === 1, gallery: group.gallery, carousel: group.slides }]}
+                    style={`--columns: ${columns}`}
+                  >
+                    {group.label && <p class="label">{group.label}</p>}
+                    {group.slides && (
+                      <div class="slides" tabindex="0" aria-label="Carousel, scroll sideways for more">
+                        {group.slides.map((slide, n) => (
+                          <div
+                            class:list={['slide', { single: (slide.columns ?? 2) === 1 }]}
+                            style={`--columns: ${slide.columns ?? 2}`}
+                            aria-label={`${n + 1} of ${group.slides!.length}`}
+                          >
+                            <div class="grid">
+                              {slide.images.map((image) => (
+                                <div class:list={['tile', { fit: image.width }]}>
+                                  <Image
+                                    style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
+                                    src={image.src}
+                                    alt={image.alt}
+                                    widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
+                                    sizes={`(max-width: 700px) 100vw, ${Math.round(1113 / (slide.columns ?? 2))}px`}
+                                    format="webp"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            {slide.caption && <p class="slide-caption">{slide.caption}</p>}
+                          </div>
+                        ))}
+                      </div>
                     )}
-                  </div>
-                ))}
-              </div>
-              {group.caption && <figcaption>{group.caption}</figcaption>}
-            </figure>
+                    {group.images.length > 0 && (<div
+                      class="grid"
+                      tabindex={group.gallery ? 0 : undefined}
+                      aria-label={group.gallery ? 'Gallery, scroll sideways for more' : undefined}
+                    >
+                      {group.images.map((image) => (
+                        <div class:list={['tile', { fit: image.width, overlay }]} tabindex={overlay ? 0 : undefined}>
+                          {image.video ? (
+                            <video
+                              src={image.video}
+                              poster={posters.get(image.src)}
+                              aria-label={image.alt}
+                              width={image.src.width}
+                              height={image.src.height}
+                              autoplay
+                              muted
+                              loop
+                              playsinline
+                              preload="metadata"
+                            />
+                          ) : (
+                            <Image
+                              style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
+                              src={image.src}
+                              alt={image.alt}
+                              widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
+                              sizes={group.gallery ? '(max-width: 700px) 80vw, 700px' : `(max-width: 700px) 100vw, ${Math.round(1113 / columns)}px`}
+                              format="webp"
+                              loading={g === 0 ? 'eager' : 'lazy'}
+                            />
+                          )}
+                          {overlay && <p class="hover-caption">{group.caption}</p>}
+                        </div>
+                      ))}
+                    </div>)}
+                    {(group.gallery || group.slides) && (
+                      <div class="gallery-nav">
+                        <button type="button" data-step="-1" aria-label="Previous image">←</button>
+                        <button type="button" data-step="1" aria-label="Next image">→</button>
+                      </div>
+                    )}
+                    {group.caption && <figcaption class:list={{ 'sr-only': overlay }}>{group.caption}</figcaption>}
+                  </figure>
+                );
+              })}
+            </div>
           ))
         }
       </section>
 
       {
-        study.result && (
+        study.outcome && (
           <section class="note result">
-            <h2>Where it ran</h2>
-            <p>{study.result}</p>
+            <h2>The outcome</h2>
+            <p>{study.outcome}</p>
           </section>
         )
       }
@@ -159,6 +243,24 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 </Base>
 
 <script>
+  // Gallery arrows move one picture at a time.
+  document.querySelectorAll<HTMLElement>('.gallery, .carousel').forEach((gallery) => {
+    const track = gallery.querySelector<HTMLElement>('.slides') ?? gallery.querySelector<HTMLElement>('.grid');
+    if (!track) return;
+    gallery.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const step = Number(button.dataset.step);
+        const tiles = [...track.children] as HTMLElement[];
+        const left = track.scrollLeft;
+        const target =
+          step > 0
+            ? tiles.find((t) => t.offsetLeft > left + 4)
+            : [...tiles].reverse().find((t) => t.offsetLeft < left - 4);
+        track.scrollTo({ left: target ? target.offsetLeft : step > 0 ? track.scrollWidth : 0, behavior: 'smooth' });
+      });
+    });
+  });
+
   // Clips loop on their own; with reduced motion they wait for a press of play.
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll<HTMLVideoElement>('.work video').forEach((video) => {
@@ -235,11 +337,114 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     text-decoration: underline;
   }
 
-  .notes {
+  /* Problem, solution and delivery: coloured cards tucked into a pocket so
+     only their tops show. Each pulls out on hover or focus. */
+  .pocket {
+    --tab: calc(72 * var(--px));
+    position: relative;
+    z-index: 5;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: calc(28 * var(--px));
-    margin: calc(48 * var(--px)) 0;
+    grid-template-columns: repeat(3, 1fr);
+    --tuck: calc(40 * var(--px));
+    height: calc(var(--tab) + var(--tuck));
+    margin: calc(48 * var(--px)) 0 calc(-1 * var(--tuck));
+    padding: 0 calc(10 * var(--px));
+    clip-path: inset(-200vh -60px 0 -60px);
+  }
+
+  /* The cards tuck behind the first picture of the work, which sits over the
+     bottom of the pocket. */
+  .pocket + .work {
+    position: relative;
+    z-index: 6;
+  }
+
+  /* That picture stays put and solid so the cards really are behind it. */
+  .pocket + .work .chapter:first-of-type .group:first-of-type .tile {
+    animation: none !important;
+  }
+
+  /* Each card sits in a fixed slot that takes the hover, so the card can move
+     without the pointer slipping off it and making it bounce. Hovering the
+     raised card still counts, because it's inside the slot. */
+  .slot {
+    position: relative;
+  }
+
+  .slot + .slot {
+    margin-left: calc(-24 * var(--px));
+  }
+
+  .slot:hover,
+  .slot:focus-within {
+    z-index: 1;
+  }
+
+  .pull {
+    padding: calc(22 * var(--px)) calc(26 * var(--px)) calc(28 * var(--px));
+    background: var(--tile);
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
+    color: var(--black);
+    font-size: max(15px, calc(19 * var(--px)));
+    font-weight: 300;
+    line-height: 1.45;
+    transform: rotate(calc((var(--i) - 1) * 1.6deg));
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: default;
+  }
+
+  .slot:nth-child(2) .pull {
+    color: var(--white);
+  }
+
+  .slot:hover .pull,
+  .slot:focus-within .pull {
+    transform: rotate(0deg) translateY(calc(-100% + var(--tab) - var(--tuck) - 12 * var(--px)));
+  }
+
+  .pull:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  .pull h2 {
+    margin: 0 0 calc(14 * var(--px));
+    font-family: var(--font-display);
+    font-size: max(26px, calc(40 * var(--px)));
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .pull p,
+  .pull ul {
+    margin: 0;
+  }
+
+  .pull ul {
+    padding-left: 1.1em;
+  }
+
+  /* Touch screens can't hover, so the cards lie open. */
+  @media (hover: none) {
+    .pocket {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: calc(20 * var(--px));
+      height: auto;
+      margin-bottom: calc(48 * var(--px));
+      clip-path: none;
+    }
+
+
+    .slot + .slot {
+      margin-left: 0;
+    }
+
+    .pull,
+    .slot:hover .pull,
+    .slot:focus-within .pull {
+      transform: none;
+    }
   }
 
   .note {
@@ -260,7 +465,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     transform: rotate(1.2deg);
   }
 
-  .note h2 {
+  .note h2,
+  .note h3 {
     margin: 0 0 calc(10 * var(--px));
     color: var(--ink);
     font-family: var(--font-display);
@@ -277,6 +483,243 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
   .note ul {
     padding-left: 1.1em;
+  }
+
+  /* At a glance: one quick-read card for people in a rush. */
+  .glance {
+    margin: calc(40 * var(--px)) 0 0;
+    padding: calc(24 * var(--px)) calc(28 * var(--px));
+    background: var(--white);
+    border-radius: calc(17 * var(--px));
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.15);
+    font-size: max(15px, calc(19 * var(--px)));
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .glance h2 {
+    margin: 0 0 calc(14 * var(--px));
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: max(26px, calc(40 * var(--px)));
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .glance dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: calc(16 * var(--px)) calc(28 * var(--px));
+    margin: 0;
+  }
+
+  .glance dt {
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .glance dd {
+    margin: calc(2 * var(--px)) 0 0;
+  }
+
+  /* Story notes sit between image groups, so the detail unfolds as you scroll. */
+  /* A chapter: its story note and pictures share one panel, with the note
+     pinned over the top edge like a label. */
+  .chapter {
+    display: flex;
+    flex-direction: column;
+    gap: calc(56 * var(--px));
+  }
+
+  .chapter.has-story {
+    margin-top: calc(40 * var(--px));
+    padding: 0 calc(28 * var(--px)) calc(36 * var(--px));
+    background: rgb(0 0 0 / 0.045);
+    border-radius: calc(24 * var(--px));
+  }
+
+  .note.story {
+    position: relative;
+    z-index: 1;
+    max-width: 40em;
+    margin: calc(-40 * var(--px)) 0 calc(-20 * var(--px)) calc(-12 * var(--px));
+    transform: rotate(-0.8deg);
+  }
+
+  /* A lone picture with a set width hugs its frame. */
+  .single .tile.fit {
+    justify-self: center;
+    width: fit-content;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .single .tile.fit img {
+    width: 100%;
+  }
+
+  /* A clip's caption appears over it on hover. */
+  .tile.overlay {
+    position: relative;
+  }
+
+  .hover-caption {
+    position: absolute;
+    inset: 0 0 auto;
+    margin: 0;
+    padding: calc(22 * var(--px)) calc(28 * var(--px)) calc(48 * var(--px));
+    background: linear-gradient(rgb(0 0 0 / 0.7), transparent);
+    color: var(--white);
+    font-size: max(14px, calc(18 * var(--px)));
+    font-weight: 300;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(calc(-10 * var(--px)));
+    transition:
+      opacity 250ms ease,
+      transform 450ms var(--spring);
+    pointer-events: none;
+  }
+
+  .tile.overlay:hover .hover-caption,
+  .tile.overlay:focus-visible .hover-caption {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (hover: none) {
+    .hover-caption {
+      position: static;
+      background: var(--white);
+      color: var(--black);
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* A click-through gallery: one row of pictures at the same height. */
+  .gallery .grid {
+    position: relative;
+    display: flex;
+    gap: calc(20 * var(--px));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 4px 4px 8px;
+    margin: -4px -4px -8px;
+  }
+
+  .gallery .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery .tile {
+    flex: none;
+    height: calc(440 * var(--px));
+    scroll-snap-align: start;
+  }
+
+  .gallery .tile img {
+    width: auto;
+    height: 100%;
+    max-width: none !important;
+  }
+
+  .gallery .grid:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  /* A carousel of pages: each slide is a full-width grid of its own. */
+  .slides {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 4px 4px 8px;
+    margin: -4px -4px -8px;
+  }
+
+  .slides::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slides:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  .slide + .slide {
+    margin-left: calc(20 * var(--px));
+  }
+
+  /* A single picture after the first slide takes half the width, so it
+     slides in beside the last pages instead of replacing them. */
+  .slide + .slide.single {
+    flex-basis: calc(50% - 10 * var(--px));
+    scroll-snap-align: end;
+  }
+
+  .slide-caption {
+    margin: calc(14 * var(--px)) 0 0;
+    font-size: max(14px, calc(18 * var(--px)));
+    font-weight: 300;
+    line-height: 1.45;
+  }
+
+  .carousel .gallery-nav {
+    margin-top: calc(-36 * var(--px));
+  }
+
+  .carousel .slide-caption {
+    padding-right: calc(130 * var(--px));
+  }
+
+  .gallery-nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: calc(12 * var(--px));
+    margin-top: calc(14 * var(--px));
+  }
+
+  .gallery-nav button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 calc(14 * var(--px));
+    background: var(--white);
+    border: 0;
+    border-radius: 999px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.15);
+    color: var(--ink);
+    font: inherit;
+    font-size: max(20px, calc(26 * var(--px)));
+    cursor: pointer;
+    transition: transform 300ms var(--spring);
+  }
+
+  .gallery-nav button:hover,
+  .gallery-nav button:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .gallery-nav button:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: 3px;
   }
 
   .work {
@@ -415,6 +858,67 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
     .tile {
       border-radius: calc(10 * var(--px));
+    }
+
+    .pocket {
+      grid-template-columns: 1fr;
+      gap: calc(14 * var(--px));
+      height: auto;
+      margin: calc(32 * var(--px)) 0;
+      clip-path: none;
+    }
+
+
+    .slot + .slot {
+      margin-left: 0;
+    }
+
+    .pull,
+    .slot:hover .pull,
+    .slot:focus-within .pull {
+      transform: none;
+    }
+
+    .chapter.has-story {
+      margin-top: calc(32 * var(--px));
+      padding: 0 calc(10 * var(--px)) calc(16 * var(--px));
+      border-radius: calc(14 * var(--px));
+    }
+
+    .note.story,
+    .note.story:nth-child(odd) {
+      margin: calc(-24 * var(--px)) 0 0;
+      transform: none;
+    }
+
+    .gallery .tile {
+      height: calc(240 * var(--px));
+    }
+
+    .carousel .gallery-nav {
+      margin-top: calc(10 * var(--px));
+    }
+
+    .carousel .slide-caption {
+      padding-right: 0;
+    }
+
+    .slide + .slide.single {
+      flex-basis: 100%;
+      scroll-snap-align: start;
+    }
+
+    .gallery .tile img {
+      max-width: 80vw !important;
+      object-fit: contain;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pull,
+    .hover-caption,
+    .gallery-nav button {
+      transition: none;
     }
   }
 </style>

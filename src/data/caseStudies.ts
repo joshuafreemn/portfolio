@@ -1,7 +1,8 @@
 // Case studies under /wrk/. Every page uses the same template
-// (src/pages/wrk/[slug].astro): The brief · The idea · What I did · The work ·
-// Where it ran. Leave a section out until its copy is real; empty sections are
-// not rendered. A project only gets a page, and a linked card, once its case
+// (src/pages/wrk/[slug].astro): an At a glance card for skimmers, then The
+// problem · The solution · The delivery, the work (with optional story notes
+// between groups, so the detail unfolds as you scroll) and The outcome. Leave a
+// section out until its copy is real; empty sections are not rendered. A project only gets a page, and a linked card, once its case
 // study is listed here.
 import type { ImageMetadata } from 'astro';
 
@@ -57,8 +58,30 @@ import shLogo from '../assets/wrk/storehouse/v1-logo.jpg';
 import shBigIdeas from '../assets/wrk/storehouse/v1-big-ideas.jpg';
 import shPosters from '../assets/wrk/storehouse/v1-posters.jpg';
 import shType from '../assets/wrk/storehouse/v1-type.jpg';
-import shPrint from '../assets/wrk/storehouse/v1-print.jpg';
-import shSocial from '../assets/wrk/storehouse/v1-social.jpg';
+import shFinalLogo from '../assets/wrk/storehouse/final-logo.jpg';
+import shFinalPatterns from '../assets/wrk/storehouse/final-patterns.jpg';
+import shFinalPalette from '../assets/wrk/storehouse/final-palette.jpg';
+import shFinalType from '../assets/wrk/storehouse/final-type.jpg';
+import shBroCover from '../assets/wrk/storehouse/brochure-cover.jpg';
+import shBroBuilding from '../assets/wrk/storehouse/brochure-building.jpg';
+import shBroSchedule from '../assets/wrk/storehouse/brochure-schedule.jpg';
+import shBroFloorplans from '../assets/wrk/storehouse/brochure-floorplans.jpg';
+import shBroHighlights from '../assets/wrk/storehouse/brochure-highlights.jpg';
+import shBroConnected from '../assets/wrk/storehouse/brochure-connected.jpg';
+import shBoardPhoto from '../assets/wrk/storehouse/letting-board-photo.jpg';
+import shBoard from '../assets/wrk/storehouse/letting-board.jpg';
+import shAd from '../assets/wrk/storehouse/half-page-ad.jpg';
+import shTenantBoard from '../assets/wrk/storehouse/tenant-board.jpg';
+import shPoster from '../assets/wrk/storehouse/a3-poster.jpg';
+import shFlag from '../assets/wrk/storehouse/feather-flag.jpg';
+import shNewmanCover from '../assets/wrk/storehouse/newman-cover.jpg';
+import shNewmanHighlights from '../assets/wrk/storehouse/newman-highlights.jpg';
+import shElyCover from '../assets/wrk/storehouse/ely-cover.jpg';
+import shElyHighlights from '../assets/wrk/storehouse/ely-highlights.jpg';
+import shNewmanInvite from '../assets/wrk/storehouse/newman-invite.jpg';
+import shMasterMap from '../assets/wrk/storehouse/master-map.jpg';
+import shMasterHome from '../assets/wrk/storehouse/master-home.jpg';
+import shMasterProperties from '../assets/wrk/storehouse/master-properties.jpg';
 
 import qrLanding from '../assets/wrk/smartqr/landing.jpg';
 import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
@@ -128,13 +151,36 @@ export interface WorkImage {
   video?: string;
 }
 
+export interface GlanceItem {
+  label: string;
+  value: string;
+}
+
+/** A chapter of the story, told in a note just before its images. */
+export interface StoryNote {
+  heading: string;
+  text: string;
+}
+
+export interface WorkSlide {
+  images: WorkImage[];
+  columns?: 1 | 2 | 3 | 4;
+  caption?: string;
+}
+
 export interface WorkGroup {
+  /** A note introducing this part of the project, shown before its images. */
+  story?: StoryNote;
   /** Small label above the group, e.g. "Process". */
   label?: string;
   images: WorkImage[];
   caption?: string;
   /** Grid columns on desktop. */
   columns?: 1 | 2 | 3 | 4;
+  /** Show the pictures as one sideways row to click through. */
+  gallery?: boolean;
+  /** A carousel of pages, each its own grid; replaces `images`. */
+  slides?: WorkSlide[];
 }
 
 export interface CaseStudy {
@@ -143,11 +189,14 @@ export interface CaseStudy {
   description: string;
   /** Page background, picked from the project's palette. */
   background: string;
-  brief?: string;
-  idea?: string;
-  whatIDid?: string[];
+  /** Short facts for people in a rush, shown in a card under the title. */
+  glance?: GlanceItem[];
+  problem?: string;
+  solution?: string;
+  /** What I delivered, as a bullet list. */
+  delivery?: string[];
   work: WorkGroup[];
-  result?: string;
+  outcome?: string;
   /** A live version to try, linked under the intro. */
   url?: string;
 }
@@ -159,9 +208,9 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A pitch identity for Royal London Asset Management: Life Science, built on cell division, with a custom display typeface and a symbol system that scales from signage to favicon.',
     background: '#e3fbf7',
-    idea:
+    solution:
       'Cell division is how living things grow: one becomes two, then four. That is exactly the offer to a life science tenant at an RLAM park, which is to start small and expand within the portfolio over time. I built the whole identity from that one idea, so the mark, the typeface and the motion rules all tell the same story of structured, organic growth.',
-    whatIDid: [
+    delivery: [
       'Concept and identity, from the first idea to the lockups',
       'A custom display typeface drawn from the cell-division form',
       'Type pairing and a set of reduced symbols, tested down to micro sizes',
@@ -254,11 +303,11 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'Find Your Place: a pitch route for the relaunch of 123 Victoria Street in London, built on the podium, the track and the race to the line.',
     background: '#f8f2cf',
-    brief:
+    problem:
       '123 Victoria Street, a London office building, was relaunching after its third major refurbishment and needed a brand that made it feel new again. Smart Soho pitched three creative routes. I owned route three end to end, from the strategy to the finished campaign.',
-    idea:
+    solution:
       '123 Victoria Street is more than an address. Its number reflects the podium positions of first, second and third, while Victoria suggests victory and success. Following its third major refurbishment, the building is sharper, more agile and ready for its next chapter. Like lanes one, two and three on a track, it offers occupiers the inside line by design. “Find Your Place” captures this sense of position, progress and belonging.',
-    whatIDid: [
+    delivery: [
       'Sole designer on this route',
       'The idea, strategy and positioning',
       'Identity: the 123 podium mark and track-lane system',
@@ -351,16 +400,16 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A friendlier website for a family-run property company, redesigned inside the brand they already had.',
     background: '#eef0f6',
-    brief:
+    problem:
       'After Store House, Store Property asked Smart Soho to redesign their company website, which felt rigid and formal. The brand was established and they had invested in merchandise they didn’t want to remake, so the new site had to work within it.',
-    idea:
-      'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and managed the handover to an external developer.',
-    whatIDid: [
+    solution:
+      'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and worked back and forth with the development team through the build.',
+    delivery: [
       'Presented to the client at every phase and was their day-to-day contact, supporting the account team',
       'Sitemap and user flows',
       'Wireframes styled in the brand',
       'Final desktop and mobile designs',
-      'Handover to an external developer and support through the build',
+      'Worked with the development team through the build',
     ],
     work: [
       {
@@ -412,24 +461,40 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
     ],
-    result: 'Live at storeproperty.co.uk, built from my designs. It followed straight on from Store House, so the same client came back to the studio for a second project.',
+    outcome:
+      'Designed from March 2026 and live at storeproperty.co.uk in April 2026, built from my designs. The client came back to the studio for it after Store House.',
   },
   {
     slug: 'storehouse',
     title: 'Store House',
-    description: 'Branding, a brochure and a one-page website for Store House, a newly acquired building in Bermondsey.',
+    description:
+      'A launch brand for one Bermondsey warehouse that became Store Property’s office brand across London: identity, brochures, websites, motion and print for three buildings.',
     background: '#f3efe8',
-    brief:
-      'Store Property had just acquired Store House, a building in Bermondsey, and needed to launch it to the market: a brand, a brochure and a website.',
-    idea:
-      'My pitch route drew the building mark from the site’s own materials, brick and plywood, with a wordmark that runs like packing tape. In the final identity it was combined with a colleague’s route, and I carried that identity through the brochure and the website. With the site on a short deadline, I designed it straight from the brochure as one scrolling page, and made the hero animation that became the client’s favourite part.',
-    whatIDid: [
-      'Pitch branding route, combined with a colleague’s for the final identity',
-      'Brochure',
-      'One-page scrolling website, designed from the brochure',
-      'Hero animation',
+    glance: [
+      { label: 'Client', value: 'Store Property' },
+      { label: 'Agency', value: 'Smart Soho' },
+      {
+        label: 'My role',
+        value: 'Lead designer: merged the pitch routes, presented every stage to the client and led the rollout',
+      },
+      { label: 'Timeline', value: 'Identity signed off June 2025, still growing in 2026' },
+      { label: 'Scale', value: '3 buildings, 3 brochures, building websites and a new master site' },
+      { label: 'Delivered', value: 'Identity · Brochures · Websites · Motion · Signage · Print and ads' },
+      { label: 'Outcome', value: 'Grew from one building to three and is replacing the SP Managed brand' },
     ],
-    // Still to come: the final branding, the brochure and the live site.
+    problem:
+      'Store Property had just bought 75 Bermondsey Street, a former warehouse in SE1, and refurbished it into fully fitted offices from 300 to 8,806 sq ft. To let it they needed a brand that stood out on a busy street, a brochure to send to prospective occupiers, a website, and everything on the building that tells passers-by it’s open.',
+    solution:
+      'Make the building the logo. Smart Soho pitched two routes, and mine built the brand from the warehouse’s own brick and plywood. I led the merge of the two into the final identity: a simplified façade as the icon, a stacked wordmark, and an orange, navy, brown and cream palette. Because the icon is drawn from the façade, every new building can have its own, which is how a launch brand became a family.',
+    delivery: [
+      'Led the merge of two pitch routes into one identity, presenting every stage to the client',
+      'Identity: building icon, wordmark, palette, type and patterns',
+      '16-page digital brochure for prospective occupiers',
+      'Website in WordPress and Breakdance, with a Lottie hero animation made in After Effects',
+      'Letting boards, a feather flag, a tenant board, a poster and a half-page ad',
+      'Rollout to 30 Newman Street, W1 and 10-12 Ely Place, EC1N',
+      'A new master site for the Store House brand, built in WordPress and Breakdance with Claude',
+    ],
     work: [
       {
         images: [
@@ -440,10 +505,14 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'The hero animation from the live site, in the final identity.',
+        caption:
+          'The website hero: a street of buildings slides past until Store House arrives. I animated it in After Effects and exported it as a Lottie file, so it stays sharp and light on the live site. It became the client’s favourite part.',
       },
       {
-        label: 'My pitch route',
+        story: {
+          heading: 'Two routes, one brand',
+          text: 'My pitch route began with what the building is made of: brick outside, plywood inside, with a wordmark that repeats like packing tape. The final identity brought both routes together. I led that merge and presented each round to the client until the brand was signed off in June 2025.',
+        },
         images: [
           {
             src: shOverview,
@@ -451,8 +520,6 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption:
-          'A building mark cut from the materials of the site, its brick and plywood, with a wordmark that runs like packing tape.',
       },
       {
         images: [
@@ -475,31 +542,127 @@ const allCaseStudies: CaseStudy[] = [
         ],
       },
       {
+        story: {
+          heading: 'The final identity',
+          text: 'The signed-off brand is simpler and works harder. The icon is the building’s own façade, the wordmark stacks above it, PP Supply Sans sets the titles and Basic Sans the body copy, and a set of window-grid patterns fills space without needing photography.',
+        },
+        images: [
+          { src: shFinalLogo, alt: 'The final Store House logo: the stacked wordmark in cream above an orange building icon, on navy.' },
+          { src: shFinalPatterns, alt: 'Four orange patterns built from window grids: a checkerboard, offset bars, vertical lines and an outlined grid.' },
+          { src: shFinalPalette, alt: 'The palette: orange #fd7749, navy #232539, brown #693501 and cream #f2e4d0.' },
+          { src: shFinalType, alt: 'Type specimen in brown: PP Supply Sans Regular and Ultralight for titles, Basic Sans Ultralight for body copy.' },
+        ],
+        columns: 2,
+      },
+      {
+        story: {
+          heading: 'A brochure that does the letting',
+          text: 'Prospective occupiers get the brochure as a download, so I designed it for a screen: 16 landscape pages that take them from the building to every floor plan, the amenities and the walk to London Bridge.',
+        },
+        images: [
+          { src: shBroCover, alt: 'Brochure cover: the Store House logo in cream and orange on navy, with 300 to 8,806 sq ft of fully fitted office space.' },
+          { src: shBroBuilding, alt: 'Brochure page: the orange building icon and an introduction to Store House, Bermondsey, beside a photo of the brick warehouse front.' },
+          { src: shBroSchedule, alt: 'Brochure page: an axonometric cutaway of the building on orange beside the schedule of areas.' },
+          { src: shBroFloorplans, alt: 'Brochure page: colour-coded floor plans for the ground and first floors with desk counts and room keys.' },
+          { src: shBroHighlights, alt: 'Brochure page: building highlights as a grid of icons on orange, beside a photo of the bike store.' },
+          { src: shBroConnected, alt: 'Brochure page: Connected in minutes, with walking and tube times from London Bridge beside a photo of the station.' },
+        ],
+        columns: 2,
+      },
+      {
+        story: {
+          heading: 'On the street',
+          text: 'A refurbished building is easy to walk past. Letting boards, a feather flag and a half-page ad put the brand on Bermondsey Street. Inside, the tenant board sits on plywood, a nod back to the pitch, and a poster in the boardroom tells visitors its hire fees go to a local youth club.',
+        },
         images: [
           {
-            src: shPrint,
-            alt: 'A brochure in a pale blue slipcase, its cover splitting the wordmark across a brick page and a plywood page.',
+            src: shBoardPhoto,
+            alt: 'Photo of the brick warehouse on Bermondsey Street between modern neighbours, with the navy Store House letting board on its front.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        images: [
+          { src: shBoard, alt: 'Letting board artwork: the Store House logo on navy with New fully fitted offices available and storehousese1.com in orange.' },
+          { src: shAd, alt: 'Half-page ad: New offices in the heart of bustling Bermondsey Street, in orange, with interior photos and the building icon.' },
+          { src: shTenantBoard, alt: 'Tenant board on plywood: the building icon and wordmark above a list of floors and tenants, owned and managed by Store Property.' },
+          { src: shPoster, alt: 'A3 poster on cream: Supporting Downside Fisher Youth Club, explaining that boardroom hire fees go to the local charity.' },
+          { src: shFlag, alt: 'Orange feather flag with STORE HOUSE running vertically above the building icon.' },
+        ],
+        gallery: true,
+      },
+      {
+        story: {
+          heading: 'One brand, many buildings',
+          text: 'In August 2026 the brand moved to 30 Newman Street in the West End, with its own brochure, website and a launch party invite, and then to 10-12 Ely Place in Farringdon. I led both. Each building gets its own icon drawn from its façade and its own colour pairing, while the type, layouts and tone stay the same.',
+        },
+        images: [],
+        slides: [
+          {
+            images: [
+              { src: shNewmanCover, alt: '30 Newman Street brochure cover: the Store House wordmark above an orange icon of the Newman Street building, on pale blue.' },
+              { src: shNewmanHighlights, alt: '30 Newman Street brochure page: building highlights as a grid of icons on sage green.' },
+              { src: shElyCover, alt: '10-12 Ely Place brochure cover: the wordmark above a wide orange icon of the Ely Place façade, on brown.' },
+              { src: shElyHighlights, alt: '10-12 Ely Place brochure page: Connected in minutes, with travel times beside a map of Farringdon.' },
+            ],
+            columns: 2,
+            caption: 'Brochures for 30 Newman Street and 10-12 Ely Place.',
           },
           {
-            src: shSocial,
-            alt: 'Four phone stories: Available now in SE1 on brick, 11,429 sq ft over an office render, Office space over a reception render, and the logo on plywood.',
+            images: [
+              {
+                src: shNewmanInvite,
+                alt: 'HTML email invite on sage green for the relaunch of 30 Newman Street, with a photo of the building and the Store House W1 lockup.',
+                width: 500,
+              },
+            ],
+            columns: 1,
+            caption: 'The HTML email invite to the 30 Newman Street launch party.',
           },
         ],
       },
+      {
+        story: {
+          heading: 'A place to call home',
+          text: 'Three buildings meant three separate websites, and nowhere that showed Store House as a whole. In September 2026 I started designing a master site to bring the whole portfolio together: six buildings across central London, each drawn as its own icon from its façade and pinned to an illustrated map. I wireframed every page first, then designed the homepage, the properties page and a template that the existing building sites now sit inside. It is built in WordPress and Breakdance, with Claude speeding up the build, and goes live in November 2026.',
+        },
+        images: [
+          {
+            src: shMasterMap,
+            alt: 'An illustrated map of central London on navy, with each Store House building drawn as an orange icon in Fitzrovia, Farringdon, Shoreditch and Bermondsey.',
+          },
+        ],
+        columns: 1,
+        caption: 'The portfolio map. Every building gets an icon drawn from its own façade.',
+      },
+      {
+        images: [
+          {
+            src: shMasterHome,
+            alt: 'The master site homepage: the line Characterful buildings, run by the people who own them, three key figures, a photo of the communal kitchen at Store House SE1 and a Latest property card for Ely Place.',
+          },
+          {
+            src: shMasterProperties,
+            alt: 'The properties page, headed Offices across central London, with photo cards for Ely Place, 30 Newman St, 75 Bermondsey St and 59-61 Bermondsey Street.',
+          },
+        ],
+        caption: 'The homepage and the properties page.',
+      },
     ],
-    result:
-      'The brand outgrew the building. Store Property has extended it to two more acquisitions, including 30 Newman Street (storehousew1.com), and is retiring its SP Managed brand to bring everything under Store House. Live at storehousese1.com.',
+    outcome:
+      'The brand outgrew the building. What began in June 2025 as a launch for one warehouse now covers three buildings across London and is replacing Store Property’s SP Managed brand. The master site brings them under one roof when it goes live in November 2026. See storehousese1.com and storehousew1.com.',
   },
   {
     slug: 'smartqr',
     title: 'Smart QR',
     description: 'An in-house tool for Smart Soho that makes QR codes you can repoint after they have gone to print.',
     background: '#fbeceb',
-    brief:
+    problem:
       'Smart Soho puts QR codes on hoardings, brochures and event material for its clients. Once a code is printed its link is fixed, so a changed page or a new campaign meant new artwork.',
-    idea:
+    solution:
       'Print a code that points to a link the studio controls, so the destination can change at any time without touching the artwork. Keep it simple enough for anyone in the studio: create a code, change where it goes, download a PNG.',
-    whatIDid: [
+    delivery: [
       'Designed the tool and built it with Claude',
       'Landing page and dashboard in the Smart Soho brand',
       'Create, edit, search and PNG download',
@@ -539,18 +702,18 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'Sign-in sits behind Cloudflare Access, so only the team can reach the dashboard.',
       },
     ],
-    result: 'In use at Smart Soho at smartqr.uk, with live codes on campaigns for several clients.',
+    outcome: 'In use at Smart Soho at smartqr.uk, with live codes on campaigns for several clients.',
   },
   {
     slug: 'cinesnap',
     title: 'Cinesnap',
     description: 'An in-house tool for pulling clean, full-quality stills from films and CGI renders.',
     background: '#efe6dc',
-    brief:
+    problem:
       'At work I often get 4K CGI renders, or a finished edit from a client or another company, and need stills from them for a brochure or website. Scrubbing a timeline by hand is slow, and a screen grab rarely gives you the full-quality frame.',
-    idea:
+    solution:
       'Let the app find the cuts first. A quick scan splits the film into scenes and shots, so you jump straight to a shot and step frame by frame to the exact still.',
-    whatIDid: [
+    delivery: [
       'Designed and built it on my own, with AI',
       'A three-step flow: import and scan, capture, then review and export',
       'Scene and cut detection with adjustable sensitivity and scan speed',
@@ -594,7 +757,7 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'Review. Each still is named by its timecode, ready to download on its own or all together as a zip.',
       },
     ],
-    result:
+    outcome:
       'Used in-house for brochure and website stills. It runs in the browser, so client films never leave the computer.',
     url: 'https://cinesnap-eight.vercel.app/',
   },
@@ -603,11 +766,11 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Heatmapper',
     description: 'A browser tool for mapping how shoppers move through a store and where they linger, made for a retail design client.',
     background: '#e3efe9',
-    brief:
+    problem:
       'A client designing shop floors needed a way to show customer circulation and highlight areas of dwell time while a layout was still at the strategy stage.',
-    idea:
+    solution:
       'Paint it like a picture. Hot brushes mark where people linger, cold ones where they pass straight by, and the app blends the rest into a smooth map that stays inside the walls.',
-    whatIDid: [
+    delivery: [
       'Designed and built it on my own, with AI',
       'Hot and cold brushes, an eraser, and exact points for key spots',
       'Floor boundaries, plus cutouts for stockrooms and other no-go areas',
@@ -651,7 +814,7 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'The exported PNG, at the plan’s own size with the editing guides left out. The shop plan is a sample made for this page.',
       },
     ],
-    result:
+    outcome:
       'Made for a retail design client’s strategy work on shop floors. Plans and projects stay on the computer, and nothing is uploaded.',
     url: 'https://heatmapper-mu.vercel.app/',
   },
@@ -660,11 +823,11 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Sudoku Race',
     description: 'Head-to-head Sudoku for the studio. Share a room code and race your colleagues to fill the grid.',
     background: '#f3ede0',
-    brief:
+    problem:
       'Something to brighten the mornings when we got into work early, or the rainy days when we couldn’t get out to stretch our legs.',
-    idea:
+    solution:
       'Treat it like a race. A track above the grid shows how far each player has got, and help such as a solve costs points, so speed and skill both count.',
-    whatIDid: [
+    delivery: [
       'Designed and built it on my own, with AI',
       'Match setup: invite friends with a room code, or practise alone',
       'Four modes: Standardoku, Countdown, Domination and Sabotage',
@@ -711,7 +874,7 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'The Nighttime theme, and the finish.',
       },
     ],
-    result: 'Played in the studio on early mornings and rainy days. Matches run directly between browsers, with no accounts.',
+    outcome: 'Played in the studio on early mornings and rainy days. Matches run directly between browsers, with no accounts.',
     url: 'https://soduku-race.vercel.app/',
   },
   {
@@ -719,11 +882,11 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Lee Valley Lions',
     description: 'Social media for Lee Valley Lions, an ice hockey club at Lee Valley Ice Centre: game days, results, signings and fixtures.',
     background: '#e3edf8',
-    brief:
+    problem:
       'An ice hockey club lives on its feed. The Lions needed posts for every game day, line-up, score and result, plus monthly fixtures and every signing, all season long.',
-    idea:
+    solution:
       'Design a system, not a run of posts. I built one kit of parts for the whole season from the club’s blue, white and green stripes, jersey-mesh textures, heavy type and the lion crest, with a template for each kind of post. That keeps the feed unmistakably the Lions from week to week, however many posts a match day needs.',
-    whatIDid: [
+    delivery: [
       'Templates for game day, line-ups, period scores, full time and the weekend wrap-up',
       'Player and staff signing announcements',
       'Monthly fixture posters and the season fixtures reveal',
@@ -810,7 +973,7 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'Join the Huddle, a call for game day volunteers.',
       },
     ],
-    result: 'Posted across the club’s social channels through the 2026–27 season.',
+    outcome: 'Posted across the club’s social channels through the 2026–27 season.',
   },
   {
     slug: 'pallmall',
@@ -818,11 +981,11 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A marketing website for Pall Mall Gardens, four new Grade A office buildings around a public garden in Liverpool’s business district.',
     background: '#e8eff8',
-    brief:
+    problem:
       'Kier needed a website to market the office space at Pall Mall Gardens to occupiers and their agents. A colleague had created the branding and the brochure already told the story, so the site had to carry it online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
-    idea:
+    solution:
       'Settle the content before the design. I wireframed every page with each section matched to the brochure page it came from, so the story was agreed before any design started and design rounds could focus on the look. I was the sole web designer, taking the brand’s cream, blue, green and orange into an interactive masterplan, floor-by-floor plans, a local map and a transport diagram.',
-    whatIDid: [
+    delivery: [
       'Site structure and wireframes mapped to the brochure',
       'Desktop and mobile designs for every page',
       'Interactive masterplan and floor plan explorer',
@@ -918,7 +1081,7 @@ const allCaseStudies: CaseStudy[] = [
         columns: 3,
       },
     ],
-    result: 'Live at pallmallliverpool.com.',
+    outcome: 'Live at pallmallliverpool.com.',
     url: 'https://pallmallliverpool.com/',
   },
   {
@@ -927,11 +1090,11 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A marketing website for Curve, a 200,000 sq ft headquarters office building on Centenary Square in Birmingham.',
     background: '#efeaf3',
-    brief:
+    problem:
       'Curve is a new headquarters building by Kier at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
-    idea:
+    solution:
       'Turn the brand’s gradient tiles into the site’s system. A colleague created the branding; as the sole web designer, I made those tiles the structure of the whole site. They frame the logo on the home page, stack into the key features and slide behind the photography, so every page feels like Curve. I started from wireframes built on the brochure and led the design through six rounds of design to the desktop and mobile files handed to the developers.',
-    whatIDid: [
+    delivery: [
       'Wireframes built from the brochure',
       'Six rounds of design, desktop and mobile',
       'Gradient tile system and scroll motion',
@@ -1033,7 +1196,7 @@ const allCaseStudies: CaseStudy[] = [
         columns: 3,
       },
     ],
-    result: 'Handed to developers after six rounds of design, and in development now.',
+    outcome: 'Handed to developers after six rounds of design, and in development now.',
   },
 ];
 
