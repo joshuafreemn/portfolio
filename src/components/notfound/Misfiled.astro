@@ -37,6 +37,7 @@ const { noindex = true } = Astro.props;
         <li><a href="/">Home</a></li>
       </ul>
       <span class="stamp" aria-hidden="true">404</span>
+      <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" data-fidget="wiggle" />
     </section>
   </div>
 </FolderPage>
@@ -208,6 +209,15 @@ const { noindex = true } = Astro.props;
     }
   }
 
+  .clip {
+    position: absolute;
+    top: calc(-14 * var(--px));
+    right: calc(-46 * var(--px));
+    width: calc(185 * var(--px));
+    height: auto;
+    transform: rotate(-12deg);
+    animation: wiggle 900ms ease-out 500ms both;
+  }
 
   @media (max-width: 700px) {
     .desk {
@@ -258,10 +268,16 @@ const { noindex = true } = Astro.props;
       font-size: calc(54 * var(--px));
       border-width: calc(3 * var(--px));
     }
+
+    .clip {
+      right: calc(-20 * var(--px));
+      width: calc(100 * var(--px));
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .stamp {
+    .stamp,
+    .clip {
       animation: none;
     }
 
