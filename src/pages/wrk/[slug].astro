@@ -666,6 +666,13 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     margin-left: calc(20 * var(--px));
   }
 
+  /* A single picture after the first slide takes half the width, so it
+     slides in beside the last pages instead of replacing them. */
+  .slide + .slide.single {
+    flex-basis: calc(50% - 10 * var(--px));
+    scroll-snap-align: end;
+  }
+
   .slide-caption {
     margin: calc(14 * var(--px)) 0 0;
     font-size: max(14px, calc(18 * var(--px)));
@@ -682,6 +689,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
   }
 
   .gallery-nav {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: flex-end;
     gap: calc(12 * var(--px));
@@ -892,6 +901,11 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
     .carousel .slide-caption {
       padding-right: 0;
+    }
+
+    .slide + .slide.single {
+      flex-basis: 100%;
+      scroll-snap-align: start;
     }
 
     .gallery .tile img {
