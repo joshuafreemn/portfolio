@@ -140,11 +140,39 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                 const overlay = group.images.length === 1 && group.images[0].video && group.caption;
                 return (
                   <figure
-                    class:list={['group', { single: columns === 1, gallery: group.gallery }]}
+                    class:list={['group', { single: columns === 1, gallery: group.gallery, carousel: group.slides }]}
                     style={`--columns: ${columns}`}
                   >
                     {group.label && <p class="label">{group.label}</p>}
-                    <div
+                    {group.slides && (
+                      <div class="slides" tabindex="0" aria-label="Carousel, scroll sideways for more">
+                        {group.slides.map((slide, n) => (
+                          <div
+                            class:list={['slide', { single: (slide.columns ?? 2) === 1 }]}
+                            style={`--columns: ${slide.columns ?? 2}`}
+                            aria-label={`${n + 1} of ${group.slides!.length}`}
+                          >
+                            <div class="grid">
+                              {slide.images.map((image) => (
+                                <div class:list={['tile', { fit: image.width }]}>
+                                  <Image
+                                    style={image.width ? `max-width: calc(${image.width} * var(--px))` : undefined}
+                                    src={image.src}
+                                    alt={image.alt}
+                                    widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
+                                    sizes={`(max-width: 700px) 100vw, ${Math.round(1113 / (slide.columns ?? 2))}px`}
+                                    format="webp"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            {slide.caption && <p class="slide-caption">{slide.caption}</p>}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {group.images.length > 0 && (<div
                       class="grid"
                       tabindex={group.gallery ? 0 : undefined}
                       aria-label={group.gallery ? 'Gallery, scroll sideways for more' : undefined}
@@ -178,8 +206,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                           {overlay && <p class="hover-caption">{group.caption}</p>}
                         </div>
                       ))}
-                    </div>
-                    {group.gallery && (
+                    </div>)}
+                    {(group.gallery || group.slides) && (
                       <div class="gallery-nav">
                         <button type="button" data-step="-1" aria-label="Previous image">←</button>
                         <button type="button" data-step="1" aria-label="Next image">→</button>
@@ -214,13 +242,13 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
 <script>
   // Gallery arrows move one picture at a time.
-  document.querySelectorAll<HTMLElement>('.gallery').forEach((gallery) => {
-    const track = gallery.querySelector<HTMLElement>('.grid');
+  document.querySelectorAll<HTMLElement>('.gallery, .carousel').forEach((gallery) => {
+    const track = gallery.querySelector<HTMLElement>('.slides') ?? gallery.querySelector<HTMLElement>('.grid');
     if (!track) return;
     gallery.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((button) => {
       button.addEventListener('click', () => {
         const step = Number(button.dataset.step);
-        const tiles = [...track.querySelectorAll<HTMLElement>('.tile')];
+        const tiles = [...track.children] as HTMLElement[];
         const left = track.scrollLeft;
         const target =
           step > 0
@@ -595,6 +623,53 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     outline-offset: calc(4 * var(--px));
   }
 
+  /* A carousel of pages: each slide is a full-width grid of its own. */
+  .slides {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 4px 4px 8px;
+    margin: -4px -4px -8px;
+  }
+
+  .slides::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slides:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink);
+    outline-offset: calc(4 * var(--px));
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  .slide + .slide {
+    margin-left: calc(20 * var(--px));
+  }
+
+  .slide-caption {
+    margin: calc(14 * var(--px)) 0 0;
+    font-size: max(14px, calc(18 * var(--px)));
+    font-weight: 300;
+    line-height: 1.45;
+  }
+
+  .carousel .gallery-nav {
+    margin-top: calc(-36 * var(--px));
+  }
+
+  .carousel .slide-caption {
+    padding-right: calc(130 * var(--px));
+  }
+
   .gallery-nav {
     display: flex;
     justify-content: flex-end;
@@ -799,6 +874,14 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
     .gallery .tile {
       height: calc(240 * var(--px));
+    }
+
+    .carousel .gallery-nav {
+      margin-top: calc(10 * var(--px));
+    }
+
+    .carousel .slide-caption {
+      padding-right: 0;
     }
 
     .gallery .tile img {

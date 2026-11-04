@@ -159,6 +159,12 @@ export interface StoryNote {
   text: string;
 }
 
+export interface WorkSlide {
+  images: WorkImage[];
+  columns?: 1 | 2 | 3 | 4;
+  caption?: string;
+}
+
 export interface WorkGroup {
   /** A note introducing this part of the project, shown before its images. */
   story?: StoryNote;
@@ -170,6 +176,8 @@ export interface WorkGroup {
   columns?: 1 | 2 | 3 | 4;
   /** Show the pictures as one sideways row to click through. */
   gallery?: boolean;
+  /** A carousel of pages, each its own grid; replaces `images`. */
+  slides?: WorkSlide[];
 }
 
 export interface CaseStudy {
@@ -586,24 +594,30 @@ const allCaseStudies: CaseStudy[] = [
           heading: 'One brand, many buildings',
           text: 'In August 2026 the brand moved to 30 Newman Street in the West End, with its own brochure, website and a launch party invite, and then to 10-12 Ely Place in Farringdon. I led both. Each building gets its own icon drawn from its façade and its own colour pairing, while the type, layouts and tone stay the same.',
         },
-        images: [
-          { src: shNewmanCover, alt: '30 Newman Street brochure cover: the Store House wordmark above an orange icon of the Newman Street building, on pale blue.' },
-          { src: shNewmanHighlights, alt: '30 Newman Street brochure page: building highlights as a grid of icons on sage green.' },
-          { src: shElyCover, alt: '10-12 Ely Place brochure cover: the wordmark above a wide orange icon of the Ely Place façade, on brown.' },
-          { src: shElyHighlights, alt: '10-12 Ely Place brochure page: Connected in minutes, with travel times beside a map of Farringdon.' },
-        ],
-        columns: 2,
-      },
-      {
-        images: [
+        images: [],
+        slides: [
           {
-            src: shNewmanInvite,
-            alt: 'Party invite on sage green for the relaunch of 30 Newman Street, with a photo of the building and the Store House W1 lockup.',
-            width: 520,
+            images: [
+              { src: shNewmanCover, alt: '30 Newman Street brochure cover: the Store House wordmark above an orange icon of the Newman Street building, on pale blue.' },
+              { src: shNewmanHighlights, alt: '30 Newman Street brochure page: building highlights as a grid of icons on sage green.' },
+              { src: shElyCover, alt: '10-12 Ely Place brochure cover: the wordmark above a wide orange icon of the Ely Place façade, on brown.' },
+              { src: shElyHighlights, alt: '10-12 Ely Place brochure page: Connected in minutes, with travel times beside a map of Farringdon.' },
+            ],
+            columns: 2,
+            caption: 'Brochures for 30 Newman Street and 10-12 Ely Place.',
+          },
+          {
+            images: [
+              {
+                src: shNewmanInvite,
+                alt: 'HTML email invite on sage green for the relaunch of 30 Newman Street, with a photo of the building and the Store House W1 lockup.',
+                width: 500,
+              },
+            ],
+            columns: 1,
+            caption: 'The HTML email invite to the 30 Newman Street launch party.',
           },
         ],
-        columns: 1,
-        caption: 'The launch party invite for 30 Newman Street.',
       },
     ],
     outcome:
