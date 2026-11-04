@@ -310,25 +310,28 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
   /* Problem, solution and delivery: coloured cards tucked into a pocket so
      only their tops show. Each pulls out on hover or focus. */
   .pocket {
-    --tab: calc(84 * var(--px));
+    --tab: calc(72 * var(--px));
     position: relative;
     z-index: 5;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    height: var(--tab);
-    margin: calc(48 * var(--px)) 0 calc(64 * var(--px));
+    --tuck: calc(40 * var(--px));
+    height: calc(var(--tab) + var(--tuck));
+    margin: calc(48 * var(--px)) 0 calc(-1 * var(--tuck));
     padding: 0 calc(10 * var(--px));
     clip-path: inset(-200vh -60px 0 -60px);
   }
 
-  /* The lip of the pocket. */
-  .pocket::after {
-    content: '';
-    position: absolute;
-    inset: auto calc(-12 * var(--px)) 0;
-    height: calc(3 * var(--px));
-    background: var(--ink);
-    border-radius: 2px;
+  /* The cards tuck behind the first picture of the work, which sits over the
+     bottom of the pocket. */
+  .pocket + .work {
+    position: relative;
+    z-index: 6;
+  }
+
+  /* That picture stays put and solid so the cards really are behind it. */
+  .pocket + .work .chapter:first-of-type .group:first-of-type .tile {
+    animation: none !important;
   }
 
   .pull {
@@ -357,7 +360,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
   .pull:focus-visible,
   .pull:focus-within {
     z-index: 1;
-    transform: rotate(0deg) translateY(calc(-100% + var(--tab) - 12 * var(--px)));
+    transform: rotate(0deg) translateY(calc(-100% + var(--tab) - var(--tuck) - 12 * var(--px)));
   }
 
   .pull:focus-visible {
@@ -389,12 +392,10 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
       gap: calc(20 * var(--px));
       height: auto;
+      margin-bottom: calc(48 * var(--px));
       clip-path: none;
     }
 
-    .pocket::after {
-      display: none;
-    }
 
     .pull + .pull {
       margin-left: 0;
@@ -772,9 +773,6 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       clip-path: none;
     }
 
-    .pocket::after {
-      display: none;
-    }
 
     .pull + .pull {
       margin-left: 0;
