@@ -1,6 +1,7 @@
 ---
-// Case study template: The brief · The idea · What I did · The work · Where it
-// ran, then Prev / Next. Sections without copy are left out.
+// Case study template: At a glance, then The problem · The solution · The
+// delivery, the work (story notes between groups) and The outcome, then
+// Prev / Next. Sections without copy are left out.
 import type { GetStaticPaths } from 'astro';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
@@ -70,25 +71,41 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       </header>
 
       {
-        (study.brief || study.idea || study.whatIDid) && (
+        study.glance && (
+          <section class="glance" aria-labelledby="at-a-glance">
+            <h2 id="at-a-glance">At a glance</h2>
+            <dl>
+              {study.glance.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )
+      }
+
+      {
+        (study.problem || study.solution || study.delivery) && (
           <div class="notes">
-            {study.brief && (
+            {study.problem && (
               <section class="note">
-                <h2>The brief</h2>
-                <p>{study.brief}</p>
+                <h2>The problem</h2>
+                <p>{study.problem}</p>
               </section>
             )}
-            {study.idea && (
+            {study.solution && (
               <section class="note">
-                <h2>The idea</h2>
-                <p>{study.idea}</p>
+                <h2>The solution</h2>
+                <p>{study.solution}</p>
               </section>
             )}
-            {study.whatIDid && (
+            {study.delivery && (
               <section class="note">
-                <h2>What I did</h2>
+                <h2>The delivery</h2>
                 <ul>
-                  {study.whatIDid.map((item) => (
+                  {study.delivery.map((item) => (
                     <li>{item}</li>
                   ))}
                 </ul>
@@ -102,6 +119,13 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
         <h2 id="the-work" class="sr-only">The work</h2>
         {
           study.work.map((group, g) => (
+            <Fragment>
+            {group.story && (
+              <section class="note story">
+                <h3>{group.story.heading}</h3>
+                <p>{group.story.text}</p>
+              </section>
+            )}
             <figure class="group" style={`--columns: ${group.columns ?? 2}`}>
               {group.label && <p class="label">{group.label}</p>}
               <div class="grid">
@@ -136,15 +160,16 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
               </div>
               {group.caption && <figcaption>{group.caption}</figcaption>}
             </figure>
+            </Fragment>
           ))
         }
       </section>
 
       {
-        study.result && (
+        study.outcome && (
           <section class="note result">
-            <h2>Where it ran</h2>
-            <p>{study.result}</p>
+            <h2>The outcome</h2>
+            <p>{study.outcome}</p>
           </section>
         )
       }
@@ -260,7 +285,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     transform: rotate(1.2deg);
   }
 
-  .note h2 {
+  .note h2,
+  .note h3 {
     margin: 0 0 calc(10 * var(--px));
     color: var(--ink);
     font-family: var(--font-display);
@@ -277,6 +303,53 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
   .note ul {
     padding-left: 1.1em;
+  }
+
+  /* At a glance: one quick-read card for people in a rush. */
+  .glance {
+    margin: calc(40 * var(--px)) 0 0;
+    padding: calc(24 * var(--px)) calc(28 * var(--px));
+    background: var(--white);
+    border-radius: calc(17 * var(--px));
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.15);
+    font-size: max(15px, calc(19 * var(--px)));
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .glance h2 {
+    margin: 0 0 calc(14 * var(--px));
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: max(26px, calc(40 * var(--px)));
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .glance dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: calc(16 * var(--px)) calc(28 * var(--px));
+    margin: 0;
+  }
+
+  .glance dt {
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .glance dd {
+    margin: calc(2 * var(--px)) 0 0;
+  }
+
+  /* Story notes sit between image groups, so the detail unfolds as you scroll. */
+  .note.story {
+    max-width: 40em;
+    transform: rotate(-0.6deg);
   }
 
   .work {
