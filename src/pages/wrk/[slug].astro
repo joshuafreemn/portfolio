@@ -23,7 +23,13 @@ const { study } = Astro.props;
 // case study isn't ready.
 const webOrder = [...webProjects, ...experiments];
 const isWeb = webOrder.some((p) => p.caseStudy === study.slug);
-const folder = isWeb ? { projects: webOrder, href: '/web.html' } : { projects: designProjects, href: '/work.html' };
+// The showreel's behind-the-scenes page belongs to the Motion folder and has no neighbours.
+const folder =
+  study.slug === 'bts'
+    ? { projects: [], href: '/showreel.html' }
+    : isWeb
+      ? { projects: webOrder, href: '/web.html' }
+      : { projects: designProjects, href: '/work.html' };
 const order = folder.projects
   .map((p) => caseStudies.find((c) => c.slug === p.caseStudy))
   .filter((c): c is CaseStudy => Boolean(c));

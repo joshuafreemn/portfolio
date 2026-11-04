@@ -142,6 +142,27 @@ import tcMobileHome from '../assets/wrk/thecurve/mobile-home.jpg';
 import tcMobileSchedule from '../assets/wrk/thecurve/mobile-schedule.jpg';
 import tcMobileFeatures from '../assets/wrk/thecurve/mobile-features.jpg';
 
+import btsHero from '../assets/wrk/bts/hero.jpg';
+import btsCastComputerKid from '../assets/wrk/bts/cast-computer-kid.jpg';
+import btsCastLaptopMan from '../assets/wrk/bts/cast-laptop-man.jpg';
+import btsCastSchool from '../assets/wrk/bts/cast-school.jpg';
+import btsCastBusiness from '../assets/wrk/bts/cast-business.jpg';
+import btsKeyboard from '../assets/wrk/bts/keyboard.jpg';
+import btsKiosk from '../assets/wrk/bts/kiosk.jpg';
+import btsPortalOpens from '../assets/wrk/bts/portal-opens.jpg';
+import btsPortal from '../assets/wrk/bts/portal.jpg';
+import btsPortalInside from '../assets/wrk/bts/portal-inside.jpg';
+import btsPulledThrough from '../assets/wrk/bts/pulled-through.jpg';
+import btsTvStatic from '../assets/wrk/bts/tv-static.jpg';
+import btsTvChannel from '../assets/wrk/bts/tv-channel.jpg';
+import btsTvGlitch from '../assets/wrk/bts/tv-glitch.jpg';
+import btsSpecialBulletin from '../assets/wrk/bts/special-bulletin.jpg';
+import btsTheBuilding from '../assets/wrk/bts/the-building.jpg';
+import btsTypeGrid from '../assets/wrk/bts/type-grid.jpg';
+import btsArtOfBuilding from '../assets/wrk/bts/art-of-building.jpg';
+import btsGreenScreen from '../assets/wrk/bts/green-screen.jpg';
+import btsSwitchOff from '../assets/wrk/bts/switch-off.jpg';
+
 export interface WorkImage {
   src: ImageMetadata;
   alt: string;
@@ -206,8 +227,18 @@ const allCaseStudies: CaseStudy[] = [
     slug: 'rlamls',
     title: 'RLAM Life Sciences',
     description:
-      'A pitch identity for Royal London Asset Management: Life Science, built on cell division, with a custom display typeface and a symbol system that scales from signage to favicon.',
+      'A pitch identity for Royal London Asset Management’s life science parks, grown from a single idea: cell division. One mark, one custom typeface and a symbol system that runs from building signage down to a favicon.',
     background: '#e3fbf7',
+    glance: [
+      { label: 'Client', value: 'Royal London Asset Management: Life Science' },
+      { label: 'Agency', value: 'Smart Soho' },
+      { label: 'Project', value: 'Brand identity pitch' },
+      { label: 'My role', value: 'Designer: concept, identity, typeface and applications' },
+      { label: 'Scale', value: 'A parent brand and four park sub-brands' },
+      { label: 'Delivered', value: 'Identity · Custom typeface · Symbol system · Applications · Campaign' },
+    ],
+    problem:
+      'Royal London Asset Management was bringing its science parks, from Abingdon to Cambridge, under one life science brand. It had to feel credible to scientists, sit comfortably beside the Royal London name, and flex for every park, so a growing company could see a future for itself across the whole portfolio.',
     solution:
       'Cell division is how living things grow: one becomes two, then four. That is exactly the offer to a life science tenant at an RLAM park, which is to start small and expand within the portfolio over time. I built the whole identity from that one idea, so the mark, the typeface and the motion rules all tell the same story of structured, organic growth.',
     delivery: [
@@ -229,7 +260,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Process',
+        story: {
+          heading: 'One becomes two',
+          text: 'I started under the microscope. Drawing cells mid-division gave me a soft, rounded form that splits and multiplies, and I abstracted it into a single shape. That shape became the mark, then a full display alphabet, so every headline the brand sets is made from the same idea.',
+        },
         images: [
           {
             src: processCellDivision,
@@ -240,7 +274,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
       {
-        label: 'Identity',
+        story: {
+          heading: 'Built to scale',
+          text: 'A life science brand lives on lab doors and lanyards as much as on billboards. I paired the custom type with Bai Jamjuree, set lockups that hold their own next to Royal London, and reduced the symbol step by step until it still read at favicon size.',
+        },
         images: [
           {
             src: lockup,
@@ -251,8 +288,6 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'Partner and lockup variants combining the Royal London mark with the RLAM Life Sciences identity.',
           },
         ],
-        caption:
-          'Font pairings use Bai Jamjuree alongside a custom mark built from the cell division abstraction, giving the identity a precise but expandable system across print, signage and digital surfaces.',
         columns: 2,
       },
       {
@@ -261,12 +296,14 @@ const allCaseStudies: CaseStudy[] = [
           { src: iconReduced, alt: 'Reduced icon built from the RLAM Life Sciences mark.', width: 197 },
           { src: iconMicro, alt: 'Micro icon reduction of the RLAM Life Sciences mark.', width: 71 },
         ],
-        caption:
-          'I tested the type pairings and reduced symbols side by side, so the custom forms hold up from full lockups down to the smallest navigation marks.',
+        caption: 'From full lockup to the smallest navigation mark, the form holds.',
         columns: 3,
       },
       {
-        label: 'Parks',
+        story: {
+          heading: 'Four parks, one family',
+          text: 'Each park keeps its own name, but they all share the mark and type. A tenant who outgrows Abingdon can move to Oxford or Cambridge and still feel at home, which is the growth story told in the logos themselves.',
+        },
         images: [
           { src: parkAbingdon, alt: 'Abingdon Business Park logo.' },
           { src: parkArcOxford, alt: '2600 ARC Oxford logo.' },
@@ -276,7 +313,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 4,
       },
       {
-        label: 'Applications',
+        story: {
+          heading: 'Out in the world',
+          text: 'To sell the system I showed it at work: on a staff badge, a website, building signage and a tote bag. Then I turned it into campaign cards that pair lab photography with short lines about growth, ready for social and email.',
+        },
         images: [
           { src: appBadge, alt: 'Branded staff badge application.' },
           { src: appWebsite, alt: 'Website mockup on a laptop.' },
@@ -286,14 +326,14 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
       {
-        label: 'Campaign',
         images: [
           { src: campaignHero, alt: 'Hero campaign card with the RLAM wordmark set against lab photography.' },
           { src: campaignCellularData, alt: 'Cellular Data collage card composed from multiple lifestyle images.' },
           { src: campaignCellCulture, alt: 'Cell Culture editorial card pairing photography with copy.' },
           { src: campaignEvaluate, alt: 'Evaluate Enhance card showing a blue-toned laptop scene.' },
         ],
-        columns: 2,
+        caption: 'Campaign cards.',
+        gallery: true,
       },
     ],
   },
@@ -301,10 +341,18 @@ const allCaseStudies: CaseStudy[] = [
     slug: '123victoria',
     title: '123 Victoria Street',
     description:
-      'Find Your Place: a pitch route for the relaunch of 123 Victoria Street in London, built on the podium, the track and the race to the line.',
+      'Find Your Place: my pitch route to relaunch a 1970s Victoria landmark, built on the podium, the running track and the race to the line.',
     background: '#f8f2cf',
+    glance: [
+      { label: 'Client', value: '123 Victoria Street, London' },
+      { label: 'Agency', value: 'Smart Soho' },
+      { label: 'Project', value: 'Rebrand and launch campaign pitch' },
+      { label: 'My role', value: 'Sole designer on route three: idea, strategy, positioning and creative' },
+      { label: 'Timeline', value: 'Pitched July 2026' },
+      { label: 'Delivered', value: 'Identity · Image treatment · Campaign · Posters · Merchandise' },
+    ],
     problem:
-      '123 Victoria Street, a London office building, was relaunching after its third major refurbishment and needed a brand that made it feel new again. Smart Soho pitched three creative routes. I owned route three end to end, from the strategy to the finished campaign.',
+      '123 Victoria Street, an office and retail landmark built in 1975, was heading into a major refurbishment. Its owner needed a brand that would lift it out of the dated stock and into the Grade A market, give the letting agents strong tools early, and help land a major pre-let. Smart Soho pitched several creative routes. I owned route three end to end, from the strategy to the finished campaign.',
     solution:
       '123 Victoria Street is more than an address. Its number reflects the podium positions of first, second and third, while Victoria suggests victory and success. Following its third major refurbishment, the building is sharper, more agile and ready for its next chapter. Like lanes one, two and three on a track, it offers occupiers the inside line by design. “Find Your Place” captures this sense of position, progress and belonging.',
     delivery: [
@@ -325,13 +373,14 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Identity',
+        story: {
+          heading: 'On your marks',
+          text: 'The name already held the idea: one, two, three, Victoria. I stepped the numbers down like a podium and ran them along track lanes, so the mark reads as a place to finish and a race still to run. A line-screen treatment gave the photography the grit of an old sports programme.',
+        },
         images: [
           { src: vsLogo, alt: 'The 123 mark: the numbers 1, 2 and 3 stepped down like a podium, each underlined.' },
           { src: vsLanes, alt: 'The 123 mark in green running down three white track lanes on a lime background.' },
         ],
-        caption:
-          'The mark steps 1, 2 and 3 down like a podium. Track lanes and a stepped yellow lockup carry the same idea across the campaign.',
         columns: 2,
       },
       {
@@ -344,7 +393,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Campaign',
+        story: {
+          heading: 'The office as a sport',
+          text: 'Property campaigns are usually polite. This one treats the working day like competition: commuters sprint through the Underground, a stack of papers becomes a relay baton, and a desk chair turns into starting blocks. It is funny on purpose, because agents need something people remember.',
+        },
         images: [
           { src: vsCommute, alt: 'Commuters in suits sprinting along a blue running track laid through an Underground station.' },
           { src: vsHandover, alt: 'A man in a suit takes a stack of papers like a relay baton, with the Find Your Place lockup.' },
@@ -353,10 +405,13 @@ const allCaseStudies: CaseStudy[] = [
           { src: vsBasketball, alt: 'Duotone illustration of an office worker dunking a basketball against a cyan sky.' },
           { src: vsCoffee, alt: 'A smiling office junior balancing a tower of coffee cups on a tray.' },
         ],
-        columns: 2,
+        gallery: true,
       },
       {
-        label: 'Exploration',
+        story: {
+          heading: 'Finding the voice',
+          text: 'Before the campaign settled, I pushed the line-screen look through brighter single-colour posters and a brochure spread, testing headlines like Set Your Sights and Take Your Stand to see how far the podium idea could stretch.',
+        },
         images: [
           {
             src: vsExploreBrochure,
@@ -379,11 +434,13 @@ const allCaseStudies: CaseStudy[] = [
           },
           { src: vsExplore123Vic, alt: '123 VIC poster: yellow panel beside an orange line-screened crowd.' },
         ],
-        caption: 'Early posters testing the line-screen treatment and the podium idea in brighter, single-colour palettes.',
         columns: 4,
       },
       {
-        label: 'Merchandise',
+        story: {
+          heading: 'Kit for the team',
+          text: 'A sports brand needs a kit. A tracksuit, a finisher’s medal and numbered padel bats turn the idea into something occupiers and agents can actually hold, and a reason to talk about the building.',
+        },
         images: [
           {
             src: vsMerchandise,
@@ -398,8 +455,17 @@ const allCaseStudies: CaseStudy[] = [
     slug: 'storeproperty',
     title: 'Store Property',
     description:
-      'A friendlier website for a family-run property company, redesigned inside the brand they already had.',
+      'A warmer website for a family-run London landlord, redesigned around the people who use it and built inside the brand they already loved.',
     background: '#eef0f6',
+    glance: [
+      { label: 'Client', value: 'Store Property' },
+      { label: 'Agency', value: 'Smart Soho' },
+      { label: 'My role', value: 'Designer and day-to-day client contact: presented every phase' },
+      { label: 'Timeline', value: 'Designed March 2026, live April 2026' },
+      { label: 'Team', value: 'Me on design, with a development team on the build' },
+      { label: 'Delivered', value: 'Sitemap · User flows · Wireframes · Desktop and mobile design' },
+      { label: 'Outcome', value: 'Live at storeproperty.co.uk' },
+    ],
     problem:
       'After Store House, Store Property asked Smart Soho to redesign their company website, which felt rigid and formal. The brand was established and they had invested in merchandise they didn’t want to remake, so the new site had to work within it.',
     solution:
@@ -422,7 +488,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Sitemap and user flows',
+        story: {
+          heading: 'Who is it for?',
+          text: 'Four kinds of people land on a landlord’s website: tenants who need help, companies looking for space, agents, and the curious. I mapped a route for each one before drawing a single page, so nobody is more than a couple of clicks from what they came for.',
+        },
         images: [
           {
             src: spSitemap,
@@ -436,18 +505,23 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
       {
-        label: 'Wireframe',
+        story: {
+          heading: 'Wireframes that look finished',
+          text: 'Grey boxes mean little to a client who isn’t technical. I drew the wireframes in Store Property’s own navy, pink and type, so the family could react to layout and content as if it were the real site, and sign off structure faster.',
+        },
         images: [
           {
             src: spWireframe,
             alt: 'Property page wireframe in the Store Property navy and pink: gallery, property details, enquiry card and description.',
           },
         ],
-        caption: 'Wireframes kept the brand’s colours and type so the client could picture the finished pages.',
         columns: 1,
       },
       {
-        label: 'Final design',
+        story: {
+          heading: 'Warmer, not louder',
+          text: 'The final design keeps the brand but loosens the tone: an illustrated map of their London buildings, a carousel of recent projects and a portfolio you can filter by type. I worked with the developers through the build, and it went live a month after design began.',
+        },
         images: [
           {
             src: spHome,
@@ -463,6 +537,7 @@ const allCaseStudies: CaseStudy[] = [
     ],
     outcome:
       'Designed from March 2026 and live at storeproperty.co.uk in April 2026, built from my designs. The client came back to the studio for it after Store House.',
+    url: 'https://www.storeproperty.co.uk/',
   },
   {
     slug: 'storehouse',
@@ -658,6 +733,13 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Smart QR',
     description: 'An in-house tool for Smart Soho that makes QR codes you can repoint after they have gone to print.',
     background: '#fbeceb',
+    glance: [
+      { label: 'Client', value: 'Smart Soho, in-house' },
+      { label: 'My role', value: 'Designed and built it, with Claude' },
+      { label: 'Stack', value: 'Cloudflare Pages, with sign-in through Cloudflare Access' },
+      { label: 'Delivered', value: 'Landing page · Dashboard · Create, edit and download · Hosting' },
+      { label: 'Outcome', value: 'In use at smartqr.uk on campaigns for several clients' },
+    ],
     problem:
       'Smart Soho puts QR codes on hoardings, brochures and event material for its clients. Once a code is printed its link is fixed, so a changed page or a new campaign meant new artwork.',
     solution:
@@ -680,7 +762,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Dashboard',
+        story: {
+          heading: 'Change the link, not the print',
+          text: 'Every code lives in one list. Edit repoints it in seconds, and the hoarding outside never has to come down. I kept the dashboard to the few things the studio actually does: find a code, change where it goes, download the PNG.',
+        },
         images: [
           {
             src: qrDashboard,
@@ -688,9 +773,13 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'Every code in one list, with Edit to repoint it and a download for the PNG. Client links are blurred here.',
+        caption: 'Client links are blurred here.',
       },
       {
+        story: {
+          heading: 'For the team only',
+          text: 'Client campaigns shouldn’t be one guessed password away from being changed. Sign-in sits behind Cloudflare Access, so only the studio can reach the dashboard, and there are no passwords to forget.',
+        },
         images: [
           {
             src: qrSignIn,
@@ -699,7 +788,6 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'Sign-in sits behind Cloudflare Access, so only the team can reach the dashboard.',
       },
     ],
     outcome: 'In use at Smart Soho at smartqr.uk, with live codes on campaigns for several clients.',
@@ -709,6 +797,12 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Cinesnap',
     description: 'An in-house tool for pulling clean, full-quality stills from films and CGI renders.',
     background: '#efe6dc',
+    glance: [
+      { label: 'Made for', value: 'The studio: stills for brochures and websites' },
+      { label: 'My role', value: 'Designed and built it on my own, with AI' },
+      { label: 'Runs', value: 'In the browser, so client films never leave the computer' },
+      { label: 'Delivered', value: 'Scene detection · Frame stepping · Full-resolution export' },
+    ],
     problem:
       'At work I often get 4K CGI renders, or a finished edit from a client or another company, and need stills from them for a brochure or website. Scrubbing a timeline by hand is slow, and a screen grab rarely gives you the full-quality frame.',
     solution:
@@ -729,11 +823,13 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption:
-          'Capture. The scan lists every shot down the left, and the strip below steps through the frames either side of the playhead. Shown with a test film made for this page.',
+        caption: 'Shown with a test film made for this page.',
       },
       {
-        label: 'Layouts',
+        story: {
+          heading: 'Straight to the shot',
+          text: 'A scan lists every shot down the side, so a two-minute film becomes a page of thumbnails. Pick one, then step frame by frame with the strip below until the still is exactly right. Prefer the shots along the top? Switch layout, and remap every shortcut to suit your hands.',
+        },
         images: [
           {
             src: cineStacked,
@@ -744,9 +840,12 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'The keyboard shortcuts dialog, listing play, pause and frame stepping keys, each on a button you click to remap.',
           },
         ],
-        caption: 'A stacked layout puts the shots in a row above the player. Every shortcut can be remapped.',
       },
       {
+        story: {
+          heading: 'Ready for the brochure',
+          text: 'Every still is saved at full resolution and named by its timecode, so you can always find the frame again. Download one, or take the lot as a zip.',
+        },
         images: [
           {
             src: cineReview,
@@ -754,7 +853,6 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'Review. Each still is named by its timecode, ready to download on its own or all together as a zip.',
       },
     ],
     outcome:
@@ -766,6 +864,12 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Heatmapper',
     description: 'A browser tool for mapping how shoppers move through a store and where they linger, made for a retail design client.',
     background: '#e3efe9',
+    glance: [
+      { label: 'Made for', value: 'A retail design client, for shop floor strategy' },
+      { label: 'My role', value: 'Designed and built it on my own, with AI' },
+      { label: 'Runs', value: 'In the browser, with nothing uploaded' },
+      { label: 'Delivered', value: 'Hot and cold brushes · Floor boundaries · PNG and overlay export' },
+    ],
     problem:
       'A client designing shop floors needed a way to show customer circulation and highlight areas of dwell time while a layout was still at the strategy stage.',
     solution:
@@ -786,11 +890,13 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption:
-          'Dwell time around the feature table, the new-in wall, the fitting rooms and the tills, with quieter corners in blue. A cutout keeps the stockroom clear.',
+        caption: 'Dwell time around the feature table, new-in wall, fitting rooms and tills. A cutout keeps the stockroom clear.',
       },
       {
-        label: 'Process',
+        story: {
+          heading: 'Paint, don’t plot',
+          text: 'Designers think in sketches, not spreadsheets. A short tour shows the brushes on a first visit, then you paint the busy and quiet spots by hand and the app fills in the gradient between them, kept inside the walls you draw.',
+        },
         images: [
           {
             src: heatTour,
@@ -801,9 +907,12 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'The shop plan after painting, with hot strokes at the busy spots and cold strokes in the quiet corners.',
           },
         ],
-        caption: 'A short tour shows the tools on a first visit. Then paint the busiest and quietest areas and the app fills in the rest.',
       },
       {
+        story: {
+          heading: 'Straight into the deck',
+          text: 'Export the map at the plan’s own size with the guides hidden, or as a transparent overlay to drop over the client’s drawings. The plan here is a sample made for this page.',
+        },
         images: [
           {
             src: heatExport,
@@ -811,7 +920,6 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'The exported PNG, at the plan’s own size with the editing guides left out. The shop plan is a sample made for this page.',
       },
     ],
     outcome:
@@ -823,6 +931,12 @@ const allCaseStudies: CaseStudy[] = [
     title: 'Sudoku Race',
     description: 'Head-to-head Sudoku for the studio. Share a room code and race your colleagues to fill the grid.',
     background: '#f3ede0',
+    glance: [
+      { label: 'Made for', value: 'The studio, on early mornings and rainy lunchtimes' },
+      { label: 'My role', value: 'Designed and built it on my own, with AI' },
+      { label: 'Runs', value: 'Browser to browser, with no accounts' },
+      { label: 'Delivered', value: 'Four game modes · Live race track · Eight themes' },
+    ],
     problem:
       'Something to brighten the mornings when we got into work early, or the rainy days when we couldn’t get out to stretch our legs.',
     solution:
@@ -844,10 +958,13 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'Mid-match. The track shows each racer’s progress, and pencil notes sit in the empty squares.',
+        caption: 'Mid-match. The track shows each racer’s progress.',
       },
       {
-        label: 'Setup',
+        story: {
+          heading: 'Share a code, start the race',
+          text: 'No sign-ups, no installs. One person makes a room, shares the code across the desk, and everyone picks a name, a pencil colour, a mode and a theme. Sabotage mode is the one that starts arguments.',
+        },
         images: [
           {
             src: sudokuSetup,
@@ -858,9 +975,12 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'The setup screen with the theme palette open, listing Nighttime, Stormy Sea, Matcha Cafe, Garden Walk, Daylight and more.',
           },
         ],
-        caption: 'Set up a match with a room code to share, then pick a mode, a difficulty and a theme.',
       },
       {
+        story: {
+          heading: 'Bragging rights',
+          text: 'Eight themes let it fit the mood, from Daylight to Nighttime. At the finish, points, penalties and a place on the podium settle who buys the coffee.',
+        },
         images: [
           {
             src: sudokuNight,
@@ -871,7 +991,6 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'The victory screen: Flawless Standardoku, Perfect Score, with points, penalties and first place.',
           },
         ],
-        caption: 'The Nighttime theme, and the finish.',
       },
     ],
     outcome: 'Played in the studio on early mornings and rainy days. Matches run directly between browsers, with no accounts.',
@@ -880,8 +999,15 @@ const allCaseStudies: CaseStudy[] = [
   {
     slug: 'leevalleylions',
     title: 'Lee Valley Lions',
-    description: 'Social media for Lee Valley Lions, an ice hockey club at Lee Valley Ice Centre: game days, results, signings and fixtures.',
+    description: 'A season-long social system for Lee Valley Lions ice hockey club: game days, results, signings, fixtures and motion.',
     background: '#e3edf8',
+    glance: [
+      { label: 'Client', value: 'Lee Valley Lions, ice hockey at Lee Valley Ice Centre' },
+      { label: 'My role', value: 'Freelance designer' },
+      { label: 'Season', value: '2026–27' },
+      { label: 'Delivered', value: 'Post templates · Signings · Fixtures · Motion · Campaigns' },
+      { label: 'Outcome', value: 'Running across the club’s social channels all season' },
+    ],
     problem:
       'An ice hockey club lives on its feed. The Lions needed posts for every game day, line-up, score and result, plus monthly fixtures and every signing, all season long.',
     solution:
@@ -908,7 +1034,10 @@ const allCaseStudies: CaseStudy[] = [
         caption: 'Game day and the monthly fixtures, the two posts the feed is built around.',
       },
       {
-        label: 'Matchday',
+        story: {
+          heading: 'Every match, start to finish',
+          text: 'A game day isn’t one post, it’s a run of them: the line-up before puck drop, scores through each period, full time, then the weekend wrap-up. Each has its own template, so the club can post fast from the rink and still look polished.',
+        },
         images: [
           {
             src: lvlLineUp,
@@ -924,10 +1053,12 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 3,
-        caption: 'Line-up before the game, then the weekend wrap-up with every result.',
       },
       {
-        label: 'Squad news',
+        story: {
+          heading: 'Welcome to the pride',
+          text: 'Fans want to meet the squad. One tilted, striped frame handles every announcement, from new signings to off-ice officials, so a busy summer of news still reads as one family. The leadership post puts the captain at the centre of it.',
+        },
         images: [
           {
             src: lvlSigning,
@@ -943,10 +1074,12 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 3,
-        caption: 'One frame for every signing, on and off the ice, and the season’s leadership group.',
       },
       {
-        label: 'Motion',
+        story: {
+          heading: 'Moments that move',
+          text: 'Some news deserves more than a still. The new jersey turns on a mannequin before the green alternate swaps in, and Roary the mascot waves the flag for Pride month.',
+        },
         images: [
           {
             src: lvlJersey,
@@ -959,9 +1092,12 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'Pride month post: Roary the lion mascot waves a Pride flag behind animated type reading Loud and Proud, Lions Pride.',
           },
         ],
-        caption: 'The new jersey reveal, and Roary the mascot for Pride month.',
       },
       {
+        story: {
+          heading: 'Join the huddle',
+          text: 'A community club runs on volunteers. This poster asks fans to step onto the bench as goal judges, timekeepers, DJs and physios, using the same kit as everything else so it feels like part of the team.',
+        },
         images: [
           {
             src: lvlHuddle,
@@ -970,7 +1106,6 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
         columns: 1,
-        caption: 'Join the Huddle, a call for game day volunteers.',
       },
     ],
     outcome: 'Posted across the club’s social channels through the 2026–27 season.',
@@ -981,6 +1116,14 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A marketing website for Pall Mall Gardens, four new Grade A office buildings around a public garden in Liverpool’s business district.',
     background: '#e8eff8',
+    glance: [
+      { label: 'Client', value: 'Kier' },
+      { label: 'Agency', value: 'Smart Soho' },
+      { label: 'My role', value: 'Sole web designer, working from a colleague’s branding' },
+      { label: 'Scale', value: 'Four buildings, a hotel and a public garden' },
+      { label: 'Delivered', value: 'Wireframes · Desktop and mobile design · Masterplan · Floor plans · Maps' },
+      { label: 'Outcome', value: 'Live at pallmallliverpool.com' },
+    ],
     problem:
       'Kier needed a website to market the office space at Pall Mall Gardens to occupiers and their agents. A colleague had created the branding and the brochure already told the story, so the site had to carry it online: the masterplan, the first building, the city and how to get there, with the brochure one click away.',
     solution:
@@ -1002,7 +1145,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Wireframes',
+        story: {
+          heading: 'Brochure first',
+          text: 'The brochure had already been signed off, so I treated it as the script. Every section of every wireframe carries a yellow note naming the brochure page it came from. The client agreed the story once, and every design round after that was about the look.',
+        },
         images: [
           {
             src: pmWireHome,
@@ -1013,11 +1159,13 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'Master Plan wireframe: hero, aerial map, interactive masterplan and public realm, each tagged with its brochure page.',
           },
         ],
-        caption: 'Every section was matched to a page of the brochure, noted in yellow beside it.',
         columns: 2,
       },
       {
-        label: 'The masterplan and the building',
+        story: {
+          heading: 'Four buildings round a garden',
+          text: 'Agents need to see the whole scheme and then drill into a single floor. The masterplan lists each building beside the site plan, and the floor plan explorer steps from the roof terrace down to the basement, with the Grade A credentials set out as icons.',
+        },
         images: [
           {
             src: pmMasterplan,
@@ -1040,7 +1188,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Liverpool and connectivity',
+        story: {
+          heading: 'Selling Liverpool',
+          text: 'A company moving north needs convincing about the city as much as the building. A local map of places to eat and stay, the city’s headline numbers and a journey-time map make the case that Pall Mall is at the centre of everything.',
+        },
         images: [
           {
             src: pmLocalMap,
@@ -1063,7 +1214,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Mobile',
+        story: {
+          heading: 'In an agent’s pocket',
+          text: 'Agents show buildings on their phones, on the street and in meetings. Every page was designed for mobile too, including the floor plans, which scroll floor by floor under your thumb.',
+        },
         images: [
           {
             src: pmMobileHome,
@@ -1090,6 +1244,14 @@ const allCaseStudies: CaseStudy[] = [
     description:
       'A marketing website for Curve, a 200,000 sq ft headquarters office building on Centenary Square in Birmingham.',
     background: '#efeaf3',
+    glance: [
+      { label: 'Client', value: 'Kier' },
+      { label: 'Agency', value: 'Smart Soho' },
+      { label: 'My role', value: 'Sole web designer, working from a colleague’s branding' },
+      { label: 'Scale', value: '200,000 sq ft headquarters, six rounds of design' },
+      { label: 'Delivered', value: 'Wireframes · Desktop and mobile design · Tile system · Scroll motion' },
+      { label: 'Status', value: 'With the developers now' },
+    ],
     problem:
       'Curve is a new headquarters building by Kier at Arena Central, in the middle of Birmingham’s business and cultural district. The website had to market it to occupiers and their agents: the building, the wider masterplan and why Birmingham, with the brochure to download.',
     solution:
@@ -1111,7 +1273,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        label: 'Wireframe to design',
+        story: {
+          heading: 'Tiles become the system',
+          text: 'The brand came with a set of soft gradient tiles. I made them the bones of the website: they frame the logo, hold the headlines and sit behind the photography. The wireframe already had them in place, so every round of design built on the same idea.',
+        },
         images: [
           {
             src: tcWireHome,
@@ -1126,7 +1291,10 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
       {
-        label: 'The building',
+        story: {
+          heading: 'Floor by floor',
+          text: 'Occupiers want the numbers. A drawing of the curved building sits beside the schedule of areas, and the floor plan explorer lets you pick any level and see it on its own.',
+        },
         images: [
           {
             src: tcSchedule,
@@ -1140,18 +1308,23 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
       {
-        label: 'Motion',
+        story: {
+          heading: 'A page that rises',
+          text: 'The tiles move too. As you scroll, the key feature cards rise in staggered layers, like the building going up floor by floor.',
+        },
         images: [
           {
             src: tcFeaturesMotion,
             alt: 'Motion preview in a browser window: Key Building Features cards with gradient tops and icons for HVAC, smart lighting, terrace and 182 cycles, staggered as they rise into view.',
           },
         ],
-        caption: 'The key feature cards rise in staggered layers as the page scrolls.',
         columns: 1,
       },
       {
-        label: 'Masterplan and location',
+        story: {
+          heading: 'Why Birmingham',
+          text: 'Curve sits inside a million square foot masterplan, next door to HSBC and HMRC. An illustrated aerial view, a neighbours map and journey times from New Street, including HS2, show an occupier what they’d be joining.',
+        },
         images: [
           {
             src: tcMasterplan,
@@ -1161,11 +1334,6 @@ const allCaseStudies: CaseStudy[] = [
             src: tcNeighbours,
             alt: 'Meet Your Neighbours: a numbered list of nearby companies beside a yellow street map of central Birmingham with Curve marked.',
           },
-        ],
-        columns: 2,
-      },
-      {
-        images: [
           {
             src: tcBestConnected,
             alt: 'Best Connected City-Region in the UK: text beside a collage of station escalators, the Library of Birmingham and canal-side buildings over a yellow tile.',
@@ -1175,10 +1343,13 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'Get Where You Need to Be: train times from Birmingham New Street shown as stops on an orange line, with tabs for national rail, drive, metro and HS2.',
           },
         ],
-        columns: 2,
+        gallery: true,
       },
       {
-        label: 'Mobile',
+        story: {
+          heading: 'Made for the phone',
+          text: 'On mobile the tiles turn into strips and the feature cards become a carousel, so the site keeps its shape at any size.',
+        },
         images: [
           {
             src: tcMobileHome,
@@ -1197,6 +1368,111 @@ const allCaseStudies: CaseStudy[] = [
       },
     ],
     outcome: 'Handed to developers after six rounds of design, and in development now.',
+  },
+  {
+    slug: 'bts',
+    title: 'Behind the Scenes',
+    description:
+      'How I made the bumper for my showreel: an animated short about a kid, a strange old computer and a TV remote, built so every channel he flicks to can be swapped for fresh work.',
+    background: '#efe9f6',
+    glance: [
+      { label: 'Project', value: 'Personal: a bumper and framing system for my showreel' },
+      { label: 'My role', value: 'Everything: idea, characters, illustration, animation and edit' },
+      { label: 'Tools', value: 'Illustrator and After Effects' },
+      { label: 'Timeline', value: '2025, made in the background over a couple of months' },
+      { label: 'On the channels', value: 'My motion work at Smart Soho' },
+    ],
+    problem:
+      'A showreel goes out of date the day you finish it. I wanted a bumper that made mine feel like one piece by one person, and a way to drop in new work without remaking the whole thing every time.',
+    solution:
+      'Make the reel a TV. A kid types into an old computer, gets pulled through a glowing portal and lands in front of a set with a remote in his hand. Every press changes the channel, and every channel is a project. The animated frame stays the same while the channels change, so fresh work slots straight in.',
+    delivery: [
+      'The idea and the story',
+      'Character designs, illustrated in Illustrator',
+      'Scenes from the computer to the portal and the TV',
+      'Animation in After Effects, with channel-change transitions',
+      'A swappable channel system for new work',
+      'The final edit of the reel',
+    ],
+    work: [
+      {
+        images: [
+          {
+            src: btsHero,
+            alt: 'A boy in a blue jumper sits at a cream retro computer kiosk on a lilac background, its screen glowing with green numbers.',
+          },
+        ],
+        columns: 1,
+      },
+      {
+        story: {
+          heading: 'Meet the cast',
+          text: 'Before any animation I drew the characters: the kid at the computer, a man on a laptop, a student with a backpack and a startled businessman. Flat colour, angular shapes and long pink limbs keep them simple enough to move, and odd enough to remember.',
+        },
+        images: [
+          { src: btsCastComputerKid, alt: 'Character design: the kid hunched over a computer keyboard, with long pink arms.' },
+          { src: btsCastLaptopMan, alt: 'Character design: a man with wide eyes holding an open laptop.' },
+          { src: btsCastSchool, alt: 'Character design: a tall, thin student with a backpack and a green T-shirt.' },
+          { src: btsCastBusiness, alt: 'Character design: a businessman in a dark suit and green tie, eyes wide in surprise.' },
+        ],
+        columns: 4,
+      },
+      {
+        story: {
+          heading: 'Through the portal',
+          text: 'The film opens on hands at a chunky cream keyboard. The kid types, the kiosk counts down, and a green portal swells out of the screen until it swallows him whole. It is the reel’s way of saying: step inside.',
+        },
+        images: [
+          { src: btsKeyboard, alt: 'Close-up of long pink hands typing on a cream keyboard.' },
+          { src: btsKiosk, alt: 'The kid at the kiosk as its screen fills with green readouts.' },
+          { src: btsPortalOpens, alt: 'Over the kid’s shoulder, a glowing green portal opens beside the kiosk.' },
+          { src: btsPortal, alt: 'The kid at the kiosk in the dark, dwarfed by a huge glowing green ring.' },
+          { src: btsPortalInside, alt: 'The portal fills the frame: a ring of green light on black.' },
+          { src: btsPulledThrough, alt: 'The kid’s arm and the kiosk are pulled into a pixelated green light.' },
+        ],
+        gallery: true,
+      },
+      {
+        story: {
+          heading: 'Changing the channel',
+          text: 'He lands in front of an old TV full of static, a chunky green remote in his hand. Each press glitches the picture and tunes into something new, which gives the reel its rhythm and a reason to cut.',
+        },
+        images: [
+          { src: btsTvStatic, alt: 'A pink hand points a green remote at a TV showing grey static.' },
+          { src: btsTvChannel, alt: 'The remote in front of the TV as a green abstract picture tunes in.' },
+          { src: btsTvGlitch, alt: 'The remote in front of a pink, glitching picture breaking into stripes.' },
+        ],
+        columns: 3,
+      },
+      {
+        story: {
+          heading: 'Every channel is a project',
+          text: 'Then the work takes over. A Special Bulletin breaks in over a spinning globe, an illustrated building curves across a city, a grid of type and photography spells out a brand, and a film opens on The Art of Building. All of it is motion I made at Smart Soho, and each piece sits in its own channel, so swapping in something new is one edit, not a new reel.',
+        },
+        images: [
+          { src: btsSpecialBulletin, alt: 'Special Bulletin in chunky green letters over a globe and a broadcast tower on pink.' },
+          { src: btsTheBuilding, alt: 'An illustrated curved office building in a busy city, with The Building in white type across it.' },
+          { src: btsTypeGrid, alt: 'A grid of large letters on coloured tiles, alternating with street photography.' },
+          { src: btsArtOfBuilding, alt: 'Serif titles reading The Art of Building and Capital Cared for on pale grey.' },
+          { src: btsGreenScreen, alt: 'A green frame holding a desktop computer mockup and photos of shopfronts and products.' },
+        ],
+        gallery: true,
+      },
+      {
+        story: {
+          heading: 'Switch off',
+          text: 'The reel signs off the way old TV did: the picture collapses to a single line of light, and the set goes dark.',
+        },
+        images: [
+          {
+            src: btsSwitchOff,
+            alt: 'A black screen with a single bright horizontal line, like an old TV switching off.',
+            width: 720,
+          },
+        ],
+        columns: 1,
+      },
+    ],
   },
 ];
 
