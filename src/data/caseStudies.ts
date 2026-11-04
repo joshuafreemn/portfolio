@@ -79,6 +79,9 @@ import shNewmanHighlights from '../assets/wrk/storehouse/newman-highlights.jpg';
 import shElyCover from '../assets/wrk/storehouse/ely-cover.jpg';
 import shElyHighlights from '../assets/wrk/storehouse/ely-highlights.jpg';
 import shNewmanInvite from '../assets/wrk/storehouse/newman-invite.jpg';
+import shMasterMap from '../assets/wrk/storehouse/master-map.jpg';
+import shMasterHome from '../assets/wrk/storehouse/master-home.jpg';
+import shMasterProperties from '../assets/wrk/storehouse/master-properties.jpg';
 
 import qrLanding from '../assets/wrk/smartqr/landing.jpg';
 import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
@@ -619,9 +622,36 @@ const allCaseStudies: CaseStudy[] = [
           },
         ],
       },
+      {
+        story: {
+          heading: 'A place to call home',
+          text: 'Three buildings meant three separate websites, and nowhere that showed Store House as a whole. In September 2026 I started designing a master site to bring the whole portfolio together: six buildings across central London, each drawn as its own icon from its façade and pinned to an illustrated map. I wireframed every page first, then designed the homepage, the properties page and a template that the existing building sites now sit inside. It is built in WordPress and Breakdance, with Claude speeding up the build, and goes live in November 2026.',
+        },
+        images: [
+          {
+            src: shMasterMap,
+            alt: 'An illustrated map of central London on navy, with each Store House building drawn as an orange icon in Fitzrovia, Farringdon, Shoreditch and Bermondsey.',
+          },
+        ],
+        columns: 1,
+        caption: 'The portfolio map. Every building gets an icon drawn from its own façade.',
+      },
+      {
+        images: [
+          {
+            src: shMasterHome,
+            alt: 'The master site homepage: the line Characterful buildings, run by the people who own them, three key figures, a photo of the communal kitchen at Store House SE1 and a Latest property card for Ely Place.',
+          },
+          {
+            src: shMasterProperties,
+            alt: 'The properties page, headed Offices across central London, with photo cards for Ely Place, 30 Newman St, 75 Bermondsey St and 59-61 Bermondsey Street.',
+          },
+        ],
+        caption: 'The homepage and the properties page.',
+      },
     ],
     outcome:
-      'The brand outgrew the building. What began in June 2025 as a launch for one warehouse now covers three buildings across London and is replacing Store Property’s SP Managed brand. I started designing a master site for Store House in September 2026, and it goes live in November 2026. See storehousese1.com and storehousew1.com.',
+      'The brand outgrew the building. What began in June 2025 as a launch for one warehouse now covers three buildings across London and is replacing Store Property’s SP Managed brand. The master site brings them under one roof when it goes live in November 2026. See storehousese1.com and storehousew1.com.',
   },
   {
     slug: 'smartqr',
