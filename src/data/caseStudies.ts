@@ -168,6 +168,8 @@ export interface WorkGroup {
   caption?: string;
   /** Grid columns on desktop. */
   columns?: 1 | 2 | 3 | 4;
+  /** Show the pictures as one sideways row to click through. */
+  gallery?: boolean;
 }
 
 export interface CaseStudy {
@@ -500,7 +502,6 @@ const allCaseStudies: CaseStudy[] = [
           heading: 'Two routes, one brand',
           text: 'My pitch route began with what the building is made of: brick outside, plywood inside, with a wordmark that repeats like packing tape. The final identity brought both routes together. I led that merge and presented each round to the client until the brand was signed off in June 2025.',
         },
-        label: 'My pitch route',
         images: [
           {
             src: shOverview,
@@ -534,7 +535,6 @@ const allCaseStudies: CaseStudy[] = [
           heading: 'The final identity',
           text: 'The signed-off brand is simpler and works harder. The icon is the building’s own façade, the wordmark stacks above it, PP Supply Sans sets the titles and Basic Sans the body copy, and a set of window-grid patterns fills space without needing photography.',
         },
-        label: 'Final identity',
         images: [
           { src: shFinalLogo, alt: 'The final Store House logo: the stacked wordmark in cream above an orange building icon, on navy.' },
           { src: shFinalPatterns, alt: 'Four orange patterns built from window grids: a checkerboard, offset bars, vertical lines and an outlined grid.' },
@@ -548,7 +548,6 @@ const allCaseStudies: CaseStudy[] = [
           heading: 'A brochure that does the letting',
           text: 'Prospective occupiers get the brochure as a download, so I designed it for a screen: 16 landscape pages that take them from the building to every floor plan, the amenities and the walk to London Bridge.',
         },
-        label: 'Brochure',
         images: [
           { src: shBroCover, alt: 'Brochure cover: the Store House logo in cream and orange on navy, with 300 to 8,806 sq ft of fully fitted office space.' },
           { src: shBroBuilding, alt: 'Brochure page: the orange building icon and an introduction to Store House, Bermondsey, beside a photo of the brick warehouse front.' },
@@ -564,7 +563,6 @@ const allCaseStudies: CaseStudy[] = [
           heading: 'On the street',
           text: 'A refurbished building is easy to walk past. Letting boards, a feather flag and a half-page ad put the brand on Bermondsey Street. Inside, the tenant board sits on plywood, a nod back to the pitch, and a poster in the boardroom tells visitors its hire fees go to a local youth club.',
         },
-        label: 'Signage and print',
         images: [
           {
             src: shBoardPhoto,
@@ -577,23 +575,17 @@ const allCaseStudies: CaseStudy[] = [
         images: [
           { src: shBoard, alt: 'Letting board artwork: the Store House logo on navy with New fully fitted offices available and storehousese1.com in orange.' },
           { src: shAd, alt: 'Half-page ad: New offices in the heart of bustling Bermondsey Street, in orange, with interior photos and the building icon.' },
-        ],
-        columns: 2,
-      },
-      {
-        images: [
           { src: shTenantBoard, alt: 'Tenant board on plywood: the building icon and wordmark above a list of floors and tenants, owned and managed by Store Property.' },
           { src: shPoster, alt: 'A3 poster on cream: Supporting Downside Fisher Youth Club, explaining that boardroom hire fees go to the local charity.' },
-          { src: shFlag, alt: 'Orange feather flag with STORE HOUSE running vertically above the building icon.', width: 90 },
+          { src: shFlag, alt: 'Orange feather flag with STORE HOUSE running vertically above the building icon.' },
         ],
-        columns: 3,
+        gallery: true,
       },
       {
         story: {
           heading: 'One brand, many buildings',
           text: 'In August 2026 the brand moved to 30 Newman Street in the West End, with its own brochure, website and a launch party invite, and then to 10-12 Ely Place in Farringdon. I led both. Each building gets its own icon drawn from its façade and its own colour pairing, while the type, layouts and tone stay the same.',
         },
-        label: 'The rollout',
         images: [
           { src: shNewmanCover, alt: '30 Newman Street brochure cover: the Store House wordmark above an orange icon of the Newman Street building, on pale blue.' },
           { src: shNewmanHighlights, alt: '30 Newman Street brochure page: building highlights as a grid of icons on sage green.' },
