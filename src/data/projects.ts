@@ -54,6 +54,7 @@ export const designProjects: Project[] = [
     type: 'Branding · Web · Motion · Brochure · Print',
     client: 'Store Property',
     agency: 'Smart Soho',
+    role: 'Lead designer',
     url: 'https://storehousese1.com/',
     image: {
       src: storeHouseMark,

@@ -58,8 +58,27 @@ import shLogo from '../assets/wrk/storehouse/v1-logo.jpg';
 import shBigIdeas from '../assets/wrk/storehouse/v1-big-ideas.jpg';
 import shPosters from '../assets/wrk/storehouse/v1-posters.jpg';
 import shType from '../assets/wrk/storehouse/v1-type.jpg';
-import shPrint from '../assets/wrk/storehouse/v1-print.jpg';
-import shSocial from '../assets/wrk/storehouse/v1-social.jpg';
+import shFinalLogo from '../assets/wrk/storehouse/final-logo.jpg';
+import shFinalPatterns from '../assets/wrk/storehouse/final-patterns.jpg';
+import shFinalPalette from '../assets/wrk/storehouse/final-palette.jpg';
+import shFinalType from '../assets/wrk/storehouse/final-type.jpg';
+import shBroCover from '../assets/wrk/storehouse/brochure-cover.jpg';
+import shBroBuilding from '../assets/wrk/storehouse/brochure-building.jpg';
+import shBroSchedule from '../assets/wrk/storehouse/brochure-schedule.jpg';
+import shBroFloorplans from '../assets/wrk/storehouse/brochure-floorplans.jpg';
+import shBroHighlights from '../assets/wrk/storehouse/brochure-highlights.jpg';
+import shBroConnected from '../assets/wrk/storehouse/brochure-connected.jpg';
+import shBoardPhoto from '../assets/wrk/storehouse/letting-board-photo.jpg';
+import shBoard from '../assets/wrk/storehouse/letting-board.jpg';
+import shAd from '../assets/wrk/storehouse/half-page-ad.jpg';
+import shTenantBoard from '../assets/wrk/storehouse/tenant-board.jpg';
+import shPoster from '../assets/wrk/storehouse/a3-poster.jpg';
+import shFlag from '../assets/wrk/storehouse/feather-flag.jpg';
+import shNewmanCover from '../assets/wrk/storehouse/newman-cover.jpg';
+import shNewmanHighlights from '../assets/wrk/storehouse/newman-highlights.jpg';
+import shElyCover from '../assets/wrk/storehouse/ely-cover.jpg';
+import shElyHighlights from '../assets/wrk/storehouse/ely-highlights.jpg';
+import shNewmanInvite from '../assets/wrk/storehouse/newman-invite.jpg';
 
 import qrLanding from '../assets/wrk/smartqr/landing.jpg';
 import qrDashboard from '../assets/wrk/smartqr/dashboard.jpg';
@@ -371,13 +390,13 @@ const allCaseStudies: CaseStudy[] = [
     problem:
       'After Store House, Store Property asked Smart Soho to redesign their company website, which felt rigid and formal. The brand was established and they had invested in merchandise they didn’t want to remake, so the new site had to work within it.',
     solution:
-      'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and managed the handover to an external developer.',
+      'Start from how people use the site, not from the old one. I mapped the sitemap and user flows for each audience: tenants, prospective tenants, agents and visitors. The client isn’t technical, so rather than grey boxes I drew the wireframes inside their brand, so they could judge the structure as the real thing. I then took it through final desktop and mobile designs and worked back and forth with the development team through the build.',
     delivery: [
       'Presented to the client at every phase and was their day-to-day contact, supporting the account team',
       'Sitemap and user flows',
       'Wireframes styled in the brand',
       'Final desktop and mobile designs',
-      'Handover to an external developer and support through the build',
+      'Worked with the development team through the build',
     ],
     work: [
       {
@@ -429,36 +448,40 @@ const allCaseStudies: CaseStudy[] = [
         columns: 2,
       },
     ],
-    outcome: 'Live at storeproperty.co.uk, built from my designs. It followed straight on from Store House, so the same client came back to the studio for a second project.',
+    outcome:
+      'Designed from March 2026 and live at storeproperty.co.uk in April 2026, built from my designs. The client came back to the studio for it after Store House.',
   },
   {
     slug: 'storehouse',
     title: 'Store House',
     description:
-      'A launch brand for one Bermondsey office building that grew into the brand for Store Property’s buildings: identity, brochure, website and motion.',
+      'A launch brand for one Bermondsey warehouse that became Store Property’s office brand across London: identity, brochures, websites, motion and print for three buildings.',
     background: '#f3efe8',
-    // Draft copy (Nov 2026). Facts still to confirm with Josh are marked TODO.
     glance: [
       { label: 'Client', value: 'Store Property' },
       { label: 'Agency', value: 'Smart Soho' },
-      // TODO: Josh's role title, and whether he presented to the client on Store House too.
-      { label: 'My role', value: 'Designer, from the pitch to launch' },
-      { label: 'Delivered', value: 'Identity · Brochure · Website · Hero animation' },
-      { label: 'Outcome', value: 'Rolled out to two more buildings, replacing the SP Managed brand' },
+      {
+        label: 'My role',
+        value: 'Lead designer: merged the pitch routes, presented every stage to the client and led the rollout',
+      },
+      { label: 'Timeline', value: 'Identity signed off June 2025, still growing in 2026' },
+      { label: 'Scale', value: '3 buildings, 3 brochures, building websites and a new master site' },
+      { label: 'Delivered', value: 'Identity · Brochures · Websites · Motion · Signage · Print and ads' },
+      { label: 'Outcome', value: 'Grew from one building to three and is replacing the SP Managed brand' },
     ],
     problem:
-      'Store Property had just bought 75 Bermondsey Street, an office building in SE1, and needed to take it to market fast. That meant a brand, a brochure and a website, all ready for launch on a tight deadline.',
+      'Store Property had just bought 75 Bermondsey Street, a former warehouse in SE1, and refurbished it into fully fitted offices from 300 to 8,806 sq ft. To let it they needed a brand that stood out on a busy street, a brochure to send to prospective occupiers, a website, and everything on the building that tells passers-by it’s open.',
     solution:
-      'Build the brand from the building itself. My route cut the building mark from the site’s own materials, brick and plywood, and ran the wordmark like packing tape, a nod to the name and to the street’s warehouse past. The final identity brought my route together with a colleague’s, and I carried it through the brochure, the website and its hero animation.',
+      'Make the building the logo. Smart Soho pitched two routes, and mine built the brand from the warehouse’s own brick and plywood. I led the merge of the two into the final identity: a simplified façade as the icon, a stacked wordmark, and an orange, navy, brown and cream palette. Because the icon is drawn from the façade, every new building can have its own, which is how a launch brand became a family.',
     delivery: [
-      'Pitch identity route: building mark, packing-tape wordmark, type and art direction',
-      'Final identity, brought together from two routes',
-      'Brochure',
-      'One-page scrolling website, designed straight from the brochure to hit the deadline',
-      'Hero animation for the website',
+      'Led the merge of two pitch routes into one identity, presenting every stage to the client',
+      'Identity: building icon, wordmark, palette, type and patterns',
+      '16-page digital brochure for prospective occupiers',
+      'Website in WordPress and Breakdance, with a Lottie hero animation made in After Effects',
+      'Letting boards, a feather flag, a tenant board, a poster and a half-page ad',
+      'Rollout to 30 Newman Street, W1 and 10-12 Ely Place, EC1N',
+      'A new master site for the Store House brand, built in WordPress and Breakdance with Claude',
     ],
-    // TODO, once Josh sends them: final identity, brochure spreads, website
-    // screens, and a rollout chapter for 30 Newman Street and the third building.
     work: [
       {
         images: [
@@ -470,12 +493,12 @@ const allCaseStudies: CaseStudy[] = [
         ],
         columns: 1,
         caption:
-          'The hero animation from the live site: a street of buildings slides past until Store House arrives. It became the client’s favourite part of the site.',
+          'The website hero: a street of buildings slides past until Store House arrives. I animated it in After Effects and exported it as a Lottie file, so it stays sharp and light on the live site. It became the client’s favourite part.',
       },
       {
         story: {
-          heading: 'Starting from the building',
-          text: 'My pitch route began with what Store House is made of: brick outside, plywood inside. The mark is cut from those two materials, and the wordmark repeats like packing tape, so even the smallest piece of the brand feels like the building.',
+          heading: 'Two routes, one brand',
+          text: 'My pitch route began with what the building is made of: brick outside, plywood inside, with a wordmark that repeats like packing tape. The final identity brought both routes together. I led that merge and presented each round to the client until the brand was signed off in June 2025.',
         },
         label: 'My pitch route',
         images: [
@@ -487,10 +510,6 @@ const allCaseStudies: CaseStudy[] = [
         columns: 1,
       },
       {
-        story: {
-          heading: 'A loud voice and a practical one',
-          text: 'PP Rader carries the headlines and Satoshi does the everyday work. Together they let the brand shout on a poster and still read cleanly on a floor plan or a spec sheet.',
-        },
         images: [
           {
             src: shLogo,
@@ -512,23 +531,91 @@ const allCaseStudies: CaseStudy[] = [
       },
       {
         story: {
-          heading: 'Ready for market',
-          text: 'I tested the route where it would have to work at launch: a brochure in a slipcase and a run of social stories, each one leading with a single fact about the building.',
+          heading: 'The final identity',
+          text: 'The signed-off brand is simpler and works harder. The icon is the building’s own façade, the wordmark stacks above it, PP Supply Sans sets the titles and Basic Sans the body copy, and a set of window-grid patterns fills space without needing photography.',
         },
+        label: 'Final identity',
+        images: [
+          { src: shFinalLogo, alt: 'The final Store House logo: the stacked wordmark in cream above an orange building icon, on navy.' },
+          { src: shFinalPatterns, alt: 'Four orange patterns built from window grids: a checkerboard, offset bars, vertical lines and an outlined grid.' },
+          { src: shFinalPalette, alt: 'The palette: orange #fd7749, navy #232539, brown #693501 and cream #f2e4d0.' },
+          { src: shFinalType, alt: 'Type specimen in brown: PP Supply Sans Regular and Ultralight for titles, Basic Sans Ultralight for body copy.' },
+        ],
+        columns: 2,
+      },
+      {
+        story: {
+          heading: 'A brochure that does the letting',
+          text: 'Prospective occupiers get the brochure as a download, so I designed it for a screen: 16 landscape pages that take them from the building to every floor plan, the amenities and the walk to London Bridge.',
+        },
+        label: 'Brochure',
+        images: [
+          { src: shBroCover, alt: 'Brochure cover: the Store House logo in cream and orange on navy, with 300 to 8,806 sq ft of fully fitted office space.' },
+          { src: shBroBuilding, alt: 'Brochure page: the orange building icon and an introduction to Store House, Bermondsey, beside a photo of the brick warehouse front.' },
+          { src: shBroSchedule, alt: 'Brochure page: an axonometric cutaway of the building on orange beside the schedule of areas.' },
+          { src: shBroFloorplans, alt: 'Brochure page: colour-coded floor plans for the ground and first floors with desk counts and room keys.' },
+          { src: shBroHighlights, alt: 'Brochure page: building highlights as a grid of icons on orange, beside a photo of the bike store.' },
+          { src: shBroConnected, alt: 'Brochure page: Connected in minutes, with walking and tube times from London Bridge beside a photo of the station.' },
+        ],
+        columns: 2,
+      },
+      {
+        story: {
+          heading: 'On the street',
+          text: 'A refurbished building is easy to walk past. Letting boards, a feather flag and a half-page ad put the brand on Bermondsey Street. Inside, the tenant board sits on plywood, a nod back to the pitch, and a poster in the boardroom tells visitors its hire fees go to a local youth club.',
+        },
+        label: 'Signage and print',
         images: [
           {
-            src: shPrint,
-            alt: 'A brochure in a pale blue slipcase, its cover splitting the wordmark across a brick page and a plywood page.',
-          },
-          {
-            src: shSocial,
-            alt: 'Four phone stories: Available now in SE1 on brick, 11,429 sq ft over an office render, Office space over a reception render, and the logo on plywood.',
+            src: shBoardPhoto,
+            alt: 'Photo of the brick warehouse on Bermondsey Street between modern neighbours, with the navy Store House letting board on its front.',
           },
         ],
+        columns: 1,
+      },
+      {
+        images: [
+          { src: shBoard, alt: 'Letting board artwork: the Store House logo on navy with New fully fitted offices available and storehousese1.com in orange.' },
+          { src: shAd, alt: 'Half-page ad: New offices in the heart of bustling Bermondsey Street, in orange, with interior photos and the building icon.' },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          { src: shTenantBoard, alt: 'Tenant board on plywood: the building icon and wordmark above a list of floors and tenants, owned and managed by Store Property.' },
+          { src: shPoster, alt: 'A3 poster on cream: Supporting Downside Fisher Youth Club, explaining that boardroom hire fees go to the local charity.' },
+          { src: shFlag, alt: 'Orange feather flag with STORE HOUSE running vertically above the building icon.', width: 90 },
+        ],
+        columns: 3,
+      },
+      {
+        story: {
+          heading: 'One brand, many buildings',
+          text: 'In August 2026 the brand moved to 30 Newman Street in the West End, with its own brochure, website and a launch party invite, and then to 10-12 Ely Place in Farringdon. I led both. Each building gets its own icon drawn from its façade and its own colour pairing, while the type, layouts and tone stay the same.',
+        },
+        label: 'The rollout',
+        images: [
+          { src: shNewmanCover, alt: '30 Newman Street brochure cover: the Store House wordmark above an orange icon of the Newman Street building, on pale blue.' },
+          { src: shNewmanHighlights, alt: '30 Newman Street brochure page: building highlights as a grid of icons on sage green.' },
+          { src: shElyCover, alt: '10-12 Ely Place brochure cover: the wordmark above a wide orange icon of the Ely Place façade, on brown.' },
+          { src: shElyHighlights, alt: '10-12 Ely Place brochure page: Connected in minutes, with travel times beside a map of Farringdon.' },
+        ],
+        columns: 2,
+      },
+      {
+        images: [
+          {
+            src: shNewmanInvite,
+            alt: 'Party invite on sage green for the relaunch of 30 Newman Street, with a photo of the building and the Store House W1 lockup.',
+            width: 520,
+          },
+        ],
+        columns: 1,
+        caption: 'The launch party invite for 30 Newman Street.',
       },
     ],
     outcome:
-      'The brand outgrew the building. Store Property has extended it to two more acquisitions, including 30 Newman Street (storehousew1.com), and is retiring its SP Managed brand to bring everything under Store House. Live at storehousese1.com.',
+      'The brand outgrew the building. What began in June 2025 as a launch for one warehouse now covers three buildings across London and is replacing Store Property’s SP Managed brand. I started designing a master site for Store House in September 2026, and it goes live in November 2026. See storehousese1.com and storehousew1.com.',
   },
   {
     slug: 'smartqr',
