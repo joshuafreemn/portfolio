@@ -161,7 +161,6 @@ import btsTheBuilding from '../assets/wrk/bts/the-building.jpg';
 import btsTypeGrid from '../assets/wrk/bts/type-grid.jpg';
 import btsArtOfBuilding from '../assets/wrk/bts/art-of-building.jpg';
 import btsGreenScreen from '../assets/wrk/bts/green-screen.jpg';
-import btsArchiveFootage from '../assets/wrk/bts/archive-footage.jpg';
 import btsSwitchOff from '../assets/wrk/bts/switch-off.jpg';
 
 export interface WorkImage {
@@ -1374,23 +1373,25 @@ const allCaseStudies: CaseStudy[] = [
     slug: 'bts',
     title: 'Behind the Scenes',
     description:
-      'How my showreel was made: an animated short about a kid, a strange old computer and a TV remote, where every channel he flicks to is a piece of my work.',
+      'How I made the bumper for my showreel: an animated short about a kid, a strange old computer and a TV remote, built so every channel he flicks to can be swapped for fresh work.',
     background: '#efe9f6',
     glance: [
-      { label: 'Project', value: 'Showreel intro and framing film' },
-      { label: 'My role', value: 'Idea, character design, illustration and animation' },
-      { label: 'Cast', value: 'Four characters, drawn in one flat, angular style' },
-      { label: 'Delivered', value: 'Characters · Storyboard · Animated sequences · Edit' },
+      { label: 'Project', value: 'Personal: a bumper and framing system for my showreel' },
+      { label: 'My role', value: 'Everything: idea, characters, illustration, animation and edit' },
+      { label: 'Tools', value: 'Illustrator and After Effects' },
+      { label: 'Timeline', value: '2025, made in the background over a couple of months' },
+      { label: 'On the channels', value: 'My motion work at Smart Soho' },
     ],
     problem:
-      'A showreel is usually a fast cut of clips and a logo. Mine had to hold together very different work, from property launches and type-led films to sport, and still feel like one piece by one person.',
+      'A showreel goes out of date the day you finish it. I wanted a bumper that made mine feel like one piece by one person, and a way to drop in new work without remaking the whole thing every time.',
     solution:
-      'Give the reel a story to live inside. A kid types into an old computer, gets pulled through a glowing portal and lands in front of a TV. Every press of the remote changes the channel, and every channel is a project. The work becomes the plot, and the characters carry you from one piece to the next.',
+      'Make the reel a TV. A kid types into an old computer, gets pulled through a glowing portal and lands in front of a set with a remote in his hand. Every press changes the channel, and every channel is a project. The animated frame stays the same while the channels change, so fresh work slots straight in.',
     delivery: [
       'The idea and the story',
-      'Character designs for the cast',
-      'Illustrated scenes, from the computer to the portal and the TV',
-      'Animated transitions that turn client work into channels',
+      'Character designs, illustrated in Illustrator',
+      'Scenes from the computer to the portal and the TV',
+      'Animation in After Effects, with channel-change transitions',
+      'A swappable channel system for new work',
       'The final edit of the reel',
     ],
     work: [
@@ -1446,7 +1447,7 @@ const allCaseStudies: CaseStudy[] = [
       {
         story: {
           heading: 'Every channel is a project',
-          text: 'Then the work takes over. A Special Bulletin breaks in over a spinning globe, an illustrated building curves across a city, a grid of type and photography spells out a brand, and a property film opens on The Art of Building. Each one is a real project, framed as something you just flicked to.',
+          text: 'Then the work takes over. A Special Bulletin breaks in over a spinning globe, an illustrated building curves across a city, a grid of type and photography spells out a brand, and a film opens on The Art of Building. All of it is motion I made at Smart Soho, and each piece sits in its own channel, so swapping in something new is one edit, not a new reel.',
         },
         images: [
           { src: btsSpecialBulletin, alt: 'Special Bulletin in chunky green letters over a globe and a broadcast tower on pink.' },
@@ -1460,13 +1461,16 @@ const allCaseStudies: CaseStudy[] = [
       {
         story: {
           heading: 'Switch off',
-          text: 'The reel signs off the way old TV did. A burst of archive footage, then the picture collapses to a single line of light, and the set goes dark.',
+          text: 'The reel signs off the way old TV did: the picture collapses to a single line of light, and the set goes dark.',
         },
         images: [
-          { src: btsArchiveFootage, alt: 'Archive-style footage of a couple sitting on a sofa, staring at the camera.' },
-          { src: btsSwitchOff, alt: 'A black screen with a single bright horizontal line, like an old TV switching off.' },
+          {
+            src: btsSwitchOff,
+            alt: 'A black screen with a single bright horizontal line, like an old TV switching off.',
+            width: 720,
+          },
         ],
-        columns: 2,
+        columns: 1,
       },
     ],
   },
