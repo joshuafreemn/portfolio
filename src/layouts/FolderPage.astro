@@ -263,9 +263,10 @@ const fillV = '-3,0 28,26 28,195 -3,221';
       border-left: 0;
     }
 
-    /* All four tabs stick out of the folder's right edge, overlapping like
-       the desktop row and sized so they share the first screen evenly. */
+    /* Only the current tab shows, sticking out of the folder's right edge in
+       its own quarter of the first screen (close the folder to pick another). */
     .tab {
+      display: none;
       --tab-h: min(calc(221 * var(--px)), calc((100svh - 43 * var(--px) - 16px) / 3.64));
       top: calc(var(--i) * var(--tab-h) * 0.88);
       left: calc(100% - var(--line));
@@ -273,10 +274,8 @@ const fillV = '-3,0 28,26 28,195 -3,221';
       height: var(--tab-h);
     }
 
-    .tab:not(.front):hover,
-    .tab:not(.front):focus-within {
-      top: calc(var(--i) * var(--tab-h) * 0.88);
-      height: var(--tab-h);
+    .tab.front {
+      display: block;
     }
 
     .shape-h {
@@ -293,8 +292,8 @@ const fillV = '-3,0 28,26 28,195 -3,221';
       overflow: visible clip;
     }
 
-    /* The folder sits over the tabs behind it (but under the front one), so
-       a paperclip hanging over its edge shows on top of them. */
+    /* The folder sits under the front tab but over anything else, so a
+       paperclip hanging over its edge shows. */
     .body {
       z-index: 5;
     }
