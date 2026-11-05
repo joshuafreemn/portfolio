@@ -33,11 +33,8 @@ import vsLogo from '../assets/wrk/123victoria/logo.jpg';
 import vsLanes from '../assets/wrk/123victoria/lanes.jpg';
 import vsHalftone from '../assets/wrk/123victoria/halftone.jpg';
 import vsHorses from '../assets/wrk/123victoria/campaign-horses.jpg';
-import vsCommute from '../assets/wrk/123victoria/campaign-commute.jpg';
 import vsHandover from '../assets/wrk/123victoria/campaign-handover.jpg';
-import vsDesk from '../assets/wrk/123victoria/campaign-desk.jpg';
 import vsRelay from '../assets/wrk/123victoria/poster-relay.jpg';
-import vsBasketball from '../assets/wrk/123victoria/campaign-basketball.jpg';
 import vsCoffee from '../assets/wrk/123victoria/campaign-coffee.jpg';
 import vsMerchandise from '../assets/wrk/123victoria/merchandise.jpg';
 import vsExploreBrochure from '../assets/wrk/123victoria/explore-brochure.jpg';
@@ -426,17 +423,23 @@ const allCaseStudies: CaseStudy[] = [
       {
         story: {
           heading: 'The office as a sport',
-          text: 'Property campaigns are usually polite. This one treats the working day like competition: commuters sprint through the Underground, a stack of papers becomes a relay baton, and a desk chair turns into starting blocks. It is funny on purpose, because agents need something people remember.',
+          text: 'Property campaigns are usually polite. This one treats the working day like competition: a stack of papers becomes a relay baton, tablets and pens get passed down the line, and the coffee run turns into a balancing act. It is funny on purpose, because agents need something people remember.',
         },
-        images: [
-          { src: vsCommute, alt: 'Commuters in suits sprinting along a blue running track laid through an Underground station.' },
-          { src: vsHandover, alt: 'A man in a suit takes a stack of papers like a relay baton, with the Find Your Place lockup.' },
-          { src: vsDesk, alt: 'A man in a suit launches from his office chair like a sprinter, with a race clock in the corner.' },
-          { src: vsRelay, alt: 'Poster of hands passing tablets, pens and papers down a line like relay batons.' },
-          { src: vsBasketball, alt: 'Duotone illustration of an office worker dunking a basketball against a cyan sky.' },
-          { src: vsCoffee, alt: 'A smiling office junior balancing a tower of coffee cups on a tray.' },
+        images: [],
+        slides: [
+          {
+            images: [{ src: vsHandover, alt: 'A man in a suit takes a stack of papers like a relay baton, with the Find Your Place lockup.' }],
+            columns: 1,
+          },
+          {
+            images: [{ src: vsRelay, alt: 'Poster of hands passing tablets, pens and papers down a line like relay batons.' }],
+            columns: 1,
+          },
+          {
+            images: [{ src: vsCoffee, alt: 'A smiling office junior balancing a tower of coffee cups on a tray.' }],
+            columns: 1,
+          },
         ],
-        gallery: true,
       },
       {
         story: {
