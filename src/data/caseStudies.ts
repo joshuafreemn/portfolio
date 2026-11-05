@@ -92,8 +92,20 @@ import qrSignIn from '../assets/wrk/smartqr/sign-in.jpg';
 import lvlGameDay from '../assets/wrk/leevalleylions/game-day.jpg';
 import lvlFixtures from '../assets/wrk/leevalleylions/fixtures-october.jpg';
 import lvlLineUp from '../assets/wrk/leevalleylions/line-up.jpg';
-import lvlWrapUp from '../assets/wrk/leevalleylions/wrap-up.jpg';
-import lvlResult from '../assets/wrk/leevalleylions/result.jpg';
+import lvlGameDayPhantoms from '../assets/wrk/leevalleylions/game-day-phantoms.jpg';
+import lvlGameDaySolent from '../assets/wrk/leevalleylions/game-day-solent.jpg';
+import lvlGameDayChelmsford from '../assets/wrk/leevalleylions/game-day-chelmsford.jpg';
+import lvlGameDayBristol from '../assets/wrk/leevalleylions/game-day-bristol.jpg';
+import lvlFixturesSeason from '../assets/wrk/leevalleylions/fixtures-season.jpg';
+import lvlPeriod1 from '../assets/wrk/leevalleylions/period-1.jpg';
+import lvlPeriod2 from '../assets/wrk/leevalleylions/period-2.jpg';
+import lvlPeriod3 from '../assets/wrk/leevalleylions/period-3.jpg';
+import lvlOvertime from '../assets/wrk/leevalleylions/overtime.jpg';
+import lvlWrapUp1 from '../assets/wrk/leevalleylions/wrap-up-1.jpg';
+import lvlWrapUp2 from '../assets/wrk/leevalleylions/wrap-up-2.jpg';
+import lvlWrapUp3 from '../assets/wrk/leevalleylions/wrap-up-3.jpg';
+import lvlWrapUp4 from '../assets/wrk/leevalleylions/wrap-up-4.jpg';
+import lvlJerseySponsors from '../assets/wrk/leevalleylions/jersey-sponsors.jpg';
 import lvlSigning from '../assets/wrk/leevalleylions/signing.jpg';
 import lvlStaff from '../assets/wrk/leevalleylions/staff.jpg';
 import lvlLeadership from '../assets/wrk/leevalleylions/leadership.jpg';
@@ -1038,7 +1050,7 @@ const allCaseStudies: CaseStudy[] = [
       'Templates for game day, line-ups, period scores, full time and the weekend wrap-up',
       'Player and staff signing announcements',
       'Monthly fixture posters and the season fixtures reveal',
-      'Motion for the jersey reveal and Pride month',
+      'Motion for the season fixtures, jersey sponsorship, the jersey reveal and Pride month',
       'Campaign posts, such as the call for game day volunteers',
     ],
     work: [
@@ -1049,11 +1061,42 @@ const allCaseStudies: CaseStudy[] = [
             alt: 'Game Day poster: a Lions player skating towards the camera in front of huge white GAME DAY type, the Mustangs crest, 5.30pm at Lee Valley Ice Centre.',
           },
           {
+            src: lvlGameDayBristol,
+            alt: 'Home Game Day poster against the Bristol Pitbulls 2: number 4 in the white home jersey takes a shot, 5.30pm at Lee Valley Ice Centre, with the Shinny sponsor logo.',
+          },
+          {
+            src: lvlGameDaySolent,
+            alt: 'Away Game Day poster against the Solent Devils: number 17 in the green jersey follows through on a slapshot, 5.00pm at Planet Ice Gosport.',
+          },
+          {
+            src: lvlGameDayChelmsford,
+            alt: 'Away Game Day poster against Chelmsford: number 55 in green skates past the opponent crest, 6.00pm at Riverside Leisure Centre, Chelmsford.',
+          },
+          {
+            src: lvlGameDayPhantoms,
+            alt: 'Halloween Game Day poster against the Peterborough Phantoms: a skater dressed as a Ghostbuster with a proton pack on their back, 7.00pm at Planet Ice, Peterborough.',
+          },
+          {
+            src: lvlLineUp,
+            alt: 'Projected Line Up post listing forwards, defence and netminders on a white card over blue jersey mesh.',
+          },
+        ],
+        caption: 'Game day, every week: one template with a new player, opponent and rink each time, then the line-up.',
+        gallery: true,
+      },
+      {
+        images: [
+          {
             src: lvlFixtures,
             alt: 'October Fixtures poster: a grid of opponent crests with dates above a photo of the team huddled around the net, with a key for home, away, league and cup games.',
           },
+          {
+            src: lvlFixturesSeason,
+            video: '/wrk/leevalleylions/fixtures-season.mp4',
+            alt: 'Season fixtures reveal for 2026–27: a column of every date and opponent crest beside tall FIXTURES type, over slow-motion footage of two Lions players celebrating on the ice.',
+          },
         ],
-        caption: 'Game day and the monthly fixtures, the two posts the feed is built around.',
+        caption: 'The monthly fixtures, and the whole season revealed in motion.',
       },
       {
         story: {
@@ -1061,20 +1104,35 @@ const allCaseStudies: CaseStudy[] = [
           text: 'A game day isn’t one post, it’s a run of them: the line-up before puck drop, scores through each period, full time, then the weekend wrap-up. Each has its own template, so the club can post fast from the rink and still look polished.',
         },
         images: [
+          { src: lvlPeriod1, alt: 'End of Period 1 story: the Lions and Pitbulls 2 crests pinned to a white score card on blue jersey mesh.' },
+          { src: lvlPeriod2, alt: 'End of Period 2 story in the same template.' },
+          { src: lvlPeriod3, alt: 'End of Period 3 story in the same template.' },
+          { src: lvlOvertime, alt: 'End of OT story in the same template, for games that go to overtime.' },
+        ],
+        caption: 'Period scores, made as stories to fill in from the rink.',
+        columns: 4,
+      },
+      {
+        images: [
           {
-            src: lvlLineUp,
-            alt: 'Projected Line Up post listing forwards, defence and netminders on a white card over blue jersey mesh.',
+            src: lvlWrapUp1,
+            alt: 'Weekend Wrap-Up cover for 26–27 September: the Lions crest and big white type on an ice texture, over blue, white and green stripes.',
           },
           {
-            src: lvlWrapUp,
-            alt: 'Weekend Wrap-Up cover for 17–18 October: the Lions crest and big white type on an ice texture, over blue, white and green stripes.',
+            src: lvlWrapUp2,
+            alt: 'Weekend Results slide: a 5–4 overtime win at the Solent Devils and a 5–4 home win over the Spitfires, each with its man of the match.',
           },
           {
-            src: lvlResult,
-            alt: 'Weekend Results slide: the full-time score between the Lions and their opponents, with the man of the match.',
+            src: lvlWrapUp3,
+            alt: 'Top Statistics slide: games, goals, assists and points for the top four skaters, and the netminder’s saves and save percentage.',
+          },
+          {
+            src: lvlWrapUp4,
+            alt: 'Final slide: a quote from head coach S. Jones on the weekend, beside next weekend’s two away games.',
           },
         ],
-        columns: 3,
+        caption: 'The weekend wrap-up carousel, kept in order: cover, results, top stats, then the coach’s word and next weekend.',
+        columns: 4,
       },
       {
         story: {
@@ -1100,7 +1158,7 @@ const allCaseStudies: CaseStudy[] = [
       {
         story: {
           heading: 'Moments that move',
-          text: 'Some news deserves more than a still. The new jersey turns on a mannequin before the green alternate swaps in, and Roary the mascot waves the flag for Pride month.',
+          text: 'Some news deserves more than a still. The new jersey turns on a mannequin before the green alternate swaps in, Roary the mascot waves the flag for Pride month, and the jersey sponsorship post cycles through the squad to show which shirts are still up for grabs.',
         },
         images: [
           {
@@ -1113,7 +1171,13 @@ const allCaseStudies: CaseStudy[] = [
             video: '/wrk/leevalleylions/pride.mp4',
             alt: 'Pride month post: Roary the lion mascot waves a Pride flag behind animated type reading Loud and Proud, Lions Pride.',
           },
+          {
+            src: lvlJerseySponsors,
+            video: '/wrk/leevalleylions/jersey-sponsors.mp4',
+            alt: 'Jersey sponsorship post: the backs of players’ jerseys cycle above the full squad list, showing which home and away shirts are still available to sponsor.',
+          },
         ],
+        columns: 3,
       },
       {
         story: {
