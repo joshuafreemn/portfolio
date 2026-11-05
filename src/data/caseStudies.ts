@@ -103,6 +103,7 @@ import lvlWrapUp2 from '../assets/wrk/leevalleylions/wrap-up-2.jpg';
 import lvlWrapUp3 from '../assets/wrk/leevalleylions/wrap-up-3.jpg';
 import lvlWrapUp4 from '../assets/wrk/leevalleylions/wrap-up-4.jpg';
 import lvlJerseySponsors from '../assets/wrk/leevalleylions/jersey-sponsors.jpg';
+import lvlPlayerIntro from '../assets/wrk/leevalleylions/player-intro.jpg';
 import lvlSigning from '../assets/wrk/leevalleylions/signing.jpg';
 import lvlStaff from '../assets/wrk/leevalleylions/staff.jpg';
 import lvlLeadership from '../assets/wrk/leevalleylions/leadership.jpg';
@@ -181,6 +182,8 @@ export interface WorkImage {
   width?: number;
   /** A looping clip in /public to play in place of the image, which becomes its poster. */
   video?: string;
+  /** The clip has a soundtrack: it still starts muted, with a button to turn the sound on. */
+  sound?: boolean;
   /** A small tag pinned to the tile's corner, e.g. "Current". */
   tag?: string;
 }
@@ -1161,7 +1164,7 @@ const allCaseStudies: CaseStudy[] = [
       {
         story: {
           heading: 'Moments that move',
-          text: 'Some news deserves more than a still. The new jersey turns on a mannequin before the green alternate swaps in, Roary the mascot waves the flag for Pride month, and the jersey sponsorship post cycles through the squad to show which shirts are still up for grabs.',
+          text: 'Some news deserves more than a still. The new jersey turns on a mannequin before the green alternate swaps in, Roary the mascot waves the flag for Pride month, and the jersey sponsorship post cycles through the squad to show which shirts are still up for grabs, and every new signing gets a punchy type intro, sound on.',
         },
         images: [
           {
@@ -1179,8 +1182,14 @@ const allCaseStudies: CaseStudy[] = [
             video: '/wrk/leevalleylions/jersey-sponsors.mp4',
             alt: 'Jersey sponsorship post: the backs of players’ jerseys cycle above the full squad list, showing which home and away shirts are still available to sponsor.',
           },
+          {
+            src: lvlPlayerIntro,
+            video: '/wrk/leevalleylions/player-intro.mp4',
+            sound: true,
+            alt: 'Player signing intro: kinetic type on blue and green jersey mesh stacks Lee Valley, Lions and Player Signing, then Welcome To Lee Valley, ending on the Lions crest.',
+          },
         ],
-        columns: 3,
+        gallery: true,
       },
       {
         story: {
