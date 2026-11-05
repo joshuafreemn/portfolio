@@ -100,7 +100,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 >
   <div class="page" style={`--bg: ${study.background}`}>
     <div class="close">
-      <CloseButton href={folder.href} label="Close and return to the projects" />
+      <CloseButton href={folder.href} label="Close and return to the projects" ink />
     </div>
 
     <main>
@@ -172,7 +172,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                 const overlay = group.images.length === 1 && group.images[0].video && group.caption;
                 return (
                   <figure
-                    class:list={['group', { single: columns === 1, gallery: group.gallery, carousel: group.slides }]}
+                    class:list={['group', { single: columns === 1, gallery: group.gallery, carousel: group.slides, small: columns >= 3 || (group.images.length > 0 && group.images.every((image) => image.width)) }]}
                     style={`--columns: ${columns}`}
                   >
                     {group.label && <p class="label">{group.label}</p>}
@@ -346,6 +346,26 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     pan.addEventListener('pointercancel', end);
   });
 
+  // On phones the problem, solution and delivery cards sit in a swipeable
+  // pile: the one in front is open, the rest tuck in at the bottom right.
+  document.querySelectorAll<HTMLElement>('.pocket').forEach((pocket) => {
+    const slots = [...pocket.querySelectorAll<HTMLElement>('.slot')];
+    const update = () => {
+      const left = pocket.scrollLeft;
+      let at = 0;
+      slots.forEach((slot, i) => {
+        if (Math.abs(slot.offsetLeft - pocket.offsetLeft - left) < Math.abs(slots[at].offsetLeft - pocket.offsetLeft - left)) at = i;
+      });
+      slots.forEach((slot, i) => {
+        slot.classList.toggle('active', i === at);
+        slot.style.setProperty('--d', String(i - at));
+        slot.style.setProperty('--ad', String(Math.abs(i - at)));
+      });
+    };
+    pocket.addEventListener('scroll', update, { passive: true });
+    update();
+  });
+
   // Clips loop on their own; with reduced motion they wait for a press of play.
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll<HTMLVideoElement>('.work video').forEach((video) => {
@@ -375,7 +395,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     top: calc(20 * var(--px));
     right: calc(20 * var(--px));
     z-index: 10;
-    background: var(--pink-bg);
+    /* The white label with dark lettering reads on every page colour. */
+    background: var(--ink);
     border-radius: 6px;
   }
 
@@ -995,6 +1016,103 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       --px: calc(100vw / 390);
     }
 
+    /* Phones: bigger headings, smaller body copy. */
+    .lede {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .glance,
+    .note,
+    .pull {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .glance h2,
+    .note h2,
+    .note h3,
+    .pull h2 {
+      font-size: 34px;
+    }
+
+    figcaption,
+    .slide-caption {
+      font-size: 13px;
+    }
+
+    .pager {
+      margin-top: calc(48 * var(--px));
+      font-size: 22px;
+    }
+
+    .pager a {
+      white-space: nowrap;
+    }
+
+    /* The problem, solution and delivery: a pile to swipe through. The card
+       in front lies open; the others tuck in at its bottom right. */
+    .pocket,
+    .pocket:has(.slot) {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      height: auto;
+      margin: calc(32 * var(--px)) calc(-16 * var(--px));
+      padding: 0 calc(16 * var(--px)) calc(60 * var(--px));
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      clip-path: none;
+    }
+
+    .pocket::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slot,
+    .slot + .slot {
+      flex: 0 0 84%;
+      margin-left: 0;
+      scroll-snap-align: start;
+      scroll-margin-left: calc(16 * var(--px));
+    }
+
+    .slot + .slot {
+      margin-left: -12%;
+    }
+
+    .slot.active {
+      z-index: 4;
+    }
+
+    /* Cards out of play slide back behind the one in front, each peeking a
+       little further out at the bottom right. One step along the pile is
+       72% of the pocket, which is 85.7% of a card. */
+    .pull,
+    .slot:hover .pull,
+    .slot:focus-within .pull {
+      min-height: calc(260 * var(--px));
+      transform: translate(
+          calc(var(--d, 1) * -85.7% + var(--ad, 1) * 18 * var(--px)),
+          calc(var(--ad, 1) * 22 * var(--px))
+        )
+        rotate(calc(var(--ad, 1) * 2deg));
+      transition: transform 420ms var(--spring);
+    }
+
+    .slot {
+      z-index: calc(3 - var(--ad, 0));
+    }
+
+    .slot.active .pull {
+      transform: none;
+    }
+
+    .pocket + .work {
+      z-index: auto;
+    }
+
     .page {
       padding: calc(64 * var(--px)) calc(16 * var(--px)) 0;
     }
@@ -1010,31 +1128,18 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       transform: none;
     }
 
+    /* Pictures as big as the phone allows: one to a row, except small
+       artwork and logo rows, which pair up. */
     .grid {
-      grid-template-columns: repeat(min(var(--columns), 2), 1fr);
+      grid-template-columns: 1fr;
+    }
+
+    .small .grid {
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .tile {
       border-radius: calc(10 * var(--px));
-    }
-
-    .pocket {
-      grid-template-columns: 1fr;
-      gap: calc(14 * var(--px));
-      height: auto;
-      margin: calc(32 * var(--px)) 0;
-      clip-path: none;
-    }
-
-
-    .slot + .slot {
-      margin-left: 0;
-    }
-
-    .pull,
-    .slot:hover .pull,
-    .slot:focus-within .pull {
-      transform: none;
     }
 
     .chapter.has-story {
@@ -1049,26 +1154,41 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       transform: none;
     }
 
+    /* Galleries: one picture fills the width, the next peeks in. */
     .gallery .tile {
-      height: calc(240 * var(--px));
+      flex: 0 0 88%;
+      height: auto;
+      align-self: center;
+    }
+
+    .gallery .tile img {
+      width: 100%;
+      height: auto;
+      max-width: none !important;
+    }
+
+    /* Carousels of pages become a plain column: each page fills the width
+       and you scroll down through them. */
+    .slides {
+      flex-direction: column;
+      gap: calc(16 * var(--px));
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .slide,
+    .slide + .slide,
+    .slide + .slide.single {
+      flex-basis: auto;
+      margin-left: 0;
     }
 
     .carousel .gallery-nav {
-      margin-top: calc(10 * var(--px));
+      display: none;
     }
 
     .carousel .slide-caption {
       padding-right: 0;
-    }
-
-    .slide + .slide.single {
-      flex-basis: 100%;
-      scroll-snap-align: start;
-    }
-
-    .gallery .tile img {
-      max-width: 80vw !important;
-      object-fit: contain;
     }
   }
 

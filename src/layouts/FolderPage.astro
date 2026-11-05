@@ -257,23 +257,26 @@ const fillV = '-3,0 28,26 28,195 -3,221';
       padding-top: 0;
     }
 
+    /* Square corner, so the top tab lines up with the folder's edge. */
     .body {
       padding: calc(24 * var(--px)) calc(16 * var(--px)) 0;
       border-left: 0;
-      border-top-right-radius: calc(10 * var(--px));
     }
 
-    /* Only the current tab shows, sticking out of the folder's right edge. */
+    /* All four tabs stick out of the folder's right edge, overlapping like
+       the desktop row and sized so they share the first screen evenly. */
     .tab {
-      display: none;
-      top: calc(var(--i) * 194 * var(--px));
+      --tab-h: min(calc(221 * var(--px)), calc((100svh - 43 * var(--px) - 16px) / 3.64));
+      top: calc(var(--i) * var(--tab-h) * 0.88);
       left: calc(100% - var(--line));
       width: calc(29 * var(--px));
-      height: calc(221 * var(--px));
+      height: var(--tab-h);
     }
 
-    .tab.front {
-      display: block;
+    .tab:not(.front):hover,
+    .tab:not(.front):focus-within {
+      top: calc(var(--i) * var(--tab-h) * 0.88);
+      height: var(--tab-h);
     }
 
     .shape-h {
@@ -284,10 +287,22 @@ const fillV = '-3,0 28,26 28,195 -3,221';
       display: block;
     }
 
+    /* Let things clipped to the folder (the reel's paperclip) hang over its
+       right edge; only the bottom is cut off. */
+    :global(body.fit) .body {
+      overflow: visible clip;
+    }
+
+    /* The folder sits over the tabs behind it (but under the front one), so
+       a paperclip hanging over its edge shows on top of them. */
+    .body {
+      z-index: 5;
+    }
+
     .tab span,
     .tab.front span {
       writing-mode: vertical-rl;
-      font-size: calc(22 * var(--px));
+      font-size: calc(18 * var(--px));
       letter-spacing: calc(1.4 * var(--px));
       padding: 0;
     }

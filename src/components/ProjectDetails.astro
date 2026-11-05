@@ -225,15 +225,47 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     }
   }
 
+  /* Phones: the details and the picture sit side by side, smaller, with the
+     links below them. */
   @media (max-width: 700px) {
+    .details {
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
     .has-image {
+      display: grid;
+      grid-template-columns: 1fr calc(130 * var(--px));
+      grid-template-areas:
+        'facts picture'
+        'links links';
+      gap: calc(12 * var(--px));
       min-height: 0;
       padding-right: 0;
     }
 
-    .details {
-      font-size: 15px;
-      letter-spacing: 0;
+    .has-image dl {
+      grid-area: facts;
+    }
+
+    .has-image .ctas,
+    .has-image .pending {
+      grid-area: links;
+    }
+
+    dl {
+      grid-template-columns: 1fr;
+      gap: calc(8 * var(--px));
+      padding: calc(10 * var(--px)) calc(12 * var(--px));
+      border-radius: calc(8 * var(--px));
+    }
+
+    dt {
+      font-size: 10px;
+    }
+
+    dd {
+      font-size: 14px;
     }
 
     .ctas,
@@ -243,17 +275,18 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
 
     .cta,
     .pending {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .snapshot {
+      grid-area: picture;
       position: relative;
       top: auto;
       right: auto;
+      align-self: center;
       width: 100%;
       height: auto;
       aspect-ratio: 370 / 320;
-      margin-top: calc(14 * var(--px));
     }
   }
 

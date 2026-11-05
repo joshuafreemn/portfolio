@@ -140,17 +140,20 @@ const btsHref: string | null = '/wrk/bts.html';
       border-radius: calc(6 * var(--px));
     }
 
+    /* Turned end for end, so its open loop hangs out over the folder's
+       right edge. */
     .clip {
       top: auto;
-      bottom: calc(-22 * var(--px));
+      bottom: calc(-4 * var(--px));
       left: auto;
-      right: calc(-30 * var(--px));
+      right: calc(-46 * var(--px));
       width: calc(98 * var(--px));
-      transform: rotate(-38deg);
+      transform: rotate(142deg);
     }
 
+    /* Shows its title and link, so it reads as a way in on touch screens. */
     .bts {
-      --peek: calc(56 * var(--px));
+      --peek: calc(96 * var(--px));
       width: calc(100% - 32 * var(--px));
       min-height: calc(200 * var(--px));
       padding: calc(4 * var(--px)) calc(14 * var(--px)) calc(16 * var(--px));
@@ -161,6 +164,11 @@ const btsHref: string | null = '/wrk/bts.html';
     h2 {
       font-size: calc(40 * var(--px));
       letter-spacing: calc(-1.5 * var(--px));
+    }
+
+    .bts p {
+      margin-top: calc(8 * var(--px));
+      font-size: 18px;
     }
   }
 
