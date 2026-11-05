@@ -1,7 +1,10 @@
 ---
 // The inside of an open project card: Type / Client / Agency / Role / Tools,
 // a tilted snapshot, and where clicking the card goes (or "coming soon" when
-// there's nothing to link to yet). The card itself is the link.
+// there's nothing to link to yet). The card itself is the link; a project
+// with both a case study and a live site also gets its own live-site link.
+// The details sit in a small At a glance panel, matching the case studies.
+// On hover the snapshot lifts off the card.
 import { Image } from 'astro:assets';
 import { projectLink, type Project } from '../data/projects';
 
@@ -22,6 +25,9 @@ const fields = (
 ).filter(([, value]) => value);
 
 const link = projectLink(project);
+// The live site, when the card's own link goes to the case study instead.
+const live = link && !link.external && project.url ? project.url : null;
+const liveLabel = live ? `Visit ${new URL(live).hostname.replace(/^www\./, '')}` : '';
 const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
 ---
 
@@ -40,10 +46,19 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
   }
   {
     link ? (
-      <p class="cta" aria-hidden="true">
-        {link.label}
-        <span>{link.external ? '↗' : '→'}</span>
-      </p>
+      <div class="ctas">
+        <p class="cta" aria-hidden="true">
+          {link.label}
+          <span>{link.external ? '↗' : '→'}</span>
+        </p>
+        {live && (
+          <a class="cta live" href={live} target="_blank" rel="noopener">
+            {liveLabel}
+            <span aria-hidden="true">↗</span>
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        )}
+      </div>
     ) : (
       <p class="pending">{pending}</p>
     )
@@ -69,42 +84,106 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
   }
 
   .has-image {
+    /* Tall enough for the whole snapshot and its shadow. */
+    min-height: calc(370 * var(--px));
     padding-right: calc(420 * var(--px));
   }
 
+  /* An At a glance panel, as on the case studies: small labels over values
+     in a two-column grid, on a pale card laid slightly askew. */
   dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(18 * var(--px)) calc(28 * var(--px));
+    max-width: calc(540 * var(--px));
     margin: 0;
+    padding: calc(20 * var(--px)) calc(22 * var(--px));
+    background: #fbf3f8;
+    border-radius: calc(14 * var(--px));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+    transform: rotate(-0.8deg);
+  }
+
+  dl > div {
+    display: flex;
+    flex-direction: column;
+    gap: calc(4 * var(--px));
   }
 
   dt,
   dd {
-    display: inline;
     margin: 0;
+    line-height: 1.2;
   }
 
   dt {
-    margin-right: 0.3em;
+    color: #9a8a95;
+    font-size: max(11px, calc(13 * var(--px)));
+    font-weight: 400;
+    letter-spacing: calc(1.5 * var(--px));
+    text-transform: uppercase;
+  }
+
+  dd {
+    color: var(--ink);
+    font-size: max(15px, calc(22 * var(--px)));
+    letter-spacing: calc(-0.5 * var(--px));
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: calc(10 * var(--px)) calc(36 * var(--px));
+    margin-top: calc(24 * var(--px));
   }
 
   .cta,
   .pending {
     display: inline-flex;
     gap: 0.4em;
-    margin: calc(24 * var(--px)) 0 0;
+    margin: 0;
     color: var(--ink);
     font-family: var(--font-display);
-    font-size: max(22px, calc(40 * var(--px)));
+    font-size: max(18px, calc(28 * var(--px)));
     line-height: 1;
     letter-spacing: calc(1 * var(--px));
     text-transform: uppercase;
+  }
+
+  .pending {
+    margin-top: calc(24 * var(--px));
   }
 
   .cta span {
     transition: transform 180ms ease;
   }
 
-  :global(.card:hover) .cta span {
+  :global(.card:hover) p.cta span {
     transform: translateX(calc(6 * var(--px)));
+  }
+
+  /* The live site sits beside the case study link, underlined so it reads
+     as its own link. */
+  .live {
+    color: var(--purple);
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, calc(2 * var(--px)));
+    text-underline-offset: 0.2em;
+  }
+
+  .live:hover span,
+  .live:focus-visible span {
+    transform: translate(calc(3 * var(--px)), calc(-3 * var(--px)));
+  }
+
+  .live:hover {
+    color: var(--ink);
+  }
+
+  .live:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--purple);
+    outline-offset: calc(4 * var(--px));
   }
 
   .pending {
@@ -120,7 +199,13 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     margin: 0;
     transform: rotate(1.5deg);
     background: var(--baby-pink);
-    box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
+    /* Sits on top of the card like a print laid on it. */
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.2),
+      calc(3 * var(--px)) calc(6 * var(--px)) calc(14 * var(--px)) rgb(60 20 50 / 0.22);
+    transition:
+      transform 450ms var(--spring),
+      box-shadow 300ms ease;
   }
 
   .snapshot img {
@@ -130,30 +215,84 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     object-fit: cover;
   }
 
+  @media (hover: hover) {
+    :global(.card:hover) .snapshot,
+    :global(.card:focus-within) .snapshot {
+      transform: rotate(0.6deg) translateY(calc(-4 * var(--px)));
+      box-shadow:
+        0 1px 2px rgb(0 0 0 / 0.2),
+        calc(6 * var(--px)) calc(14 * var(--px)) calc(24 * var(--px)) rgb(60 20 50 / 0.3);
+    }
+  }
+
+  /* Phones: the details and the picture sit side by side, smaller, with the
+     links below them. */
   @media (max-width: 700px) {
+    .details {
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
     .has-image {
+      display: grid;
+      grid-template-columns: 1fr calc(130 * var(--px));
+      grid-template-areas:
+        'facts picture'
+        'links links';
+      gap: calc(12 * var(--px));
+      min-height: 0;
       padding-right: 0;
     }
 
-    .details {
-      font-size: 15px;
-      letter-spacing: 0;
+    .has-image dl {
+      grid-area: facts;
+    }
+
+    .has-image .ctas,
+    .has-image .pending {
+      grid-area: links;
+    }
+
+    dl {
+      grid-template-columns: 1fr;
+      gap: calc(8 * var(--px));
+      padding: calc(10 * var(--px)) calc(12 * var(--px));
+      border-radius: calc(8 * var(--px));
+    }
+
+    dt {
+      font-size: 10px;
+    }
+
+    dd {
+      font-size: 14px;
+    }
+
+    .ctas,
+    .pending {
+      margin-top: calc(10 * var(--px));
     }
 
     .cta,
     .pending {
-      margin-top: calc(10 * var(--px));
-      font-size: 24px;
+      font-size: 18px;
     }
 
     .snapshot {
+      grid-area: picture;
       position: relative;
       top: auto;
       right: auto;
+      align-self: center;
       width: 100%;
       height: auto;
       aspect-ratio: 370 / 320;
-      margin-top: calc(14 * var(--px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snapshot {
+      transition: none;
     }
   }
 </style>

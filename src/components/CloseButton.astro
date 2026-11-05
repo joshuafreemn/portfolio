@@ -5,13 +5,15 @@ interface Props {
   href?: string;
   label?: string;
   class?: string;
+  /** Dark purple lettering, for light page colours where pink is hard to read. */
+  ink?: boolean;
 }
 
-const { href = '/', label = 'Close and return home', class: className } = Astro.props;
+const { href = '/', label = 'Close and return home', class: className, ink = false } = Astro.props;
 ---
 
 <a class:list={['close', className]} href={href} aria-label={label} data-fidget-zone>
-  <img src="/Assets/CloseButton.svg" alt="" width="77" height="22" data-fidget="wiggle" />
+  <img src={ink ? '/Assets/CloseButtonInk.svg' : '/Assets/CloseButton.svg'} alt="" width="77" height="22" data-fidget="wiggle" />
 </a>
 
 <style>

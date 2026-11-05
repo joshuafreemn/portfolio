@@ -3,7 +3,8 @@
 // Closed, only the title strip shows; the next card covers the rest. Hovering
 // (or tabbing to) a card opens it, pushing the cards below it down, and
 // clicking anywhere on it follows its link. On touch screens there's no hover,
-// so every card shows open and a tap goes straight to the link.
+// so the card nearest the middle of the screen opens as you scroll, and a tap
+// goes straight to the link.
 interface Props {
   title: string;
   index: number;
@@ -37,16 +38,35 @@ const { title, index, href, external = false } = Astro.props;
   </div>
 </article>
 
+<script>
+  // Touch screens: open the card that's in the middle of the screen. A band
+  // across the centre picks it, so only one card is open at a time.
+  if (!matchMedia('(hover: hover)').matches) {
+    const cards = [...document.querySelectorAll<HTMLElement>('.card')];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting).at(-1);
+        if (!hit) return;
+        cards.forEach((card) => card.classList.toggle('open', card === hit.target));
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    cards.forEach((card) => observer.observe(card));
+    cards[0]?.classList.add('open');
+  }
+</script>
+
 <style>
   .card {
     position: relative;
     z-index: var(--z);
-    /* The bottom of each card (its rounded corners) tucks under the next. */
+    /* The bottom of each card tucks under the next. Only the top corners are
+       rounded, like an index card's tab edge. */
     margin-bottom: calc(-20 * var(--px));
     padding-bottom: calc(20 * var(--px));
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
-    border-radius: calc(20 * var(--px));
+    border-radius: calc(20 * var(--px)) calc(20 * var(--px)) 0 0;
     transition:
       transform 450ms var(--spring),
       box-shadow 250ms ease;
@@ -105,8 +125,12 @@ const { title, index, href, external = false } = Astro.props;
 
   .drawer {
     display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms ease;
+  }
+
+  .card.open .drawer {
     grid-template-rows: 1fr;
-    transition: grid-template-rows 260ms ease;
   }
 
   .drawer-inner {
@@ -129,10 +153,6 @@ const { title, index, href, external = false } = Astro.props;
   @media (hover: hover) {
     .card.linked {
       cursor: pointer;
-    }
-
-    .drawer {
-      grid-template-rows: 0fr;
     }
 
     .card:hover .drawer,
@@ -164,7 +184,7 @@ const { title, index, href, external = false } = Astro.props;
       margin-bottom: calc(-10 * var(--px));
       padding-bottom: calc(10 * var(--px));
       border-width: max(1.5px, calc(2 * var(--px)));
-      border-radius: calc(10 * var(--px));
+      border-radius: calc(10 * var(--px)) calc(10 * var(--px)) 0 0;
     }
 
     .summary {

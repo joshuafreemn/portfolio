@@ -170,6 +170,8 @@ export interface WorkImage {
   width?: number;
   /** A looping clip in /public to play in place of the image, which becomes its poster. */
   video?: string;
+  /** A small tag pinned to the tile's corner, e.g. "Current". */
+  tag?: string;
 }
 
 export interface GlanceItem {
@@ -202,6 +204,9 @@ export interface WorkGroup {
   gallery?: boolean;
   /** A carousel of pages, each its own grid; replaces `images`. */
   slides?: WorkSlide[];
+  /** Zoom detailed diagrams in by this much, in frames all the size of the
+   *  tallest one, and let people drag them around inside. */
+  pan?: number;
 }
 
 export interface CaseStudy {
@@ -496,13 +501,16 @@ const allCaseStudies: CaseStudy[] = [
           {
             src: spSitemap,
             alt: 'Sitemap for the Store Property website, branching from the home page into London Offices, About, Contact and Portfolio.',
+            tag: 'Current',
           },
           {
             src: spUserFlow,
             alt: 'User flow diagram routing tenants, general visitors, prospective tenants and London office visitors to what they need.',
+            tag: 'Proposed',
           },
         ],
         columns: 2,
+        pan: 1.8,
       },
       {
         story: {

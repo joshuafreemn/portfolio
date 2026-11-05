@@ -30,6 +30,8 @@ const ogImage = new URL(image, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Stop phones turning addresses, dates and numbers in the copy into links. -->
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
     <!-- Google Tag Manager and gtag. Skipped inside a frame: the home page
          preloads pages in hidden frames, which shouldn't count as visits. -->
     <script is:inline>
