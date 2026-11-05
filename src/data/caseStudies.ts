@@ -278,7 +278,7 @@ const allCaseStudies: CaseStudy[] = [
           },
           { src: alphabet, alt: 'Custom display alphabet derived from the RLAM identity motif.' },
         ],
-        columns: 2,
+        columns: 1,
       },
       {
         story: {
