@@ -32,4 +32,7 @@ export const cvPdf: string | null = null;
 export const showreel = {
   youtubeId: 'j4PVFSOV7Ro',
   title: 'Joshua Freeman showreel',
+  /** The reel hosted on the site (a WebM in public/, e.g. '/showreel.webm').
+   *  Once set, it plays on the page in place of the YouTube player. */
+  video: null as string | null,
 };
