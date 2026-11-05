@@ -18,6 +18,8 @@ import parkAbingdon from '../assets/wrk/rlamls/park-abingdon.png';
 import parkArcOxford from '../assets/wrk/rlamls/park-arc-oxford.png';
 import parkOneTriton from '../assets/wrk/rlamls/park-one-triton.png';
 import parkCambridge from '../assets/wrk/rlamls/park-cambridge.png';
+import parkVision from '../assets/wrk/rlamls/park-vision.png';
+import rlamLogoAnimation from '../assets/wrk/rlamls/logo-animation.jpg';
 import appBadge from '../assets/wrk/rlamls/app-badge.jpg';
 import appWebsite from '../assets/wrk/rlamls/app-website.jpg';
 import appSignage from '../assets/wrk/rlamls/app-signage.jpg';
@@ -239,7 +241,7 @@ const allCaseStudies: CaseStudy[] = [
       { label: 'Agency', value: 'Smart Soho' },
       { label: 'Project', value: 'Brand identity pitch' },
       { label: 'My role', value: 'Designer: concept, identity, typeface and applications' },
-      { label: 'Scale', value: 'A parent brand and four park sub-brands' },
+      { label: 'Scale', value: 'A parent brand and five park sub-brands' },
       { label: 'Delivered', value: 'Identity · Custom typeface · Symbol system · Applications · Campaign' },
     ],
     problem:
@@ -250,7 +252,7 @@ const allCaseStudies: CaseStudy[] = [
       'Concept and identity, from the first idea to the lockups',
       'A custom display typeface drawn from the cell-division form',
       'Type pairing and a set of reduced symbols, tested down to micro sizes',
-      'A sub-brand system covering four parks in the portfolio',
+      'A sub-brand system covering five parks in the portfolio',
       'Applications across staff badges, web, signage and merchandise',
       'Campaign cards',
     ],
@@ -297,16 +299,27 @@ const allCaseStudies: CaseStudy[] = [
       },
       {
         images: [
-          { src: symbolVariants, alt: 'A row of distilled RLAM Life Sciences symbol variants.', width: 320 },
-          { src: iconReduced, alt: 'Reduced icon built from the RLAM Life Sciences mark.', width: 197 },
-          { src: iconMicro, alt: 'Micro icon reduction of the RLAM Life Sciences mark.', width: 71 },
+          {
+            src: rlamLogoAnimation,
+            video: '/wrk/rlamls/logo-animation.mp4',
+            alt: 'Logo animation: the full RLAM Life Sciences wordmark folds down into the square symbol, which then locks up beside the Royal London pelican.',
+          },
+        ],
+        columns: 1,
+        caption: 'The mark in motion: the full wordmark folds down into the square symbol, then takes its place beside the Royal London pelican.',
+      },
+      {
+        images: [
+          { src: symbolVariants, alt: 'A row of distilled RLAM Life Sciences symbol variants.' },
+          { src: iconReduced, alt: 'Reduced icon built from the RLAM Life Sciences mark.' },
+          { src: iconMicro, alt: 'Micro icon reduction of the RLAM Life Sciences mark.' },
         ],
         caption: 'From full lockup to the smallest navigation mark, the form holds.',
         columns: 3,
       },
       {
         story: {
-          heading: 'Four parks, one family',
+          heading: 'Five parks, one family',
           text: 'Each park keeps its own name, but they all share the mark and type. A tenant who outgrows Abingdon can move to Oxford or Cambridge and still feel at home, which is the growth story told in the logos themselves.',
         },
         images: [
@@ -314,8 +327,9 @@ const allCaseStudies: CaseStudy[] = [
           { src: parkArcOxford, alt: '2600 ARC Oxford logo.' },
           { src: parkOneTriton, alt: 'One Triton Square logo.' },
           { src: parkCambridge, alt: 'Cambridge Research Park logo.' },
+          { src: parkVision, alt: 'Vision Park logo.' },
         ],
-        columns: 4,
+        columns: 3,
       },
       {
         story: {
