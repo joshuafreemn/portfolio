@@ -253,6 +253,9 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                               loading={g === 0 ? 'eager' : 'lazy'}
                             />
                           )}
+                          {image.video && image.sound && (
+                            <button type="button" class="sound-toggle" aria-pressed="false">Sound on</button>
+                          )}
                           {overlay && <p class="hover-caption">{group.caption}</p>}
                         </div>
                       ))}
@@ -364,6 +367,19 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     };
     pocket.addEventListener('scroll', update, { passive: true });
     update();
+  });
+
+  // Clips with a soundtrack start muted; the button turns the sound on and off.
+  document.querySelectorAll<HTMLButtonElement>('.sound-toggle').forEach((button) => {
+    const video = button.parentElement?.querySelector('video');
+    if (!video) return;
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      video.muted = !video.muted;
+      if (!video.muted) void video.play();
+      button.setAttribute('aria-pressed', String(!video.muted));
+      button.textContent = video.muted ? 'Sound on' : 'Sound off';
+    });
   });
 
   // Clips loop on their own; with reduced motion they wait for a press of play.
@@ -729,7 +745,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     scroll-snap-align: start;
   }
 
-  .gallery .tile img {
+  .gallery .tile img,
+  .gallery .tile video {
     width: auto;
     height: 100%;
     max-width: none !important;
@@ -866,6 +883,26 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  .sound-toggle {
+    position: absolute;
+    right: calc(12 * var(--px));
+    bottom: calc(12 * var(--px));
+    padding: calc(6 * var(--px)) calc(12 * var(--px));
+    border: 0;
+    border-radius: 999px;
+    background: var(--paper, #fff);
+    color: var(--ink, #000);
+    font: inherit;
+    font-size: calc(14 * var(--px));
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+  }
+
+  .sound-toggle:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--ink, #000);
+    outline-offset: 2px;
   }
 
   .tile {
@@ -1165,7 +1202,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       align-self: center;
     }
 
-    .gallery .tile img {
+    .gallery .tile img,
+    .gallery .tile video {
       width: 100%;
       height: auto;
       max-width: none !important;
