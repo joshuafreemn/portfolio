@@ -1055,10 +1055,14 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     .pocket,
     .pocket:has(.slot) {
       display: flex;
-      align-items: flex-start;
+      /* All the cards the same height, so the ones behind only show at the
+         side until the hero covers their bottoms. */
+      align-items: stretch;
       gap: 0;
       height: auto;
-      margin: calc(32 * var(--px)) calc(-16 * var(--px));
+      /* The project hero overlaps the bottom of the pile, so the tucked cards
+         slip underneath it as on desktop. */
+      margin: calc(32 * var(--px)) calc(-16 * var(--px)) calc(-68 * var(--px));
       padding: 0 calc(16 * var(--px)) calc(60 * var(--px));
       overflow-x: auto;
       scroll-snap-type: x mandatory;
@@ -1092,7 +1096,9 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     .pull,
     .slot:hover .pull,
     .slot:focus-within .pull {
+      height: 100%;
       min-height: calc(260 * var(--px));
+      padding-bottom: calc(36 * var(--px));
       transform: translate(
           calc(var(--d, 1) * -85.7% + var(--ad, 1) * 18 * var(--px)),
           calc(var(--ad, 1) * 22 * var(--px))
@@ -1109,9 +1115,7 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       transform: none;
     }
 
-    .pocket + .work {
-      z-index: auto;
-    }
+
 
     .page {
       padding: calc(64 * var(--px)) calc(16 * var(--px)) 0;
