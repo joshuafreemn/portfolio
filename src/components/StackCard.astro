@@ -41,12 +41,13 @@ const { title, index, href, external = false } = Astro.props;
   .card {
     position: relative;
     z-index: var(--z);
-    /* The bottom of each card (its rounded corners) tucks under the next. */
+    /* The bottom of each card tucks under the next. Only the top corners are
+       rounded, like an index card's tab edge. */
     margin-bottom: calc(-20 * var(--px));
     padding-bottom: calc(20 * var(--px));
     background: var(--white);
     border: calc(4 * var(--px)) solid var(--pink);
-    border-radius: calc(20 * var(--px));
+    border-radius: calc(20 * var(--px)) calc(20 * var(--px)) 0 0;
     transition:
       transform 450ms var(--spring),
       box-shadow 250ms ease;
@@ -164,7 +165,7 @@ const { title, index, href, external = false } = Astro.props;
       margin-bottom: calc(-10 * var(--px));
       padding-bottom: calc(10 * var(--px));
       border-width: max(1.5px, calc(2 * var(--px)));
-      border-radius: calc(10 * var(--px));
+      border-radius: calc(10 * var(--px)) calc(10 * var(--px)) 0 0;
     }
 
     .summary {

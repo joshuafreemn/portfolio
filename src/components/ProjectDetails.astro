@@ -1,7 +1,10 @@
 ---
 // The inside of an open project card: Type / Client / Agency / Role / Tools,
 // a tilted snapshot, and where clicking the card goes (or "coming soon" when
-// there's nothing to link to yet). The card itself is the link.
+// there's nothing to link to yet). The card itself is the link; a project
+// with both a case study and a live site also gets its own live-site link.
+// On hover the snapshot lifts off the card and a paperclip springs on to
+// hold it.
 import { Image } from 'astro:assets';
 import { projectLink, type Project } from '../data/projects';
 
@@ -22,6 +25,9 @@ const fields = (
 ).filter(([, value]) => value);
 
 const link = projectLink(project);
+// The live site, when the card's own link goes to the case study instead.
+const live = link && !link.external && project.url ? project.url : null;
+const liveLabel = live ? `Visit ${new URL(live).hostname.replace(/^www\./, '')}` : '';
 const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
 ---
 
@@ -40,10 +46,19 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
   }
   {
     link ? (
-      <p class="cta" aria-hidden="true">
-        {link.label}
-        <span>{link.external ? '↗' : '→'}</span>
-      </p>
+      <div class="ctas">
+        <p class="cta" aria-hidden="true">
+          {link.label}
+          <span>{link.external ? '↗' : '→'}</span>
+        </p>
+        {live && (
+          <a class="cta live" href={live} target="_blank" rel="noopener">
+            {liveLabel}
+            <span aria-hidden="true">↗</span>
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        )}
+      </div>
     ) : (
       <p class="pending">{pending}</p>
     )
@@ -52,6 +67,7 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     project.image && (
       <figure class="snapshot">
         <Image src={project.image.src} alt={project.image.alt} width={740} format="webp" loading="lazy" />
+        <img class="clip" src="/Assets/paperClipPurple.svg" alt="" width="191" height="49" />
       </figure>
     )
   }
@@ -86,25 +102,60 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     margin-right: 0.3em;
   }
 
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: calc(10 * var(--px)) calc(36 * var(--px));
+    margin-top: calc(24 * var(--px));
+  }
+
   .cta,
   .pending {
     display: inline-flex;
     gap: 0.4em;
-    margin: calc(24 * var(--px)) 0 0;
+    margin: 0;
     color: var(--ink);
     font-family: var(--font-display);
-    font-size: max(22px, calc(40 * var(--px)));
+    font-size: max(18px, calc(28 * var(--px)));
     line-height: 1;
     letter-spacing: calc(1 * var(--px));
     text-transform: uppercase;
+  }
+
+  .pending {
+    margin-top: calc(24 * var(--px));
   }
 
   .cta span {
     transition: transform 180ms ease;
   }
 
-  :global(.card:hover) .cta span {
+  :global(.card:hover) p.cta span {
     transform: translateX(calc(6 * var(--px)));
+  }
+
+  /* The live site sits beside the case study link, underlined so it reads
+     as its own link. */
+  .live {
+    color: var(--purple);
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, calc(2 * var(--px)));
+    text-underline-offset: 0.2em;
+  }
+
+  .live:hover span,
+  .live:focus-visible span {
+    transform: translate(calc(3 * var(--px)), calc(-3 * var(--px)));
+  }
+
+  .live:hover {
+    color: var(--ink);
+  }
+
+  .live:focus-visible {
+    outline: calc(3 * var(--px)) solid var(--purple);
+    outline-offset: calc(4 * var(--px));
   }
 
   .pending {
@@ -120,14 +171,66 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
     margin: 0;
     transform: rotate(1.5deg);
     background: var(--baby-pink);
-    box-shadow: 1px 1px 2px rgb(0 0 0 / 0.35);
+    /* Sits on top of the card like a print laid on it. */
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.2),
+      calc(3 * var(--px)) calc(6 * var(--px)) calc(14 * var(--px)) rgb(60 20 50 / 0.22);
+    transition:
+      transform 450ms var(--spring),
+      box-shadow 300ms ease;
   }
 
-  .snapshot img {
+  .snapshot img:not(.clip) {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Clipped over the top edge on hover, with a jiggle as it lands. */
+  .clip {
+    position: absolute;
+    top: calc(-14 * var(--px));
+    left: calc(34 * var(--px));
+    z-index: 1;
+    width: calc(130 * var(--px));
+    height: auto;
+    rotate: 0deg;
+    transform: rotate(84deg) translateX(calc(-30 * var(--px)));
+    transform-origin: 20% 50%;
+    opacity: 0;
+    filter: drop-shadow(1px 1px 1px rgb(0 0 0 / 0.35));
+    pointer-events: none;
+    transition:
+      opacity 150ms ease,
+      transform 450ms var(--spring);
+  }
+
+  @media (hover: hover) {
+    :global(.card:hover) .snapshot,
+    :global(.card:focus-within) .snapshot {
+      transform: rotate(0.6deg) translateY(calc(-4 * var(--px)));
+      box-shadow:
+        0 1px 2px rgb(0 0 0 / 0.2),
+        calc(6 * var(--px)) calc(14 * var(--px)) calc(24 * var(--px)) rgb(60 20 50 / 0.3);
+    }
+
+    :global(.card:hover) .clip,
+    :global(.card:focus-within) .clip {
+      opacity: 1;
+      transform: rotate(84deg) translateX(0);
+      animation: jiggle 900ms ease-out 220ms both;
+    }
+  }
+
+  @keyframes jiggle {
+    0% { rotate: 0deg; }
+    15% { rotate: 9deg; }
+    32% { rotate: -7deg; }
+    50% { rotate: 5deg; }
+    68% { rotate: -3deg; }
+    84% { rotate: 1.5deg; }
+    100% { rotate: 0deg; }
   }
 
   @media (max-width: 700px) {
@@ -140,10 +243,14 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
       letter-spacing: 0;
     }
 
-    .cta,
+    .ctas,
     .pending {
       margin-top: calc(10 * var(--px));
-      font-size: 24px;
+    }
+
+    .cta,
+    .pending {
+      font-size: 20px;
     }
 
     .snapshot {
@@ -154,6 +261,27 @@ const pending = project.caseStudy ? 'Case study coming soon' : 'Coming soon';
       height: auto;
       aspect-ratio: 370 / 320;
       margin-top: calc(14 * var(--px));
+    }
+
+    /* Touch screens show every card open, so the clip just sits there. */
+    .clip {
+      opacity: 1;
+      top: calc(-16 * var(--px));
+      left: calc(16 * var(--px));
+      width: calc(70 * var(--px));
+      transform: rotate(84deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snapshot,
+    .clip {
+      transition: none;
+    }
+
+    :global(.card:hover) .clip,
+    :global(.card:focus-within) .clip {
+      animation: none;
     }
   }
 </style>
