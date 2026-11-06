@@ -39,20 +39,38 @@ const { title, index, href, external = false } = Astro.props;
 </article>
 
 <script>
-  // Touch screens: open the card that's in the middle of the screen. A band
-  // across the centre picks it, so only one card is open at a time.
+  // Touch screens: open the card whose top has most recently passed the
+  // middle of the screen, so scrolling down opens each card in turn and only
+  // one is open at a time.
   if (!matchMedia('(hover: hover)').matches) {
     const cards = [...document.querySelectorAll<HTMLElement>('.card')];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const hit = entries.filter((e) => e.isIntersecting).at(-1);
-        if (!hit) return;
-        cards.forEach((card) => card.classList.toggle('open', card === hit.target));
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    cards.forEach((card) => observer.observe(card));
-    cards[0]?.classList.add('open');
+    let queued = false;
+    const pick = () => {
+      queued = false;
+      const line = innerHeight * 0.45;
+      let open = cards[0];
+      for (const card of cards) {
+        if (card.getBoundingClientRect().top <= line) open = card;
+      }
+      if (open.classList.contains('open')) return;
+      // The card above closing would yank this one up the screen, so hold
+      // it where it is.
+      const before = open.getBoundingClientRect().top;
+      cards.forEach((card) => card.classList.toggle('open', card === open));
+      scrollBy(0, open.getBoundingClientRect().top - before);
+    };
+    // Closed cards are short enough that they all sit above the line, so
+    // start with the first one open; its height then pushes the rest down.
+    if (!cards.some((c) => c.classList.contains('open'))) cards[0]?.classList.add('open');
+    const queue = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(pick);
+      }
+    };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    pick();
   }
 </script>
 
@@ -131,6 +149,23 @@ const { title, index, href, external = false } = Astro.props;
 
   .card.open .drawer {
     grid-template-rows: 1fr;
+  }
+
+  /* Opened by scrolling: no slide, so the page can hold its place. */
+  @media (hover: none) {
+    .drawer {
+      transition: none;
+    }
+
+    .card.open .content {
+      animation: card-in 300ms ease-out;
+    }
+  }
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+    }
   }
 
   .drawer-inner {

@@ -1127,8 +1127,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       z-index: 4;
     }
 
-    /* Cards out of play slide back behind the one in front, each peeking a
-       little further out at the bottom right. One step along the pile is
+    /* Cards out of play slide back behind the one in front, spread out to
+       the right so only their top right corners show. One step along the pile is
        72% of the pocket, which is 85.7% of a card. */
     .pull,
     .slot:hover .pull,
@@ -1137,10 +1137,11 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
       min-height: calc(260 * var(--px));
       padding-bottom: calc(36 * var(--px));
       transform: translate(
-          calc(var(--d, 1) * -85.7% + var(--ad, 1) * 18 * var(--px)),
-          calc(var(--ad, 1) * 22 * var(--px))
+          calc(var(--d, 1) * -85.7% + var(--ad, 1) * 6 * var(--px)),
+          0
         )
-        rotate(calc(var(--ad, 1) * 2deg));
+        rotate(calc(var(--ad, 1) * 4deg));
+      transform-origin: 0 100%;
       transition: transform 420ms var(--spring);
     }
 
@@ -1181,6 +1182,16 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
 
     .tile {
       border-radius: calc(10 * var(--px));
+    }
+
+    /* The first pictures cover the pile right across the page, so the
+       coloured cards don't show between or beside them. */
+    .pocket + .work .chapter:first-of-type .group:first-of-type {
+      position: relative;
+      background: var(--bg);
+      box-shadow:
+        calc(16 * var(--px)) 0 0 var(--bg),
+        calc(-16 * var(--px)) 0 0 var(--bg);
     }
 
     .chapter.has-story {

@@ -267,7 +267,10 @@ const fillV = '-3,0 28,26 28,195 -3,221';
        its own quarter of the first screen (close the folder to pick another). */
     .tab {
       display: none;
-      --tab-h: min(calc(221 * var(--px)), calc((100svh - 43 * var(--px) - 16px) / 3.64));
+      --tab-h: min(
+        calc(221 * var(--px)),
+        calc((100svh - 43 * var(--px) - 56px - env(safe-area-inset-bottom, 0px)) / 3.64)
+      );
       top: calc(var(--i) * var(--tab-h) * 0.88);
       left: calc(100% - var(--line));
       width: calc(29 * var(--px));
