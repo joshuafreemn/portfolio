@@ -448,8 +448,10 @@ const education = [
       --s: calc(var(--stage-w) / 711);
       position: relative;
       display: block;
-      height: calc(100svh - 43 * var(--px) - 24 * var(--px));
-      min-height: calc(560 * var(--px));
+      /* The visible screen, less the CLOSE bar and room for the browser's
+         bottom bar: the cards overlap more on shorter screens. */
+      height: calc(100svh - 43 * var(--px) - 24 * var(--px) - 56px - env(safe-area-inset-bottom, 0px));
+      min-height: calc(500 * var(--px));
       padding: 0;
     }
 
@@ -509,13 +511,25 @@ const education = [
       z-index: 1;
     }
 
-    /* Pulled out sideways from under the other card, then laid on top. */
-    .postcard.out {
+    /* Pulled out to the left from under the other card, then laid on top.
+       The paperclips stay where they are, clipped to the folder edge, so they
+       move the other way to cancel the slide. The postcard is turned a
+       quarter, so its own up is the screen's left. */
+    .postcard.out,
+    .cv.out {
       translate: calc(-1 * var(--stage-w) * 0.62) 0;
     }
 
-    .cv.out {
+    .postcard.out .clip {
+      translate: 0 calc(-1 * var(--stage-w) * 0.62);
+    }
+
+    .cv.out .clip {
       translate: calc(var(--stage-w) * 0.62) 0;
+    }
+
+    .clip {
+      transition: translate 380ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* Both paperclips turned end for end, hanging over the folder's right

@@ -81,6 +81,14 @@ const { label, endHref, endLabel } = Astro.props;
     }
   }
 
+  /* Touch screens open the card in the middle of the screen, so leave
+     enough room below the pile for the last card to scroll up to it. */
+  @media (hover: none) {
+    .end {
+      min-height: 65svh;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     a.end span {
       transition: none;

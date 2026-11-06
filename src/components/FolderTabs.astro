@@ -669,18 +669,24 @@ const fillV = (isFront: boolean) => (isFront ? '-3,0 28,26 28,195 -3,221' : '0,0
       border-bottom: var(--line) solid var(--pink);
     }
 
+    /* The four tabs share the visible screen, so About never ends up under
+       the browser's bottom bar. Same sizing as the open pages' tab. */
     .tab {
-      top: calc(var(--i) * 194 * var(--px));
+      --tab-h: min(
+        calc(221 * var(--px)),
+        calc((100svh - 43 * var(--px) - 56px - env(safe-area-inset-bottom, 0px)) / 3.64)
+      );
+      top: calc(var(--i) * var(--tab-h) * 0.88);
       left: calc(31 * var(--px) + var(--pull));
       width: calc(29 * var(--px));
-      height: calc(221 * var(--px));
+      height: var(--tab-h);
     }
 
     .tab:not(.front):hover,
     .tab:not(.front):focus-within {
-      top: calc(var(--i) * 194 * var(--px));
+      top: calc(var(--i) * var(--tab-h) * 0.88);
       width: calc(33 * var(--px));
-      height: calc(221 * var(--px));
+      height: var(--tab-h);
     }
 
     .shape-h {
