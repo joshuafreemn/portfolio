@@ -2,6 +2,11 @@
 import '@fontsource/cute-font/latin-400.css';
 import '@fontsource/dm-sans/latin-300.css';
 import '../styles/tokens.css';
+// The same files the @fontsource CSS points at, so they can be preloaded:
+// without this the browser only finds them once the CSS is parsed, and the
+// headings render twice (fallback, then Cute Font) and shift.
+import cuteFont from '@fontsource/cute-font/files/cute-font-latin-400-normal.woff2?url';
+import dmSans from '@fontsource/dm-sans/files/dm-sans-latin-300-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -32,10 +37,19 @@ const ogImage = new URL(image, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Stop phones turning addresses, dates and numbers in the copy into links. -->
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    <link rel="preload" href={cuteFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={dmSans} as="font" type="font/woff2" crossorigin />
     <!-- Google Tag Manager and gtag. Skipped inside a frame: the home page
-         preloads pages in hidden frames, which shouldn't count as visits. -->
+         preloads pages in hidden frames, which shouldn't count as visits.
+         They load once the page has finished loading and the browser is
+         idle, so their scripts never hold up the page or its animations. -->
     <script is:inline>
       if (window.self === window.top) {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', 'G-BY3Z1D5197');
+        var analytics = function () {
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -46,10 +60,11 @@ const ogImage = new URL(image, Astro.site);
         tag.async = true;
         tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-BY3Z1D5197';
         document.head.appendChild(tag);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { dataLayer.push(arguments); };
-        gtag('js', new Date());
-        gtag('config', 'G-BY3Z1D5197');
+        };
+        var idle = window.requestIdleCallback || function (fn) { setTimeout(fn, 1); };
+        var later = function () { idle(analytics, { timeout: 3000 }); };
+        if (document.readyState === 'complete') later();
+        else addEventListener('load', later, { once: true });
       }
     </script>
     <title>{title}</title>

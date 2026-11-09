@@ -49,13 +49,14 @@ const next = at < order.length - 1 ? order[at + 1] : isLastDesign ? webStudies[0
 const prevLabel = isFirstWeb && prev ? '← Prev: Design' : '← Prev';
 const nextLabel = isLastDesign && next ? 'Next: Web →' : 'Next →';
 
-// Clips use their image as the poster frame.
+// Clips use their image as the poster frame, sized to the 1080px clips
+// rather than the full-size source.
 const posters = new Map(
   await Promise.all(
     study.work
       .flatMap((group) => group.images)
       .filter((image) => image.video)
-      .map(async (image) => [image.src, (await getImage({ src: image.src, format: 'webp' })).src] as const),
+      .map(async (image) => [image.src, (await getImage({ src: image.src, width: Math.min(image.src.width, 1080), format: 'webp' })).src] as const),
   ),
 );
 
@@ -209,14 +210,14 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                       tabindex={group.gallery ? 0 : undefined}
                       aria-label={group.gallery ? 'Gallery, scroll sideways for more' : undefined}
                     >
-                      {group.images.map((image) => group.pan ? (
+                      {group.images.map((image, n) => group.pan ? (
                         <div class="tile pan-tile" style={`aspect-ratio: 1 / ${panFrame(group).ratio}`}>
                           <div class="pan" tabindex="0" aria-label={`${image.tag ? image.tag + ': ' : ''}drag or scroll to look around`}>
                             <Image
                               style={`width: ${panFrame(group).width(image).toFixed(1)}%`}
                               src={image.src}
                               alt={image.alt}
-                              widths={[Math.min(image.src.width, 1400), image.src.width]}
+                              widths={[Math.min(image.src.width, 1400), Math.min(image.src.width, 2400)]}
                               sizes={`(max-width: 700px) 200vw, ${Math.round((1113 / columns) * (group.pan ?? 1))}px`}
                               format="webp"
                               loading="lazy"
@@ -232,15 +233,16 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                           {image.video ? (
                             <video
                               src={image.video}
-                              poster={posters.get(image.src)}
+                              poster={g === 0 ? posters.get(image.src) : undefined}
+                              data-poster={g === 0 ? undefined : posters.get(image.src)}
                               aria-label={image.alt}
                               width={image.src.width}
                               height={image.src.height}
-                              autoplay
                               muted
                               loop
                               playsinline
-                              preload="metadata"
+                              preload="none"
+                              data-autoplay
                             />
                           ) : (
                             <Image
@@ -250,7 +252,8 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
                               widths={[Math.min(image.src.width, 700), Math.min(image.src.width, 1400)]}
                               sizes={group.gallery ? '(max-width: 700px) 80vw, 700px' : `(max-width: 700px) 100vw, ${Math.round(1113 / columns)}px`}
                               format="webp"
-                              loading={g === 0 ? 'eager' : 'lazy'}
+                              loading={g === 0 && n === 0 ? 'eager' : 'lazy'}
+                              fetchpriority={g === 0 && n === 0 ? 'high' : undefined}
                             />
                           )}
                           {image.video && image.sound && (
@@ -382,12 +385,51 @@ const ogSrc = ogImage ? (await getImage({ src: ogImage.src, width: 1200, format:
     });
   });
 
-  // Clips loop on their own; with reduced motion they wait for a press of play.
+  // Clips loop on their own, but only load and play while they're on screen,
+  // so a page full of clips doesn't download them all up front (the poster
+  // shows until then). With reduced motion they wait for a press of play.
+  const clips = document.querySelectorAll<HTMLVideoElement>('.work video[data-autoplay]');
+
+  // Posters further down the page load as they come near, like lazy images.
+  const posterless = document.querySelectorAll<HTMLVideoElement>('.work video[data-poster]');
+  const setPoster = (video: HTMLVideoElement) => {
+    video.poster = video.dataset.poster ?? '';
+    delete video.dataset.poster;
+  };
+  if ('IntersectionObserver' in window) {
+    const nearby = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (!isIntersecting) return;
+          setPoster(target as HTMLVideoElement);
+          nearby.unobserve(target);
+        });
+      },
+      { rootMargin: '1200px 1200px' },
+    );
+    posterless.forEach((video) => nearby.observe(video));
+  } else {
+    posterless.forEach(setPoster);
+  }
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll<HTMLVideoElement>('.work video').forEach((video) => {
-      video.pause();
+    clips.forEach((video) => {
+      video.preload = 'metadata';
       video.controls = true;
     });
+  } else if ('IntersectionObserver' in window) {
+    const onScreen = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          const video = target as HTMLVideoElement;
+          if (isIntersecting) void video.play().catch(() => {});
+          else video.pause();
+        });
+      },
+      { rootMargin: '200px 0px' },
+    );
+    clips.forEach((video) => onScreen.observe(video));
+  } else {
+    clips.forEach((video) => void video.play().catch(() => {}));
   }
 </script>
 
